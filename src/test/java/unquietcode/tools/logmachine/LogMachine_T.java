@@ -18,6 +18,9 @@ public class LogMachine_T {
 		LogMachine lm = new LogMachine(Level.DEBUG, printer);
 
 		lm.from("method").debug("hi");
+		lm.to(Color.Red, Color.Blue).info("hello");
+		lm.info("hello {0}", "world");
+		lm.because(new RuntimeException("oh no, not again")).error("goodbye!");
 	}
 
 	

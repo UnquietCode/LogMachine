@@ -12,35 +12,39 @@ public class LogMachineConsolePrinter implements LogMachinePrinter {
 	boolean showTimestamps = true;
 	
 	@Override
-	public String printTitle() {
-		return title;
+	public void printTitle() {
+		// TODO
 	}
 
 	@Override
-	public String printHeader() {
-		return "Printing log events to console window...";
+	public void printHeader() {
+		System.out.println("Printing log events to console window...\n\n");
 	}
 
 	@Override
-	public String printFooter() {
-		return "EOF";
+	public void printFooter() {
+		System.out.println("\n\nClosing console log...\n");
 	}
-
-	//TODO threadz, stored in entry or writen by the current thread?
 
 	@Override
 	public void printEntry(Entry entry) {
 		StringBuilder sb = new StringBuilder();
-		
+
 		// print time
 		if (showTimestamps) {
-			sb.append(entry.timestamp).append(" - ");
+			sb.append(entry.timestamp).append(" ");
 		}
+
+		// print severity
+		sb.append(entry.level.name()).append("\t");
+		
+		// print thread name
+		sb.append(entry.threadName).append("\t");
 		
 		// print groups		
 		if (!entry.groups.isEmpty()) {
 			boolean first = true;
-			sb.append("[ ");
+			sb.append("[");
 			
 			for (Enum group : entry.groups) {
 				if (!first) {
@@ -52,19 +56,24 @@ public class LogMachineConsolePrinter implements LogMachinePrinter {
 				sb.append(group);
 			}
 			
-			sb.append(" ] ");
+			sb.append("] ");
 		}
 		
 		// print source
 		if (entry.source != null) {
-			sb.append(entry.source).append(" : ");
+			sb.append("(").append(entry.source).append(") ");
 		}
 		
 		// print data
 		sb.append(entry.message);
-		
+
 		// done
 		System.out.println(sb.toString());
+
+		// stack trace
+		if (entry.cause != null) {
+			entry.cause.printStackTrace(System.out);
+		}
 	}
 
 	@Override

@@ -5,9 +5,9 @@ package unquietcode.tools.logmachine;
  * @version 02-12-2012
  */
 public interface LogMachinePrinter {
-	String printTitle();
-	String printHeader();
-	String printFooter();
+	void printTitle();
+	void printHeader();
+	void printFooter();
 	void printEntry(Entry entry);
 	void showTimestamps(boolean value);
 }

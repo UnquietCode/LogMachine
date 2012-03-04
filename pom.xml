@@ -15,6 +15,14 @@
   </properties>
 
   <dependencies>
+	  <!-- SLF4J API -->
+	  <dependency>
+		  <groupId>org.slf4j</groupId>
+		  <artifactId>slf4j-api</artifactId>
+		  <version>1.5.8</version> <!-- TODO upgrade the dependency to 1.6.1 ?-->
+		  <scope>compile</scope>
+	  </dependency>
+
 	  <!-- jackson annotations -->
 
 

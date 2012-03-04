@@ -38,8 +38,8 @@ public class LogMachine {
 	 * @param cause   of the message, could be null
 	 * @param categories to log, could be 
 	 */
-	private void _log(String message, String source, Throwable cause, Enum[] categories) {
-		Entry entry = new Entry(message, source, cause, Arrays.asList(categories));
+	private void _log(Level level, String message, String source, Throwable cause, Enum[] categories) {
+		Entry entry = new Entry(level, message, source, cause, Arrays.asList(categories));
 		printer.printEntry(entry);
 	}
 
@@ -63,7 +63,7 @@ public class LogMachine {
 			message = _format(message, data);
 		}
 
-		_log(message, source, cause, categories);
+		_log(level, message, source, cause, categories);
 	}
 	
 	void  _mark(String event, Enum[] categories) {
@@ -80,7 +80,9 @@ public class LogMachine {
 		}
 
 		ArrayIterator<Object> it = new ArrayIterator<Object>(data);
-		return message.replaceAll("\\{(\\s*)([0-9]*)(\\s*)\\}", "$1"+it.get()+"$2");
+		return message.replaceAll("\\{(\\s*)([0-9]*)(\\s*)\\}", "$1"+it.get()+"$3");
+
+		// TODO change this to an actual Matcher/Pattern implementation
 	}
 
 	class ArrayIterator<T> {

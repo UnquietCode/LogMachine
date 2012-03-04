@@ -40,18 +40,15 @@ public class LogMachineHTMLPrinter implements LogMachinePrinter {
 	
 
 	@Override
-	public String printTitle() {
-		return null;
+	public void printTitle() {
 	}
 
 	@Override
-	public String printHeader() {
-		return null;
+	public void printHeader() {
 	}
 
 	@Override
-	public String printFooter() {
-		return null;
+	public void printFooter() {
 	}
 
 	@Override
