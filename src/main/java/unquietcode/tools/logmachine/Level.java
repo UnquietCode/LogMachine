@@ -17,6 +17,12 @@ public enum Level {
 		return this != other && !this.isGreaterThan(other); 
 	}
 
+	/**
+	 * Where 'greater' means finer grained.
+	 *
+	 * @param other
+	 * @return
+	 */
 	public boolean isGreaterThan(Level other) {
 		if (other == null) {
 			return false;

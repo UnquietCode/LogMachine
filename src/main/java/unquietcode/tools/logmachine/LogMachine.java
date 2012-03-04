@@ -11,7 +11,6 @@ import java.util.Arrays;
  * @version 02-12-2012
  */
 public class LogMachine {
-	
 	Level level;
 	LogMachinePrinter printer;
 
@@ -26,7 +25,6 @@ public class LogMachine {
 		
 		this.level = startingLevel;
 		this.printer = printer;
-		printer.printHeader();
 	}
 
 	/**
@@ -112,7 +110,6 @@ public class LogMachine {
 		ImplLogMachineBuilder_because_from_to builder = new ImplLogMachineBuilder_because_from_to(helper);
 		return builder;
 	}
-	
 
 	public ImplLogMachineBuilder_because_to from(String location) {
 		ImplLogMachineBuilder_because_from_to builder = getBuilder();
@@ -162,6 +159,28 @@ public class LogMachine {
 	public void mark(String event, Enum... categories) {
 		ImplLogMachineBuilder_because_from_to builder = getBuilder();
 		builder.mark(event, categories);
+	}
+	
+	//---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---//
+	
+	public boolean isError() {
+		return level == Level.ERROR || level.isGreaterThan(Level.ERROR);
+	}
+
+	public boolean isWarn() {
+		return level == Level.WARN || level.isGreaterThan(Level.WARN);
+	}
+
+	public boolean isInfo() {
+		return level == Level.INFO || level.isGreaterThan(Level.INFO);
+	}
+
+	public boolean isDebug() {
+		return level == Level.DEBUG || level.isGreaterThan(Level.DEBUG);
+	}
+
+	public boolean isTrace() {
+		return level == Level.TRACE || level.isGreaterThan(Level.TRACE);
 	}
 }
 

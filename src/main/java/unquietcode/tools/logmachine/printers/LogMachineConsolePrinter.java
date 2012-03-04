@@ -76,7 +76,6 @@ public class LogMachineConsolePrinter implements LogMachinePrinter {
 		}
 	}
 
-	@Override
 	public void showTimestamps(boolean value) {
 		this.showTimestamps = value;
 	}

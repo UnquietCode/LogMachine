@@ -56,11 +56,6 @@ public class LogMachineHTMLPrinter implements LogMachinePrinter {
 		//return;
 	}
 
-	@Override
-	public void showTimestamps(boolean value) {
-		//nothing
-	}
-
 /*	public @Override
 	String generateHTML(long start, long stop, Node root) { *//*relevant info, like start, stop, root node*//*
 		StringBuilder sb = new StringBuilder();

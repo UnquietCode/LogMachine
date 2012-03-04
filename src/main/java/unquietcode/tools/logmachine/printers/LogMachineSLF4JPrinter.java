@@ -7,6 +7,13 @@ import unquietcode.tools.logmachine.LogMachinePrinter;
 /**
  * @author Benjamin Fagin
  * @version 02-18-2012
+ * 
+ * An implementation of {@link LogMachinePrinter} which writes its events to a
+ * SLF4J {@link Logger} log. The source and group information is combined with the
+ * log message, and the throwable passed separately.
+ *
+ * You must have an SLF4J implementation available at runtime in order to see
+ * and log statements output to your logs.
  */
 public class LogMachineSLF4JPrinter implements LogMachinePrinter {
 	private final Logger logger;
@@ -35,11 +42,6 @@ public class LogMachineSLF4JPrinter implements LogMachinePrinter {
 	}
 
 	@Override
-	public void showTimestamps(boolean value) {
-		// nothing
-	}	
-
-	@Override
 	public void printEntry(Entry entry) {
 		switch (entry.level) {
 			case ERROR: logError(entry);    break;
@@ -47,6 +49,7 @@ public class LogMachineSLF4JPrinter implements LogMachinePrinter {
 			case INFO:  logInfo(entry);     break;
 			case DEBUG: logDebug(entry);    break;
 			case TRACE: logTrace(entry);    break;
+			default: throw new RuntimeException("Unrecognized level: "+entry.level+" (this is an internal error).");
 		}
 	}
 	
@@ -118,16 +121,16 @@ public class LogMachineSLF4JPrinter implements LogMachinePrinter {
 				sb.append(group);
 			}
 
-			sb.append("]");
+			sb.append("] ");
 		}
 
 		// print source
 		if (entry.source != null) {
-			sb.append(" (").append(entry.source).append(")");
+			sb.append("@:").append(entry.source).append(" - ");
 		}
 
 		// print data
-		sb.append(" - ").append(entry.message);
+		sb.append(entry.message);
 		
 		return sb.toString();
 	}

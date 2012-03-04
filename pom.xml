@@ -7,7 +7,7 @@
   <version>0.1</version>
   <packaging>jar</packaging>
 
-  <name>core</name>
+  <name>Log Machine</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -19,12 +19,21 @@
 	  <dependency>
 		  <groupId>org.slf4j</groupId>
 		  <artifactId>slf4j-api</artifactId>
-		  <version>1.5.8</version> <!-- TODO upgrade the dependency to 1.6.1 ?-->
-		  <scope>compile</scope>
+		  <version>1.6.4</version>
+		  <scope>provided</scope>
 	  </dependency>
 
 	  <!-- jackson annotations -->
-
+	  <dependency>
+		  <groupId>org.codehaus.jackson</groupId>
+		  <artifactId>jackson-core-asl</artifactId>
+		  <version>1.9.4</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.codehaus.jackson</groupId>
+		  <artifactId>jackson-mapper-asl</artifactId>
+		  <version>1.9.4</version>
+	  </dependency>
 
 	  <!-- test dependencies -->
 	  <dependency>

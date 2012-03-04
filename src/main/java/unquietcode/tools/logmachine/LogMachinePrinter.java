@@ -9,5 +9,4 @@ public interface LogMachinePrinter {
 	void printHeader();
 	void printFooter();
 	void printEntry(Entry entry);
-	void showTimestamps(boolean value);
 }
