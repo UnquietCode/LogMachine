@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine.html;
+package unquietcode.tools.logmachine.printers;
 
 import unquietcode.tools.logmachine.LogEvent;
 

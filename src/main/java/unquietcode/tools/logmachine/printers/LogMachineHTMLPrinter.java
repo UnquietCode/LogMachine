@@ -17,14 +17,11 @@
     Read the included LICENSE.TXT for more information.
  ******************************************************************************/
 
-package unquietcode.tools.logmachine.html;
+package unquietcode.tools.logmachine.printers;
 
 
 import unquietcode.tools.logmachine.Entry;
 import unquietcode.tools.logmachine.LogMachinePrinter;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author  Benjamin Fagin
@@ -58,8 +55,8 @@ public class LogMachineHTMLPrinter implements LogMachinePrinter {
 	}
 
 	@Override
-	public String printEntry(Entry entry) {
-		return null;
+	public void printEntry(Entry entry) {
+		//return;
 	}
 
 	@Override

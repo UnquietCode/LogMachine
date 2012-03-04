@@ -8,6 +8,6 @@ public interface LogMachinePrinter {
 	String printTitle();
 	String printHeader();
 	String printFooter();
-	String printEntry(Entry entry);
+	void printEntry(Entry entry);
 	void showTimestamps(boolean value);
 }

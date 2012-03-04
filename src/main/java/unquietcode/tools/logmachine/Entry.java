@@ -8,14 +8,16 @@ import java.util.List;
  */
 public class Entry {
 	public final String message;
-	public final String uri;
+	public final String source;
+	public final Throwable cause;
 	public final long timestamp;
 	public final List<Enum> groups;
 
-	public Entry(String message, String uri, List<Enum> groups) {
+	public Entry(String message, String source, Throwable cause, List<Enum> groups) {
 		this.message = message;
-		this.uri = uri;
+		this.source = source;
 		this.groups = groups;
+		this.cause = cause;
 		timestamp = System.currentTimeMillis();
 	}	
 }
