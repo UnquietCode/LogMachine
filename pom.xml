@@ -1,46 +1,34 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>unquietcode.tools.logmachine</groupId>
-  <artifactId>logmachine</artifactId>
-  <version>0.1</version>
-  <packaging>jar</packaging>
+	<groupId>unquietcode.tools.logmachine</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.1</version>
+	<modules>
+		<module>connect-slf4j</module>
+	</modules>
+	<packaging>pom</packaging>
 
-  <name>Log Machine</name>
-  <url>http://maven.apache.org</url>
+	<name>Log Machine</name>
+	<url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<slf4j.version>1.6.4</slf4j.version>
+		<log4j.version>1.5.1</log4j.version>
+	</properties>
 
-  <dependencies>
-	  <!-- SLF4J API -->
-	  <dependency>
-		  <groupId>org.slf4j</groupId>
-		  <artifactId>slf4j-api</artifactId>
-		  <version>1.6.4</version>
-		  <scope>provided</scope>
-	  </dependency>
+	<dependencyManagement>
+		<dependencies>
 
-	  <!-- jackson annotations -->
-	  <dependency>
-		  <groupId>org.codehaus.jackson</groupId>
-		  <artifactId>jackson-core-asl</artifactId>
-		  <version>1.9.4</version>
-	  </dependency>
-	  <dependency>
-		  <groupId>org.codehaus.jackson</groupId>
-		  <artifactId>jackson-mapper-asl</artifactId>
-		  <version>1.9.4</version>
-	  </dependency>
-
-	  <!-- test dependencies -->
-	  <dependency>
-		  <groupId>junit</groupId>
-		  <artifactId>junit</artifactId>
-		  <version>4.10</version>
-		  <scope>test</scope>
-	  </dependency>
-  </dependencies>
+			<!-- test dependencies -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.10</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
