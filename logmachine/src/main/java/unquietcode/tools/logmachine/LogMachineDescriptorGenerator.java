@@ -15,17 +15,17 @@ public class LogMachineDescriptorGenerator {
 
 	public static void generateBuilder(String folder) {
 		Descriptor builder = Flapi.builder()
-			.setPackage("unquietcode.tools.logmachine.builder")
+			.setPackage("unquietcode.tools.logmachine.builder2")
 			.setDescriptorName("LogMachine")
 			.setStartingMethodName("start")
-			.setReturnType(Void.class)
 
-			.addMethod("mark(String event)").last()
-			.addMethod("mark(String event, Enum...categories)").last()
+			// TODO add support for marking
+			//.addMethod("mark(String event)").last()
+			//.addMethod("mark(String event, Enum...categories)").last()
 
-			.addMethod("from(String location)").once()
-			.addMethod("to(Enum...categories)").once()
-			.addMethod("because(Throwable cause)").once()
+			.addMethod("from(String location)").exactly(1)
+			.addMethod("to(Enum...categories)").exactly(1)
+			.addMethod("because(Throwable cause)").exactly(1)
 
 			.addMethod("debug(String message, Object...data)").last()
 			.addMethod("info(String message, Object...data)").last()

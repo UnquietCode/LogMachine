@@ -1,6 +1,7 @@
 
 package unquietcode.tools.logmachine.builder;
 
+import javax.annotation.Generated;
 
 
 /**
@@ -11,32 +12,27 @@ package unquietcode.tools.logmachine.builder;
  * Visit http://www.unquietcode.com/flapi for more information.
  * 
  * 
- * Generated on May 16, 2012 20:59:08 CDT using version 0.2
+ * Generated on July 07, 2012 21:09:26 CDT using version 0.2
  * 
  */
+@Generated(value = "unquietcode.tools.flapi", date = "July 07, 2012 21:09:26 CDT", comments = "generated using Flapi, the fluent API generator for Java")
 public interface LogMachineHelper {
 
 
-    Void _getReturnValue();
-
-    void because(Throwable cause);
-
-    void to(Enum... categories);
+    void debug(String message, Object... data);
 
     void from(String location);
 
     void error(String message, Object... data);
 
+    void to(Enum... categories);
+
+    void because(Throwable cause);
+
     void warn(String message, Object... data);
 
     void info(String message, Object... data);
 
-    void mark(String event, Enum... categories);
-
-    void debug(String message, Object... data);
-
     void trace(String message, Object... data);
-
-    void mark(String event);
 
 }

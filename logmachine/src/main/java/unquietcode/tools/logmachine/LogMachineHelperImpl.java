@@ -12,10 +12,6 @@ public class LogMachineHelperImpl implements LogMachineHelper {
 		this.lm = lm;
 	}
 
-	public Void _getReturnValue() {
-		return null;
-	}
-
 	public void debug(String message, Object... data) {
 	    lm._log(Level.DEBUG, message, data, _location, _cause, _categories);
     }
@@ -46,13 +42,5 @@ public class LogMachineHelperImpl implements LogMachineHelper {
 
 	public void because(Throwable cause) {
 		_cause = cause;
-    }
-
-	public void mark(String event) {
-		lm.mark(event);
-    }
-
-    public void mark(String event, Enum... categories) {
-	    lm.mark(event, categories);
     }
 }

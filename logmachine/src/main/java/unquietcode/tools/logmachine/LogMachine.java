@@ -10,26 +10,24 @@ import java.util.Arrays;
  * @version 02-12-2012
  * @version 05-16-2012
  */
-public class LogMachine implements LogMachineBuilder_because_from_to<Void> {
-	Level level;
-	LogMachinePrinter printer;
+public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to<Void> {
+	private final LogEventHandler<T> handler;
+	private final T logger;
 
-	LogMachine(Level startingLevel, LogMachinePrinter printer) {
-		if (printer == null) {
-			throw new IllegalArgumentException("Printer cannot be null.");
+	protected LogMachine(T logger, LogEventHandler<T> handler) {
+		if (handler == null) {
+			throw new IllegalArgumentException("Handler cannot be null.");
 		}
-		
-		if (startingLevel == null) {
-			throw new IllegalArgumentException("Starting level cannot be null.");
+
+		if (logger == null) {
+			throw new IllegalArgumentException("Logger cannot be null.");
 		}
-		
-		this.level = startingLevel;
-		this.printer = printer;
+
+		this.handler = handler;
+		this.logger = logger;
 	}
 
-
-
-	private String _format(String message, Object...data) {
+	/*private String _format(String message, Object...data) {
 		if (data.length == 0) {
 			return message;
 		}
@@ -58,52 +56,38 @@ public class LogMachine implements LogMachineBuilder_because_from_to<Void> {
 		MESSAGE_ASCENDING, MESSAGE_DESCENDING,
 		TIMESTAMP_ASCENDING, TIMESTAMP_DESCENDING,
 		URI_ASCENDING, URI_DESCENDING,
-	}
+	}*/
 
 	//---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---//
 
-	public boolean isError() {
-		return level == Level.ERROR || level.isGreaterThan(Level.ERROR);
+	public abstract boolean isError();
+	public boolean isErrorEnabled() {
+		return isError();
 	}
 
-	public boolean isWarn() {
-		return level == Level.WARN || level.isGreaterThan(Level.WARN);
+	public abstract boolean isWarn();
+	public boolean isWarnEnabled() {
+		return isWarn();
 	}
 
-	public boolean isInfo() {
-		return level == Level.INFO || level.isGreaterThan(Level.INFO);
+	public abstract boolean isInfo();
+	public boolean isInfoEnabled() {
+		return isInfo();
 	}
 
-	public boolean isDebug() {
-		return level == Level.DEBUG || level.isGreaterThan(Level.DEBUG);
+	public abstract boolean isDebug();
+	public boolean isDebugEnabled() {
+		return isDebug();
 	}
 
-	public boolean isTrace() {
-		return level == Level.TRACE || level.isGreaterThan(Level.TRACE);
+	public abstract boolean isTrace();
+	public boolean isTraceEnabled() {
+		return isTrace();
 	}
 
 	//==o==o==o==o==o==o==| logging methods |==o==o==o==o==o==o==//
 
-	/**
-	 * Logs a message to the printer. At this point the data has been approved, filtered, etc.
-	 * It doesn't take a level, or a piece, it simply
-	 *
-	 * @param message to log, should not be null, depends on the printer
-	 * @param source  to log, could be null
-	 * @param cause   of the message, could be null
-	 * @param categories to log, could be
-	 */
-	private void _log(Level level, String message, String source, Throwable cause, Enum[] categories) {
-		Entry entry = new Entry(level, message, source, cause, Arrays.asList(categories));
-		printer.printEntry(entry);
-	}
-
 	void _log(Level level, String message, Object[] data, String source, Throwable cause, Enum[] categories) {
-		// skip altogether if this should not be logged
-		if (this.level != level && this.level.isGreaterThan(level)) {
-			return;
-		}
-
 		if (categories == null) {
 			categories = new Enum[]{};
 		}
@@ -114,14 +98,13 @@ public class LogMachine implements LogMachineBuilder_because_from_to<Void> {
 
 		if (message == null) {
 			message = "";
-		} else {
-			message = _format(message, data);
 		}
 
-		_log(level, message, source, cause, categories);
+		LogEvent event = new LogEvent(level, message, data, source, cause, Arrays.asList(categories));
+		handler.logEvent(logger, event);
 	}
 
-	void  _mark(String event, Enum[] categories) {
+	void _mark(String event, Enum[] categories) {
 		throw new UnsupportedOperationException("not implemented");
 	}
 
@@ -131,32 +114,44 @@ public class LogMachine implements LogMachineBuilder_because_from_to<Void> {
 
 	//==o==o==o==o==o==o==| builder methods |==o==o==o==o==o==o==//
 
-	public Void debug(String message, Object... data) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).debug(message, data);
+	public Void error(String message, Throwable exception) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).error(message);
 	}
 
-	public Void error(String message, Object... data) {
+	public Void error(String message, Object...data) {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).error(message, data);
 	}
 
-	public Void info(String message, Object... data) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).info(message, data);
+	public Void warn(String message, Throwable exception) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).warn(message);
 	}
 
-	public Void trace(String message, Object... data) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).trace(message, data);
-	}
-
-	public Void warn(String message, Object... data) {
+	public Void warn(String message, Object...data) {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).warn(message, data);
 	}
 
-	public Void mark(String event) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).mark(event);
+	public Void info(String message, Throwable exception) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).info(message);
 	}
 
-	public Void mark(String event, Enum... categories) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).mark(event, categories);
+	public Void info(String message, Object...data) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).info(message, data);
+	}
+
+	public Void debug(String message, Throwable exception) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).debug(message);
+	}
+
+	public Void debug(String message, Object...data) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).debug(message, data);
+	}
+
+	public Void trace(String message, Throwable exception) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).trace(message);
+	}
+
+	public Void trace(String message, Object...data) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).trace(message, data);
 	}
 
 	public LogMachineBuilder_from_to<Void> because(Throwable cause) {
@@ -171,4 +166,3 @@ public class LogMachine implements LogMachineBuilder_because_from_to<Void> {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).to(categories);
 	}
 }
-

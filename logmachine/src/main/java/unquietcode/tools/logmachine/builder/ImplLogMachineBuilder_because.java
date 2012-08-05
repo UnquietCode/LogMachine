@@ -1,6 +1,10 @@
 
 package unquietcode.tools.logmachine.builder;
 
+import java.lang.reflect.Field;
+import javax.annotation.Generated;
+import unquietcode.tools.flapi.support.v0_2.BuilderImplementation;
+import unquietcode.tools.flapi.support.v0_2.ExpectedInvocationsException;
 
 
 /**
@@ -11,86 +15,128 @@ package unquietcode.tools.logmachine.builder;
  * Visit http://www.unquietcode.com/flapi for more information.
  * 
  * 
- * Generated on May 16, 2012 20:59:08 CDT using version 0.2
+ * Generated on July 07, 2012 21:09:26 CDT using version 0.2
  * 
  */
+@Generated(value = "unquietcode.tools.flapi", date = "July 07, 2012 21:09:26 CDT", comments = "generated using Flapi, the fluent API generator for Java")
 public class ImplLogMachineBuilder_because
-    implements LogMachineBuilder_because
+    implements BuilderImplementation, LogMachineBuilder_because
 {
 
     private final LogMachineHelper _helper;
-    private final Object _returnValue;
+    private final BuilderImplementation _returnValue;
+    int ic_LogMachine_because$Throwable_cause = 1;
+    int ic_LogMachine_from$String_location = 1;
+    int ic_LogMachine_to$ = 1;
 
-    ImplLogMachineBuilder_because(LogMachineHelper helper, Object returnValue) {
+    ImplLogMachineBuilder_because(LogMachineHelper helper, BuilderImplementation returnValue) {
         _helper = helper;
         _returnValue = returnValue;
     }
 
+    public BuilderImplementation _getParent() {
+        return _returnValue;
+    }
+
     private void _transferInvocations(Object next) {
-        // nothing
+        Class clazz = next.getClass();
+         
+        try {
+            Field field = clazz.getDeclaredField("ic_LogMachine_because$Throwable_cause");
+            field.setInt(next, ic_LogMachine_because$Throwable_cause);
+        } catch (Exception _x) {
+            // nothing
+        }
+         
+        try {
+            Field field = clazz.getDeclaredField("ic_LogMachine_from$String_location");
+            field.setInt(next, ic_LogMachine_from$String_location);
+        } catch (Exception _x) {
+            // nothing
+        }
+         
+        try {
+            Field field = clazz.getDeclaredField("ic_LogMachine_to$");
+            field.setInt(next, ic_LogMachine_to$);
+        } catch (Exception _x) {
+            // nothing
+        }
     }
 
-    private void _checkInvocations() {
-        // nothing
+    public void _checkInvocations() {
+        if (ic_LogMachine_because$Throwable_cause > 0) {
+            throw new ExpectedInvocationsException("Expected at least 1 invocations of method 'because(Throwable cause)'.");
+        }
+        if (ic_LogMachine_from$String_location > 0) {
+            throw new ExpectedInvocationsException("Expected at least 1 invocations of method 'from(String location)'.");
+        }
+        if (ic_LogMachine_to$ > 0) {
+            throw new ExpectedInvocationsException("Expected at least 1 invocations of method 'to(Enum...categories)'.");
+        }
     }
 
-    public Object debug(String message, Object... data) {
-        _checkInvocations();
+    public BuilderImplementation debug(String message, Object... data) {
+        BuilderImplementation cur = _returnValue;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
         _helper.debug(message, data);
          
-        Object retval = _returnValue;
-        return retval;
+        return _returnValue;
     }
 
-    public Object error(String message, Object... data) {
-        _checkInvocations();
+    public BuilderImplementation error(String message, Object... data) {
+        BuilderImplementation cur = _returnValue;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
         _helper.error(message, data);
          
-        Object retval = _returnValue;
-        return retval;
+        return _returnValue;
     }
 
-    public Object info(String message, Object... data) {
-        _checkInvocations();
+    public BuilderImplementation info(String message, Object... data) {
+        BuilderImplementation cur = _returnValue;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
         _helper.info(message, data);
          
-        Object retval = _returnValue;
-        return retval;
+        return _returnValue;
     }
 
-    public Object mark(String event) {
-        _checkInvocations();
-        _helper.mark(event);
+    public BuilderImplementation trace(String message, Object... data) {
+        BuilderImplementation cur = _returnValue;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
          
-        Object retval = _returnValue;
-        return retval;
-    }
-
-    public Object mark(String event, Enum... categories) {
-        _checkInvocations();
-        _helper.mark(event, categories);
-         
-        Object retval = _returnValue;
-        return retval;
-    }
-
-    public Object trace(String message, Object... data) {
-        _checkInvocations();
         _helper.trace(message, data);
          
-        Object retval = _returnValue;
-        return retval;
+        return _returnValue;
     }
 
-    public Object warn(String message, Object... data) {
-        _checkInvocations();
+    public BuilderImplementation warn(String message, Object... data) {
+        BuilderImplementation cur = _returnValue;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
         _helper.warn(message, data);
          
-        Object retval = _returnValue;
-        return retval;
+        return _returnValue;
     }
 
     public LogMachineBuilder because(Throwable cause) {
+        --ic_LogMachine_because$Throwable_cause;
         _helper.because(cause);
          
         LogMachineBuilder retval = new ImplLogMachineBuilder(_helper, _returnValue);

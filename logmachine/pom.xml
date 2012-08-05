@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>unquietcode.tools.flapi</groupId>
 			<artifactId>flapi</artifactId>
-			<version>0.2</version>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -33,8 +33,16 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- jackson annotations -->
 		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+			<scope>compile</scope>
+			<!-- TODO this shouldn't be a compilation dependency -->
+		</dependency>
+
+		<!-- jackson annotations -->
+<!--		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
 			<version>1.9.4</version>
@@ -43,7 +51,7 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.4</version>
-		</dependency>
+		</dependency>-->
 
 		<!-- test dependencies -->
 		<dependency>

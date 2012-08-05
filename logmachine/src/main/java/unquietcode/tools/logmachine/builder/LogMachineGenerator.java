@@ -1,7 +1,7 @@
 
 package unquietcode.tools.logmachine.builder;
 
-import unquietcode.tools.flapi.DescriptorBuilderException;
+import javax.annotation.Generated;
 
 
 /**
@@ -12,19 +12,20 @@ import unquietcode.tools.flapi.DescriptorBuilderException;
  * Visit http://www.unquietcode.com/flapi for more information.
  * 
  * 
- * Generated on May 16, 2012 20:59:08 CDT using version 0.2
+ * Generated on July 07, 2012 21:09:26 CDT using version 0.2
  * 
  */
+@Generated(value = "unquietcode.tools.flapi", date = "July 07, 2012 21:09:26 CDT", comments = "generated using Flapi, the fluent API generator for Java")
 public class LogMachineGenerator {
 
 
     @SuppressWarnings("unchecked")
     public static LogMachineBuilder_because_from_to<Void> start(LogMachineHelper helper) {
         if (helper == null) {
-            throw new DescriptorBuilderException("Helper cannot be null.");
+            throw new IllegalArgumentException("Helper cannot be null.");
         }
          
-        return new ImplLogMachineBuilder_because_from_to(helper, helper._getReturnValue());
+        return new ImplLogMachineBuilder_because_from_to(helper, null);
     }
 
 }
