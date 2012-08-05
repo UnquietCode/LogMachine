@@ -1,7 +1,5 @@
 package unquietcode.tools.logmachine;
 
-import unquietcode.tools.logmachine.EventMetadata;
-
 import java.util.HashMap;
 import java.util.Map;
 

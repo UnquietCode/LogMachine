@@ -42,7 +42,7 @@ public class JSONLogbackEncoder extends AbstractLogbackEncoder {
 			sb.append("]}");
 		}
 
-		if (metadata.getGroups() != null) {
+		if (metadata.getGroups() != null && !metadata.getGroups().isEmpty()) {
 			sb.append(", \"groups\": [");
 			boolean first = true;
 

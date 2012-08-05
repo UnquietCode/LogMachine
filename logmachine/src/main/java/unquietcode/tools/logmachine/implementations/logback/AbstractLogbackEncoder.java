@@ -6,6 +6,7 @@ import ch.qos.logback.core.encoder.Encoder;
 import ch.qos.logback.core.encoder.EncoderBase;
 import ch.qos.logback.core.status.Status;
 import unquietcode.tools.logmachine.EventMetadata;
+import unquietcode.tools.logmachine.Switchboard;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,13 +21,11 @@ import java.util.Map;
  * @version 07-07-2012
  */
 public abstract class AbstractLogbackEncoder extends EncoderBase<ILoggingEvent> {
-	public static final Map<String, EventMetadata> metadataMap = new HashMap<String, EventMetadata>();
-	public static final String MDC_KEY = "__EVENT_METADATA";
 
 	@Override
 	public void doEncode(ILoggingEvent event) throws IOException {
-		String lookupKey = event.getMDCPropertyMap().get(MDC_KEY);
-		EventMetadata metadata = metadataMap.get(lookupKey);
+		String lookupKey = event.getMDCPropertyMap().get(Switchboard.MDC_KEY);
+		EventMetadata metadata = Switchboard.metadataMap.get(lookupKey);
 
 		if (metadata == null) {
 			throw new NullPointerException("Unexpected null value for event metadata.");
@@ -34,6 +33,7 @@ public abstract class AbstractLogbackEncoder extends EncoderBase<ILoggingEvent> 
 
 		String data = doLayout(event, metadata);
 		outputStream.write(data.getBytes());
+		outputStream.write("\n".getBytes());
 		outputStream.flush();
 	}
 

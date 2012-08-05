@@ -37,8 +37,7 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
-			<scope>compile</scope>
-			<!-- TODO this shouldn't be a compilation dependency -->
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- jackson annotations -->

@@ -27,37 +27,6 @@ public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to
 		this.logger = logger;
 	}
 
-	/*private String _format(String message, Object...data) {
-		if (data.length == 0) {
-			return message;
-		}
-
-		ArrayIterator<Object> it = new ArrayIterator<Object>(data);
-		return message.replaceAll("\\{(\\s*)([0-9]*)(\\s*)\\}", "$1"+it.get()+"$3");
-
-		// TODO change this to an actual Matcher/Pattern implementation
-	}
-
-	class ArrayIterator<T> {
-		int count = 0;
-		T[] array;
-
-		ArrayIterator(T[] array) {
-			this.array = array;
-		}
-
-		public T get() {
-			return array[count++];
-		}
-
-	}
-
-	enum OrderBy {
-		MESSAGE_ASCENDING, MESSAGE_DESCENDING,
-		TIMESTAMP_ASCENDING, TIMESTAMP_DESCENDING,
-		URI_ASCENDING, URI_DESCENDING,
-	}*/
-
 	//---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---//
 
 	public abstract boolean isError();

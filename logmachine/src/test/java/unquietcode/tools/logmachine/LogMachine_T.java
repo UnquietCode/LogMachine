@@ -24,12 +24,6 @@ public class LogMachine_T {
 	}
 
 	
-	@Test
-	public void configTest() {
-		LogMachineConfiguration config = new LogMachineConfiguration();
-		//config.mapPackage("unquietcode.tools.logmachine.LogMachine_T",
-	}
-
 
 	/*
 		Should also be able to seamlessly replace an API, targeting primarily
