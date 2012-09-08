@@ -18,7 +18,8 @@ public class JSONLogbackEncoder extends AbstractLogbackEncoder {
 		StringBuilder sb = new StringBuilder();
 
 		// start, and all non-string properties
-		sb.append("{\"time\": ").append(event.getTimeStamp());
+		sb.append("{\"time\": ").append(event.getTimeStamp())
+		  .append(",\"class\": \"").append(event.getLoggerName()).append("\"");
 
 		appendNotNull("message", sb, event.getFormattedMessage());
 		appendNotNull("source", sb, metadata.getSource());
@@ -27,20 +28,33 @@ public class JSONLogbackEncoder extends AbstractLogbackEncoder {
 
 		IThrowableProxy throwable = event.getThrowableProxy();
 		if (throwable != null) {
-			sb.append(", \"cause\": {")
-			  .append("\"class\": \"").append(throwable.getClassName())
-			  .append("\", \"message\": \"").append(throwable.getMessage())
-			  .append("\", \"stacktrace\": [");
+			sb.append(", \"cause\": [");
+			boolean firstCause = true;
 
-			boolean first = true;
-			for (StackTraceElementProxy element : throwable.getStackTraceElementProxyArray()) {
-				if (!first) { sb.append(", "); }
-				else { first = false; }
+			while (throwable != null) {
+				if (!firstCause) {
+					sb.append(", ");
+				} else {
+					firstCause = false;
+				}
 
-				sb.append("\"").append(element.getSTEAsString()).append("\"");
+			    sb.append("{\"class\": \"").append(throwable.getClassName())
+			      .append("\", \"message\": \"").append(throwable.getMessage())
+			      .append("\", \"stacktrace\": [");
+
+				boolean first = true;
+				for (StackTraceElementProxy element : throwable.getStackTraceElementProxyArray()) {
+					if (!first) { sb.append(", "); }
+					else { first = false; }
+
+					sb.append("\"").append(element.getSTEAsString()).append("\"");
+				}
+
+				sb.append("]}");
+				throwable = throwable.getCause();
 			}
 
-			sb.append("]}");
+			sb.append("]");
 		}
 
 		if (metadata.getGroups() != null && !metadata.getGroups().isEmpty()) {
@@ -51,7 +65,7 @@ public class JSONLogbackEncoder extends AbstractLogbackEncoder {
 				if (!first) { sb.append(", "); }
 				else { first = false; }
 
-				sb.append("\"").append(group).append("\"");
+				sb.append("\"").append(group.getDeclaringClass().getName()).append(".").append(group).append("\"");
 			}
 
 			sb.append("]");

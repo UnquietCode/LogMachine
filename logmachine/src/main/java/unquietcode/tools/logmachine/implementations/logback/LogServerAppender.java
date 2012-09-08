@@ -14,6 +14,7 @@ public class LogServerAppender extends UnsynchronizedAppenderBase<ILoggingEvent>
 	private LogServer server;
 	private int port = 9000;
 	private int retention = 45;
+	private boolean awaitConnection = false;
 	private AbstractLogbackEncoder encoder = new JSONLogbackEncoder();
 
 
@@ -25,12 +26,17 @@ public class LogServerAppender extends UnsynchronizedAppenderBase<ILoggingEvent>
 		this.retention = count;
 	}
 
+	public void setAwaitConnection(boolean value) {
+		awaitConnection = value;
+	}
+
 	@Override
 	public void start() {
 		super.start();
 
 		server = new LogServer(port);
 		server.setRetention(retention);
+		server.setAwaitConnection(awaitConnection);
 		server.start();
 	}
 
