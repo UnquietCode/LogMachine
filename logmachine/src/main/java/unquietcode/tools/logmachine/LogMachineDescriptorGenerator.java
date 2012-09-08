@@ -23,9 +23,9 @@ public class LogMachineDescriptorGenerator {
 			//.addMethod("mark(String event)").last()
 			//.addMethod("mark(String event, Enum...categories)").last()
 
-			.addMethod("from(String location)").exactly(1)
-			.addMethod("to(Enum...categories)").exactly(1)
-			.addMethod("because(Throwable cause)").exactly(1)
+			.addMethod("from(String location)").atMost(1)
+			.addMethod("to(Enum...categories)").atMost(1)
+			.addMethod("because(Throwable cause)").atMost(1)
 
 			.addMethod("debug(String message, Object...data)").last()
 			.addMethod("info(String message, Object...data)").last()

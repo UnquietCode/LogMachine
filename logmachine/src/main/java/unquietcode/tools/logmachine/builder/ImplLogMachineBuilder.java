@@ -13,10 +13,10 @@ import unquietcode.tools.flapi.support.v0_2.BuilderImplementation;
  * Visit http://www.unquietcode.com/flapi for more information.
  * 
  * 
- * Generated on September 07, 2012 21:52:34 CDT using version 0.2
+ * Generated on September 07, 2012 22:37:16 CDT using version 0.2
  * 
  */
-@Generated(value = "unquietcode.tools.flapi", date = "September 07, 2012 21:52:34 CDT", comments = "generated using Flapi, the fluent API generator for Java")
+@Generated(value = "unquietcode.tools.flapi", date = "September 07, 2012 22:37:16 CDT", comments = "generated using Flapi, the fluent API generator for Java")
 public class ImplLogMachineBuilder
     implements BuilderImplementation, LogMachineBuilder
 {
@@ -45,36 +45,14 @@ public class ImplLogMachineBuilder
         // nothing
     }
 
-    public void info(String message, Object... data) {
+    public void debug(String message, Object... data) {
         BuilderImplementation cur = this;
         while (cur!= null) {
             cur._checkInvocations();
             cur = cur._getParent();
         }
          
-        _helper.info(message, data);
-         
-    }
-
-    public void trace(String message, Object... data) {
-        BuilderImplementation cur = this;
-        while (cur!= null) {
-            cur._checkInvocations();
-            cur = cur._getParent();
-        }
-         
-        _helper.trace(message, data);
-         
-    }
-
-    public void error(String message, Object... data) {
-        BuilderImplementation cur = this;
-        while (cur!= null) {
-            cur._checkInvocations();
-            cur = cur._getParent();
-        }
-         
-        _helper.error(message, data);
+        _helper.debug(message, data);
          
     }
 
@@ -89,14 +67,36 @@ public class ImplLogMachineBuilder
          
     }
 
-    public void debug(String message, Object... data) {
+    public void info(String message, Object... data) {
         BuilderImplementation cur = this;
         while (cur!= null) {
             cur._checkInvocations();
             cur = cur._getParent();
         }
          
-        _helper.debug(message, data);
+        _helper.info(message, data);
+         
+    }
+
+    public void error(String message, Object... data) {
+        BuilderImplementation cur = this;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
+        _helper.error(message, data);
+         
+    }
+
+    public void trace(String message, Object... data) {
+        BuilderImplementation cur = this;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
+        _helper.trace(message, data);
          
     }
 

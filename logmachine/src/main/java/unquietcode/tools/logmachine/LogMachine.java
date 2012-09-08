@@ -83,44 +83,44 @@ public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to
 
 	//==o==o==o==o==o==o==| builder methods |==o==o==o==o==o==o==//
 
-	public Void error(String message, Throwable exception) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).error(message);
+	public void error(String message, Throwable exception) {
+		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).error(message);
 	}
 
-	public Void error(String message, Object...data) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).error(message, data);
+	public void error(String message, Object...data) {
+		LogMachineGenerator.start(new LogMachineHelperImpl(this)).error(message, data);
 	}
 
-	public Void warn(String message, Throwable exception) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).warn(message);
+	public void warn(String message, Throwable exception) {
+		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).warn(message);
 	}
 
-	public Void warn(String message, Object...data) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).warn(message, data);
+	public void warn(String message, Object...data) {
+		LogMachineGenerator.start(new LogMachineHelperImpl(this)).warn(message, data);
 	}
 
-	public Void info(String message, Throwable exception) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).info(message);
+	public void info(String message, Throwable exception) {
+		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).info(message);
 	}
 
-	public Void info(String message, Object...data) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).info(message, data);
+	public void info(String message, Object...data) {
+		LogMachineGenerator.start(new LogMachineHelperImpl(this)).info(message, data);
 	}
 
-	public Void debug(String message, Throwable exception) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).debug(message);
+	public void debug(String message, Throwable exception) {
+		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).debug(message);
 	}
 
-	public Void debug(String message, Object...data) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).debug(message, data);
+	public void debug(String message, Object...data) {
+		LogMachineGenerator.start(new LogMachineHelperImpl(this)).debug(message, data);
 	}
 
-	public Void trace(String message, Throwable exception) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).trace(message);
+	public void trace(String message, Throwable exception) {
+		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).trace(message);
 	}
 
-	public Void trace(String message, Object...data) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).trace(message, data);
+	public void trace(String message, Object...data) {
+		LogMachineGenerator.start(new LogMachineHelperImpl(this)).trace(message, data);
 	}
 
 	public LogMachineBuilder_from_to<Void> because(Throwable cause) {
