@@ -12,10 +12,10 @@ import javax.annotation.Generated;
  * Visit http://www.unquietcode.com/flapi for more information.
  * 
  * 
- * Generated on July 07, 2012 21:09:26 CDT using version 0.2
+ * Generated on September 07, 2012 21:52:34 CDT using version 0.2
  * 
  */
-@Generated(value = "unquietcode.tools.flapi", date = "July 07, 2012 21:09:26 CDT", comments = "generated using Flapi, the fluent API generator for Java")
+@Generated(value = "unquietcode.tools.flapi", date = "September 07, 2012 21:52:34 CDT", comments = "generated using Flapi, the fluent API generator for Java")
 public class LogMachineGenerator {
 
 

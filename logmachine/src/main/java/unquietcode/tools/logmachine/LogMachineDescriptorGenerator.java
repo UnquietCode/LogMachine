@@ -15,7 +15,7 @@ public class LogMachineDescriptorGenerator {
 
 	public static void generateBuilder(String folder) {
 		Descriptor builder = Flapi.builder()
-			.setPackage("unquietcode.tools.logmachine.builder2")
+			.setPackage("unquietcode.tools.logmachine.builder")
 			.setDescriptorName("LogMachine")
 			.setStartingMethodName("start")
 
