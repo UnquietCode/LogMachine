@@ -10,7 +10,7 @@
 	</modules>
 	<packaging>pom</packaging>
 
-	<name>Log Machine</name>
+	<name>Log Machine Parent</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>

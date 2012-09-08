@@ -24,14 +24,7 @@ public abstract class AbstractLogbackEncoder extends EncoderBase<ILoggingEvent> 
 
 	@Override
 	public void doEncode(ILoggingEvent event) throws IOException {
-		String lookupKey = event.getMDCPropertyMap().get(Switchboard.MDC_KEY);
-		EventMetadata metadata = Switchboard.metadataMap.get(lookupKey);
-
-		if (metadata == null) {
-			throw new NullPointerException("Unexpected null value for event metadata.");
-		}
-
-		String data = doLayout(event, metadata);
+		String data = doLayout(event);
 		outputStream.write(data.getBytes());
 		outputStream.write("\n".getBytes());
 		outputStream.flush();
@@ -40,6 +33,17 @@ public abstract class AbstractLogbackEncoder extends EncoderBase<ILoggingEvent> 
 	@Override
 	public void close() throws IOException {
 		// nothing
+	}
+
+	public String doLayout(ILoggingEvent event) {
+		String lookupKey = event.getMDCPropertyMap().get(Switchboard.MDC_KEY);
+		EventMetadata metadata = Switchboard.metadataMap.get(lookupKey);
+
+		if (metadata == null) {
+			throw new NullPointerException("Unexpected null value for event metadata.");
+		}
+
+		return doLayout(event, metadata);
 	}
 
 	protected abstract String doLayout(ILoggingEvent event, EventMetadata metadata);

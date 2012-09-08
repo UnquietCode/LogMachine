@@ -10,6 +10,7 @@ import unquietcode.tools.logmachine.EventMetadata;
  * @version 08-05-2012
  */
 public class PlaintextLogbackEncoder extends AbstractLogbackEncoder {
+
 	@Override
 	protected String doLayout(ILoggingEvent event, EventMetadata metadata) {
 		StringBuilder sb = new StringBuilder();
