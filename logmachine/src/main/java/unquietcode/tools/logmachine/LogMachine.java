@@ -3,6 +3,7 @@ package unquietcode.tools.logmachine;
 
 import unquietcode.tools.logmachine.builder.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -56,20 +57,15 @@ public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to
 
 	//==o==o==o==o==o==o==| logging methods |==o==o==o==o==o==o==//
 
-	void _log(Level level, String message, Object[] data, String source, Throwable cause, Enum[] categories) {
-		if (categories == null) {
-			categories = new Enum[]{};
+	void _log(LogEvent event) {
+		if (event.getGroups() == null) {
+			event.setGroups(new ArrayList<Enum>());
 		}
 
-		if (data == null) {
-			data = new Object[]{ null };
+		if (event.getReplacements() == null) {
+			event.setReplacements(new ArrayList<Object>());
 		}
 
-		if (message == null) {
-			message = "";
-		}
-
-		LogEvent event = new LogEvent(level, message, data, source, cause, Arrays.asList(categories));
 		handler.logEvent(logger, event);
 	}
 
@@ -87,6 +83,7 @@ public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to
 		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).error(message);
 	}
 
+	@Override
 	public void error(String message, Object...data) {
 		LogMachineGenerator.start(new LogMachineHelperImpl(this)).error(message, data);
 	}
@@ -95,6 +92,7 @@ public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to
 		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).warn(message);
 	}
 
+	@Override
 	public void warn(String message, Object...data) {
 		LogMachineGenerator.start(new LogMachineHelperImpl(this)).warn(message, data);
 	}
@@ -103,6 +101,7 @@ public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to
 		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).info(message);
 	}
 
+	@Override
 	public void info(String message, Object...data) {
 		LogMachineGenerator.start(new LogMachineHelperImpl(this)).info(message, data);
 	}
@@ -111,6 +110,7 @@ public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to
 		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).debug(message);
 	}
 
+	@Override
 	public void debug(String message, Object...data) {
 		LogMachineGenerator.start(new LogMachineHelperImpl(this)).debug(message, data);
 	}
@@ -119,19 +119,33 @@ public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to
 		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).trace(message);
 	}
 
+	@Override
 	public void trace(String message, Object...data) {
 		LogMachineGenerator.start(new LogMachineHelperImpl(this)).trace(message, data);
 	}
 
+	@Override
 	public LogMachineBuilder_from_to<Void> because(Throwable cause) {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(cause);
 	}
 
+	@Override
 	public LogMachineBuilder_because_to<Void> from(String location) {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).from(location);
 	}
 
+	@Override
 	public LogMachineBuilder_because_from<Void> to(Enum... categories) {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).to(categories);
+	}
+
+	@Override
+	public LogMachineBuilder_because_from_to<Void> with(String key, String value) {
+		return null;
+	}
+
+	@Override
+	public LogMachineBuilder_because_from_to<Void> with(String key, Number value) {
+		return null;
 	}
 }

@@ -37,7 +37,7 @@ public abstract class AbstractLogbackEncoder extends EncoderBase<ILoggingEvent> 
 
 	public String doLayout(ILoggingEvent event) {
 		String lookupKey = event.getMDCPropertyMap().get(Switchboard.MDC_KEY);
-		EventMetadata metadata = Switchboard.metadataMap.get(lookupKey);
+		EventMetadata metadata = Switchboard.get(lookupKey);
 
 		if (metadata == null) {
 			throw new NullPointerException("Unexpected null value for event metadata.");

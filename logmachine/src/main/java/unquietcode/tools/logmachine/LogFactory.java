@@ -8,8 +8,6 @@ import unquietcode.tools.logmachine.implementations.slf4j.SLF4JLogMachine;
  * @version 03-04-2012
  */
 public class LogFactory {
-	//private static LogMachineConfiguration config;
-
 	public static LogMachine getInstance(java.util.logging.Logger logger) {
 		return new JDKLogMachine(logger);
 	}

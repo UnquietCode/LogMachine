@@ -39,8 +39,8 @@ public class PlaintextLogbackEncoder extends AbstractLogbackEncoder {
 			extraDivider = true;
 		}
 
-		if (metadata.getSource() != null) {
-			sb.append("{@").append(metadata.getSource()).append("} ");
+		if (metadata.getLocation() != null) {
+			sb.append("{@").append(metadata.getLocation()).append("} ");
 			extraDivider = true;
 		}
 
@@ -48,7 +48,7 @@ public class PlaintextLogbackEncoder extends AbstractLogbackEncoder {
 			sb.append("- ");
 		}
 
-		sb.append(event.getMessage());
+		sb.append(event.getFormattedMessage());
 
 		// stack trace
 		IThrowableProxy throwable = event.getThrowableProxy();

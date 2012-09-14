@@ -12,25 +12,29 @@ import javax.annotation.Generated;
  * Visit http://www.unquietcode.com/flapi for more information.
  * 
  * 
- * Generated on September 07, 2012 22:37:16 CDT using version 0.2
+ * Generated on September 11, 2012 17:49:09 CDT using version 0.2
  * 
  */
-@Generated(value = "unquietcode.tools.flapi", date = "September 07, 2012 22:37:16 CDT", comments = "generated using Flapi, the fluent API generator for Java")
+@Generated(value = "unquietcode.tools.flapi", date = "September 11, 2012 17:49:09 CDT", comments = "generated using Flapi, the fluent API generator for Java")
 public interface LogMachineBuilder_because_to<_ReturnType >{
 
 
-    void debug(String message, Object... data);
+    void trace(String message, Object... data);
 
     void info(String message, Object... data);
 
-    void warn(String message, Object... data);
-
     LogMachineBuilder_because<_ReturnType> to(Enum... categories);
+
+    LogMachineBuilder_because_to<_ReturnType> with(String key, Number value);
+
+    LogMachineBuilder_to<_ReturnType> because(Throwable cause);
 
     void error(String message, Object... data);
 
-    void trace(String message, Object... data);
+    LogMachineBuilder_because_to<_ReturnType> with(String key, String value);
 
-    LogMachineBuilder_to<_ReturnType> because(Throwable cause);
+    void warn(String message, Object... data);
+
+    void debug(String message, Object... data);
 
 }

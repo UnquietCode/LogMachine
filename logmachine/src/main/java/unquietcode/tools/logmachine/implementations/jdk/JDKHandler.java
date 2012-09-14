@@ -13,10 +13,10 @@ import java.util.logging.Logger;
 public class JDKHandler implements LogEventHandler<Logger> {
 	@Override
 	public void logEvent(Logger logger, LogEvent e) {
-		if (e.cause == null) {
-			logger.log(convertLevel(e.level), createMessage(e));
+		if (e.getCause() == null) {
+			logger.log(convertLevel(e.getLevel()), createMessage(e));
 		} else {
-			logger.log(convertLevel(e.level), createMessage(e), e.cause);
+			logger.log(convertLevel(e.getLevel()), createMessage(e), e.getCause());
 		}
 	}
 
@@ -24,11 +24,11 @@ public class JDKHandler implements LogEventHandler<Logger> {
 		StringBuilder sb = new StringBuilder();
 
 		// print groups
-		if (!event.groups.isEmpty()) {
+		if (!event.getGroups().isEmpty()) {
 			boolean first = true;
 			sb.append("[");
 
-			for (Enum group : event.groups) {
+			for (Enum group : event.getGroups()) {
 				if (!first) {
 					sb.append(" | ");
 				} else {
@@ -42,14 +42,12 @@ public class JDKHandler implements LogEventHandler<Logger> {
 		}
 
 		// print source
-		if (event.source != null) {
-			sb.append("(").append(event.source).append(") ");
+		if (event.getLocation() != null) {
+			sb.append("(").append(event.getLevel()).append(") ");
 		}
 
 		// print data
-		sb.append(event.message);
-
-		// TODO formatted parameters turned into message
+		sb.append(event.getFormattedMessage());
 
 		return sb.toString();
 	}

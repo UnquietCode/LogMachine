@@ -1,6 +1,7 @@
 package unquietcode.tools.logmachine;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Container for any additional information not captured by the logging framework.
@@ -11,7 +12,17 @@ import java.util.List;
  */
 public class EventMetadata {
 	private List<Enum> groups;
-	private String source;
+	private String location;
+	private Map<String, String> data;
+
+
+	public Map<String, String> getData() {
+		return data;
+	}
+
+	public void setData(Map<String, String> data) {
+		this.data = data;
+	}
 
 	public List<Enum> getGroups() {
 		return groups;
@@ -21,11 +32,11 @@ public class EventMetadata {
 		this.groups = groups;
 	}
 
-	public String getSource() {
-		return source;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setSource(String source) {
-		this.source = source;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 }

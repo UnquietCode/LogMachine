@@ -6,6 +6,7 @@ import unquietcode.tools.logmachine.*;
 import unquietcode.tools.logmachine.Switchboard;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Ben Fagin
@@ -16,36 +17,38 @@ public class SLF4JHandler implements LogEventHandler<Logger> {
 	@Override
 	public void logEvent(Logger log, LogEvent e) {
 		EventMetadata metadata = new EventMetadata();
-		metadata.setGroups(e.groups);
-		metadata.setSource(e.source);
+		metadata.setGroups(e.getGroups());
+		metadata.setLocation(e.getLocation());
+		metadata.setData(e.getData());
 		MDC.put(Switchboard.MDC_KEY, Switchboard.put(metadata));
 
 		Object[] data;
-		if (e.cause != null) {
-			data = Arrays.copyOf(e.data, e.data.length+1);
-			data[data.length-1] = e.cause;
+		List<Object> replacements = e.getReplacements();
+		if (e.getCause() != null) {
+			data = replacements.toArray(new Object[replacements.size()+1]);
+			data[data.length-1] = e.getCause();
 		} else {
-			data = e.data;
+			data = replacements.toArray(new Object[replacements.size()]);
 		}
 
-		switch (e.level) {
+		switch (e.getLevel()) {
 			case ERROR:
-				log.error(e.message, data);
+				log.error(e.getMessage(), data);
 			break;
 			case WARN:
-				log.warn(e.message, data);
+				log.warn(e.getMessage(), data);
 			break;
 			case INFO:
-				log.info(e.message, data);
+				log.info(e.getMessage(), data);
 			break;
 			case DEBUG:
-				log.debug(e.message, data);
+				log.debug(e.getMessage(), data);
 			break;
 			case TRACE:
-				log.trace(e.message, data);
+				log.trace(e.getMessage(), data);
 			break;
 			default:
-				throw new RuntimeException("Unknown log level: "+e.level);
+				throw new RuntimeException("Unknown log level: "+e.getLevel());
 		}
 	}
 }

@@ -26,6 +26,8 @@ public class LogMachineDescriptorGenerator {
 			.addMethod("from(String location)").atMost(1)
 			.addMethod("to(Enum...categories)").atMost(1)
 			.addMethod("because(Throwable cause)").atMost(1)
+			.addMethod("with(String key, Number value)").any()
+			.addMethod("with(String key, String value)").any()
 
 			.addMethod("debug(String message, Object...data)").last()
 			.addMethod("info(String message, Object...data)").last()

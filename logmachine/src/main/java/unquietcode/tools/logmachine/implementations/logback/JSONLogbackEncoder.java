@@ -4,6 +4,10 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.classic.spi.StackTraceElementProxy;
 import unquietcode.tools.logmachine.EventMetadata;
+import unquietcode.tools.logmachine.Switchboard;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Encoder which creates a JSON representation of the logging event.
@@ -22,7 +26,7 @@ public class JSONLogbackEncoder extends AbstractLogbackEncoder {
 		  .append(",\"class\": \"").append(event.getLoggerName()).append("\"");
 
 		appendNotNull("message", sb, event.getFormattedMessage());
-		appendNotNull("source", sb, metadata.getSource());
+		appendNotNull("location", sb, metadata.getLocation());
 		appendNotNull("thread", sb, event.getThreadName());
 		appendNotNull("level", sb, event.getLevel().levelStr);
 
@@ -70,6 +74,30 @@ public class JSONLogbackEncoder extends AbstractLogbackEncoder {
 
 			sb.append("]");
 		}
+
+		if (metadata.getData() != null) {
+			// merge MDC with event data, choosing MDC first
+			Map<String, String> data = new HashMap<String, String>();
+			data.putAll(metadata.getData());
+			data.putAll(event.getMDCPropertyMap());
+			data.remove(Switchboard.MDC_KEY);
+
+			sb.append(", \"data\": {");
+			boolean first = true;
+
+			for (Map.Entry<String, String> datum : data.entrySet()) {
+				if (!first) {
+					sb.append(", ");
+				} else {
+					first = false;
+				}
+
+				sb.append("\"").append(datum.getKey()).append("\": \"").append(datum.getValue()).append("\"");
+			}
+
+			sb.append("}");
+		}
+
 
 		return sb.append("}").toString();
 	}
