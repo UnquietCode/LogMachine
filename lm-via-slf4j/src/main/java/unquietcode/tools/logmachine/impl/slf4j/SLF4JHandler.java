@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine.implementations.slf4j;
+package unquietcode.tools.logmachine.impl.slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.MDC;
@@ -6,6 +6,7 @@ import unquietcode.tools.logmachine.EventMetadata;
 import unquietcode.tools.logmachine.LogEvent;
 import unquietcode.tools.logmachine.LogEventHandler;
 import unquietcode.tools.logmachine.Switchboard;
+import unquietcode.tools.logmachine.core.LogMachineException;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class SLF4JHandler implements LogEventHandler<Logger> {
 				log.trace(e.getMessage(), data);
 			break;
 			default:
-				throw new RuntimeException("Unknown log level: "+e.getLevel());
+				throw new LogMachineException("Unknown log level: "+e.getLevel());
 		}
 	}
 }

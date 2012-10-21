@@ -1,6 +1,7 @@
-package unquietcode.tools.logmachine.implementations.slf4j;
+package unquietcode.tools.logmachine.impl.slf4j;
 
 import org.slf4j.Logger;
+import unquietcode.tools.logmachine.LogEventHandler;
 import unquietcode.tools.logmachine.LogMachine;
 
 /**
@@ -9,9 +10,11 @@ import unquietcode.tools.logmachine.LogMachine;
  */
 public class SLF4JLogMachine extends LogMachine<Logger> {
 	private final Logger log;
+	private static final LogEventHandler<Logger> HANDLER = new SLF4JHandler();
+
 
 	public SLF4JLogMachine(Logger log) {
-		super(log, new SLF4JHandler());
+		super(log, HANDLER);
 		this.log = log;
 	}
 
