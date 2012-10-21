@@ -19,23 +19,36 @@ public class LogMachineDescriptorGenerator {
 			.setDescriptorName("LogMachine")
 			.setStartingMethodName("start")
 
-			// TODO add support for marking
-			//.addMethod("mark(String event)").last()
-			//.addMethod("mark(String event, Enum...categories)").last()
+			.startBlock("Generic", "generic()").last()
+				.addMethod("with(String key, Number value)").any()
+				.addMethod("with(String key, String value)").any()
+				.addMethod("from(String location)").atMost(1)
+				.addMethod("to(Enum...categories)").atMost(1)
+				.addMethod("because(Throwable cause)").atMost(1)
 
-			.addMethod("from(String location)").atMost(1)
-			.addMethod("to(Enum...categories)").atMost(1)
-			.addMethod("because(Throwable cause)").atMost(1)
-			.addMethod("with(String key, Number value)").any()
-			.addMethod("with(String key, String value)").any()
+				.addMethod("debug(String message, Object...data)").last()
+				.addMethod("info(String message, Object...data)").last()
+				.addMethod("trace(String message, Object...data)").last()
+				.addMethod("warn(String message, Object...data)").last()
+				.addMethod("error(String message, Object...data)").last()
+			.endBlock()
 
-			.addMethod("debug(String message, Object...data)").last()
-			.addMethod("info(String message, Object...data)").last()
-			.addMethod("trace(String message, Object...data)").last()
-			.addMethod("warn(String message, Object...data)").last()
-			.addMethod("error(String message, Object...data)").last()
+			.startBlock("Specific", "specific()").last()
+				.addMethod("with(String key, Number value)").any()
+				.addMethod("with(String key, String value)").any()
+
+				.addMethod("from(String location)").atMost(1)
+				.addMethod("to(Enum...categories)").atMost(1)
+				.addMethod("because(Throwable cause)").atMost(1)
+				.addMethod("send(String message, Object...data)").last()
+			.endBlock()
 		.build();
 
 		builder.writeToFolder(folder);
 	}
+
+
+	// TODO add support for marking
+	//.addMethod("mark(String event)").last()
+	//.addMethod("mark(String event, Enum...categories)").last()
 }

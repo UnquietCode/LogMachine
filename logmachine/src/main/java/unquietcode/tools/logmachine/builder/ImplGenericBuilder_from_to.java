@@ -13,18 +13,18 @@ import unquietcode.tools.flapi.support.v0_2.BuilderImplementation;
  * Visit http://www.unquietcode.com/flapi for more information.
  * 
  * 
- * Generated on September 11, 2012 17:49:09 CDT using version 0.2
+ * Generated on October 21, 2012 1:37:21 CDT using version 0.2
  * 
  */
-@Generated(value = "unquietcode.tools.flapi", date = "September 11, 2012 17:49:09 CDT", comments = "generated using Flapi, the fluent API generator for Java")
-public class ImplLogMachineBuilder_because_from
-    implements BuilderImplementation, LogMachineBuilder_because_from
+@Generated(value = "unquietcode.tools.flapi", date = "October 21, 2012 1:37:21 CDT", comments = "generated using Flapi, the fluent API generator for Java")
+public class ImplGenericBuilder_from_to
+    implements BuilderImplementation, GenericBuilder_from_to
 {
 
-    private final LogMachineHelper _helper;
+    private final GenericHelper _helper;
     private final Object _returnValue;
 
-    ImplLogMachineBuilder_because_from(LogMachineHelper helper, Object returnValue) {
+    ImplGenericBuilder_from_to(GenericHelper helper, Object returnValue) {
         _helper = helper;
         _returnValue = returnValue;
     }
@@ -45,65 +45,18 @@ public class ImplLogMachineBuilder_because_from
         // nothing
     }
 
-    public LogMachineBuilder_because_from with(String key, String value) {
-        _helper.with(key, value);
-         
-        return this;
-    }
-
-    public LogMachineBuilder_from because(Throwable cause) {
-        _helper.because(cause);
-        ImplLogMachineBuilder_from step1 = new ImplLogMachineBuilder_from(_helper, _returnValue);
+    public GenericBuilder_from to(Enum... categories) {
+        _helper.to(categories);
+        ImplGenericBuilder_from step1 = new ImplGenericBuilder_from(_helper, _returnValue);
          
         _transferInvocations(step1);
         return step1;
     }
 
-    public void warn(String message, Object... data) {
-        BuilderImplementation cur = this;
-        while (cur!= null) {
-            cur._checkInvocations();
-            cur = cur._getParent();
-        }
-         
-        _helper.warn(message, data);
-         
-    }
-
-    public void error(String message, Object... data) {
-        BuilderImplementation cur = this;
-        while (cur!= null) {
-            cur._checkInvocations();
-            cur = cur._getParent();
-        }
-         
-        _helper.error(message, data);
-         
-    }
-
-    public void trace(String message, Object... data) {
-        BuilderImplementation cur = this;
-        while (cur!= null) {
-            cur._checkInvocations();
-            cur = cur._getParent();
-        }
-         
-        _helper.trace(message, data);
-         
-    }
-
-    public LogMachineBuilder_because_from with(String key, Number value) {
+    public GenericBuilder_from_to with(String key, Number value) {
         _helper.with(key, value);
          
         return this;
-    }
-
-    public LogMachineBuilder_because from(String location) {
-        _helper.from(location);
-        ImplLogMachineBuilder_because step1 = new ImplLogMachineBuilder_because(_helper, _returnValue);
-         
-        _transferInvocations(step1);
-        return step1;
     }
 
     public void debug(String message, Object... data) {
@@ -125,6 +78,53 @@ public class ImplLogMachineBuilder_because_from
         }
          
         _helper.info(message, data);
+         
+    }
+
+    public GenericBuilder_from_to with(String key, String value) {
+        _helper.with(key, value);
+         
+        return this;
+    }
+
+    public void error(String message, Object... data) {
+        BuilderImplementation cur = this;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
+        _helper.error(message, data);
+         
+    }
+
+    public GenericBuilder_to from(String location) {
+        _helper.from(location);
+        ImplGenericBuilder_to step1 = new ImplGenericBuilder_to(_helper, _returnValue);
+         
+        _transferInvocations(step1);
+        return step1;
+    }
+
+    public void trace(String message, Object... data) {
+        BuilderImplementation cur = this;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
+        _helper.trace(message, data);
+         
+    }
+
+    public void warn(String message, Object... data) {
+        BuilderImplementation cur = this;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
+        _helper.warn(message, data);
          
     }
 

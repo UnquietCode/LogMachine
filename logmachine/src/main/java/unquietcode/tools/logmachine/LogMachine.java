@@ -3,15 +3,18 @@ package unquietcode.tools.logmachine;
 
 import unquietcode.tools.logmachine.builder.*;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Benjamin Fagin
- * @version 02-12-2012
- * @version 05-16-2012
+ * @version 10-21-2012
  */
-public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to<Void> {
+public abstract class LogMachine<T> {
 	private final LogEventHandler<T> handler;
 	private final T logger;
 
@@ -28,7 +31,28 @@ public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to
 		this.logger = logger;
 	}
 
-	//---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---o---//
+	void _log(LogEvent event) {
+		if (event.getGroups() == null) {
+			event.setGroups(new ArrayList<Enum>());
+		}
+
+		if (event.getReplacements() == null) {
+			event.setReplacements(new ArrayList<Object>());
+		}
+
+		handler.logEvent(logger, event);
+	}
+
+//	void _mark(String event, Enum[] categories) {
+//		throw new UnsupportedOperationException("not implemented");
+//	}
+//
+//	void _mark(String event) {
+//		throw new UnsupportedOperationException("not implemented");
+//	}
+
+
+	//==o==o==o==o==o==o==| log level methods |==o==o==o==o==o==o==//
 
 	public abstract boolean isError();
 	public boolean isErrorEnabled() {
@@ -55,97 +79,181 @@ public abstract class LogMachine<T> implements LogMachineBuilder_because_from_to
 		return isTrace();
 	}
 
+
 	//==o==o==o==o==o==o==| logging methods |==o==o==o==o==o==o==//
 
-	void _log(LogEvent event) {
-		if (event.getGroups() == null) {
-			event.setGroups(new ArrayList<Enum>());
-		}
-
-		if (event.getReplacements() == null) {
-			event.setReplacements(new ArrayList<Object>());
-		}
-
-		handler.logEvent(logger, event);
-	}
-
-	void _mark(String event, Enum[] categories) {
-		throw new UnsupportedOperationException("not implemented");
-	}
-
-	void _mark(String event) {
-		throw new UnsupportedOperationException("not implemented");
-	}
-
-	//==o==o==o==o==o==o==| builder methods |==o==o==o==o==o==o==//
+	// specific one-shots (SLF4J style)
 
 	public void error(String message, Throwable exception) {
-		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).error(message);
+		if (isError()) {
+			LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().because(exception).error(message);
+		}
 	}
 
-	@Override
 	public void error(String message, Object...data) {
-		LogMachineGenerator.start(new LogMachineHelperImpl(this)).error(message, data);
+		if (isError()) {
+			LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().error(message, data);
+		}
 	}
 
 	public void warn(String message, Throwable exception) {
-		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).warn(message);
+		if (isWarn()) {
+			LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().because(exception).warn(message);
+		}
 	}
 
-	@Override
 	public void warn(String message, Object...data) {
-		LogMachineGenerator.start(new LogMachineHelperImpl(this)).warn(message, data);
+		if (isWarn()) {
+			LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().warn(message, data);
+		}
 	}
 
 	public void info(String message, Throwable exception) {
-		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).info(message);
+		if (isInfo()) {
+			LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().because(exception).info(message);
+		}
 	}
 
-	@Override
 	public void info(String message, Object...data) {
-		LogMachineGenerator.start(new LogMachineHelperImpl(this)).info(message, data);
+		if (isInfo()) {
+			LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().info(message, data);
+		}
 	}
 
 	public void debug(String message, Throwable exception) {
-		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).debug(message);
+		if (isDebug()) {
+			LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().because(exception).debug(message);
+		}
 	}
 
-	@Override
 	public void debug(String message, Object...data) {
-		LogMachineGenerator.start(new LogMachineHelperImpl(this)).debug(message, data);
+		if (isDebug()) {
+			LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().debug(message, data);
+		}
 	}
 
 	public void trace(String message, Throwable exception) {
-		LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(exception).trace(message);
+		if (isTrace()) {
+			LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().because(exception).trace(message);
+		}
 	}
 
-	@Override
 	public void trace(String message, Object...data) {
-		LogMachineGenerator.start(new LogMachineHelperImpl(this)).trace(message, data);
+		if (isTrace()) {
+			LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().trace(message, data);
+		}
 	}
 
-	@Override
-	public LogMachineBuilder_from_to<Void> because(Throwable cause) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).because(cause);
+
+	// specific builders
+
+	public SpecificBuilder_because_from_to<Void> error() {
+		if (isError()) {
+			LogMachineHelperImpl helper = new LogMachineHelperImpl(this, Level.ERROR);
+			return LogMachineGenerator.start(helper).specific();
+		} else {
+			return DEAD_PROXY;
+		}
 	}
 
-	@Override
-	public LogMachineBuilder_because_to<Void> from(String location) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).from(location);
+	public SpecificBuilder_because_from_to<Void> warn() {
+		if (isWarn()) {
+			LogMachineHelperImpl helper = new LogMachineHelperImpl(this, Level.WARN);
+			return LogMachineGenerator.start(helper).specific();
+		} else {
+			return DEAD_PROXY;
+		}
 	}
 
-	@Override
-	public LogMachineBuilder_because_from<Void> to(Enum... categories) {
-		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).to(categories);
+	public SpecificBuilder_because_from_to<Void> info() {
+		if (isInfo()) {
+			LogMachineHelperImpl helper = new LogMachineHelperImpl(this, Level.INFO);
+			return LogMachineGenerator.start(helper).specific();
+		} else {
+			return DEAD_PROXY;
+		}
 	}
 
-	@Override
-	public LogMachineBuilder_because_from_to<Void> with(String key, String value) {
-		return null;
+	public SpecificBuilder_because_from_to<Void> debug() {
+		if (isError()) {
+			LogMachineHelperImpl helper = new LogMachineHelperImpl(this, Level.DEBUG);
+			return LogMachineGenerator.start(helper).specific();
+		} else {
+			return DEAD_PROXY;
+		}
 	}
 
-	@Override
-	public LogMachineBuilder_because_from_to<Void> with(String key, Number value) {
-		return null;
+	public SpecificBuilder_because_from_to<Void> trace() {
+		if (isError()) {
+			LogMachineHelperImpl helper = new LogMachineHelperImpl(this, Level.TRACE);
+			return LogMachineGenerator.start(helper).specific();
+		} else {
+			return DEAD_PROXY;
+		}
 	}
+
+	@SuppressWarnings("unchecked")
+	private static final SpecificBuilder_because_from_to<Void> DEAD_PROXY
+		= (SpecificBuilder_because_from_to<Void>) Proxy.newProxyInstance(
+			SpecificBuilder_because_from_to.class.getClassLoader(),
+			new Class<?>[]{SpecificBuilder_because_from_to.class},
+			new ProxyHelper()
+		);
+
+
+	// generic builders
+
+	public GenericBuilder_from_to<Void> because(Throwable cause) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().because(cause);
+	}
+
+	public GenericBuilder_because_to<Void> from(String location) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().from(location);
+	}
+
+	public GenericBuilder_because_from<Void> to(Enum... categories) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().to(categories);
+	}
+
+	public GenericBuilder_because_from_to<Void> with(String key, String value) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().with(key, value);
+	}
+
+	public GenericBuilder_because_from_to<Void> with(String key, Number value) {
+		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().with(key, value);
+	}
+
+	// ----------------------------------------------------------------- //
+
+	/**
+	 * Creates proxy classes as needed, each which simply returns an empty proxy matching the return
+	 * type. Assumes that all return types in the chain are interfaces (a requirement of JDK proxies).
+	 * Caches created proxies for each return type.
+	 */
+	private static class ProxyHelper implements InvocationHandler {
+		// TODO Are there any classloader implications from not using a weak map?
+		private static final Map<Class, Object> proxyMap = new HashMap<Class, Object>();
+
+
+		@Override
+		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+			Class<?> returnType = method.getReturnType();
+
+			if (proxyMap.containsKey(returnType)) {
+				return proxyMap.get(returnType);
+			}
+
+			Object returnValue;
+
+			if (returnType.equals(void.class) || returnType.equals(Void.class)) {
+				returnValue = null;
+			} else {
+				returnValue = Proxy.newProxyInstance(returnType.getClassLoader(), new Class<?>[]{returnType}, this);
+			}
+
+			proxyMap.put(returnType, returnValue);
+			return returnValue;
+		}
+	}
+
 }

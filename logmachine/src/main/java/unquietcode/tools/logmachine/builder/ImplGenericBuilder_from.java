@@ -13,18 +13,18 @@ import unquietcode.tools.flapi.support.v0_2.BuilderImplementation;
  * Visit http://www.unquietcode.com/flapi for more information.
  * 
  * 
- * Generated on September 11, 2012 17:49:09 CDT using version 0.2
+ * Generated on October 21, 2012 1:37:21 CDT using version 0.2
  * 
  */
-@Generated(value = "unquietcode.tools.flapi", date = "September 11, 2012 17:49:09 CDT", comments = "generated using Flapi, the fluent API generator for Java")
-public class ImplLogMachineBuilder_to
-    implements BuilderImplementation, LogMachineBuilder_to
+@Generated(value = "unquietcode.tools.flapi", date = "October 21, 2012 1:37:21 CDT", comments = "generated using Flapi, the fluent API generator for Java")
+public class ImplGenericBuilder_from
+    implements BuilderImplementation, GenericBuilder_from
 {
 
-    private final LogMachineHelper _helper;
+    private final GenericHelper _helper;
     private final Object _returnValue;
 
-    ImplLogMachineBuilder_to(LogMachineHelper helper, Object returnValue) {
+    ImplGenericBuilder_from(GenericHelper helper, Object returnValue) {
         _helper = helper;
         _returnValue = returnValue;
     }
@@ -45,7 +45,7 @@ public class ImplLogMachineBuilder_to
         // nothing
     }
 
-    public LogMachineBuilder_to with(String key, Number value) {
+    public GenericBuilder_from with(String key, String value) {
         _helper.with(key, value);
          
         return this;
@@ -62,31 +62,6 @@ public class ImplLogMachineBuilder_to
          
     }
 
-    public void warn(String message, Object... data) {
-        BuilderImplementation cur = this;
-        while (cur!= null) {
-            cur._checkInvocations();
-            cur = cur._getParent();
-        }
-         
-        _helper.warn(message, data);
-         
-    }
-
-    public LogMachineBuilder to(Enum... categories) {
-        _helper.to(categories);
-        ImplLogMachineBuilder step1 = new ImplLogMachineBuilder(_helper, _returnValue);
-         
-        _transferInvocations(step1);
-        return step1;
-    }
-
-    public LogMachineBuilder_to with(String key, String value) {
-        _helper.with(key, value);
-         
-        return this;
-    }
-
     public void debug(String message, Object... data) {
         BuilderImplementation cur = this;
         while (cur!= null) {
@@ -96,6 +71,12 @@ public class ImplLogMachineBuilder_to
          
         _helper.debug(message, data);
          
+    }
+
+    public GenericBuilder_from with(String key, Number value) {
+        _helper.with(key, value);
+         
+        return this;
     }
 
     public void info(String message, Object... data) {
@@ -117,6 +98,25 @@ public class ImplLogMachineBuilder_to
         }
          
         _helper.trace(message, data);
+         
+    }
+
+    public GenericBuilder from(String location) {
+        _helper.from(location);
+        ImplGenericBuilder step1 = new ImplGenericBuilder(_helper, _returnValue);
+         
+        _transferInvocations(step1);
+        return step1;
+    }
+
+    public void warn(String message, Object... data) {
+        BuilderImplementation cur = this;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
+        _helper.warn(message, data);
          
     }
 

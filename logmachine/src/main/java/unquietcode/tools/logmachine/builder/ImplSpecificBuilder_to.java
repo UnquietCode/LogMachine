@@ -3,7 +3,6 @@ package unquietcode.tools.logmachine.builder;
 
 import javax.annotation.Generated;
 import unquietcode.tools.flapi.support.v0_2.BuilderImplementation;
-import unquietcode.tools.flapi.support.v0_2.ObjectWrapper;
 
 
 /**
@@ -18,14 +17,14 @@ import unquietcode.tools.flapi.support.v0_2.ObjectWrapper;
  * 
  */
 @Generated(value = "unquietcode.tools.flapi", date = "October 21, 2012 1:37:21 CDT", comments = "generated using Flapi, the fluent API generator for Java")
-public class ImplLogMachineBuilder
-    implements BuilderImplementation, LogMachineBuilder
+public class ImplSpecificBuilder_to
+    implements BuilderImplementation, SpecificBuilder_to
 {
 
-    private final LogMachineHelper _helper;
+    private final SpecificHelper _helper;
     private final Object _returnValue;
 
-    ImplLogMachineBuilder(LogMachineHelper helper, Object returnValue) {
+    ImplSpecificBuilder_to(SpecificHelper helper, Object returnValue) {
         _helper = helper;
         _returnValue = returnValue;
     }
@@ -46,32 +45,35 @@ public class ImplLogMachineBuilder
         // nothing
     }
 
-    public SpecificBuilder_because_from_to specific() {
-        BuilderImplementation cur = this;
-        while (cur!= null) {
-            cur._checkInvocations();
-            cur = cur._getParent();
-        }
+    public SpecificBuilder_to with(String key, String value) {
+        _helper.with(key, value);
          
-        ObjectWrapper<SpecificHelper> helper1 = new ObjectWrapper<SpecificHelper>();
-        _helper.specific(helper1);
-        ImplSpecificBuilder_because_from_to step1 = new ImplSpecificBuilder_because_from_to(helper1 .get(), null);
+        return this;
+    }
+
+    public SpecificBuilder_to with(String key, Number value) {
+        _helper.with(key, value);
          
+        return this;
+    }
+
+    public SpecificBuilder to(Enum... categories) {
+        _helper.to(categories);
+        ImplSpecificBuilder step1 = new ImplSpecificBuilder(_helper, _returnValue);
+         
+        _transferInvocations(step1);
         return step1;
     }
 
-    public GenericBuilder_because_from_to generic() {
+    public void send(String message, Object... data) {
         BuilderImplementation cur = this;
         while (cur!= null) {
             cur._checkInvocations();
             cur = cur._getParent();
         }
          
-        ObjectWrapper<GenericHelper> helper1 = new ObjectWrapper<GenericHelper>();
-        _helper.generic(helper1);
-        ImplGenericBuilder_because_from_to step1 = new ImplGenericBuilder_because_from_to(helper1 .get(), null);
+        _helper.send(message, data);
          
-        return step1;
     }
 
 }

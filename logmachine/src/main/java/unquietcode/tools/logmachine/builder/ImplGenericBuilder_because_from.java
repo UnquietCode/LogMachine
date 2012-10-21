@@ -13,18 +13,18 @@ import unquietcode.tools.flapi.support.v0_2.BuilderImplementation;
  * Visit http://www.unquietcode.com/flapi for more information.
  * 
  * 
- * Generated on September 11, 2012 17:49:09 CDT using version 0.2
+ * Generated on October 21, 2012 1:37:21 CDT using version 0.2
  * 
  */
-@Generated(value = "unquietcode.tools.flapi", date = "September 11, 2012 17:49:09 CDT", comments = "generated using Flapi, the fluent API generator for Java")
-public class ImplLogMachineBuilder_because
-    implements BuilderImplementation, LogMachineBuilder_because
+@Generated(value = "unquietcode.tools.flapi", date = "October 21, 2012 1:37:21 CDT", comments = "generated using Flapi, the fluent API generator for Java")
+public class ImplGenericBuilder_because_from
+    implements BuilderImplementation, GenericBuilder_because_from
 {
 
-    private final LogMachineHelper _helper;
+    private final GenericHelper _helper;
     private final Object _returnValue;
 
-    ImplLogMachineBuilder_because(LogMachineHelper helper, Object returnValue) {
+    ImplGenericBuilder_because_from(GenericHelper helper, Object returnValue) {
         _helper = helper;
         _returnValue = returnValue;
     }
@@ -45,17 +45,6 @@ public class ImplLogMachineBuilder_because
         // nothing
     }
 
-    public void error(String message, Object... data) {
-        BuilderImplementation cur = this;
-        while (cur!= null) {
-            cur._checkInvocations();
-            cur = cur._getParent();
-        }
-         
-        _helper.error(message, data);
-         
-    }
-
     public void warn(String message, Object... data) {
         BuilderImplementation cur = this;
         while (cur!= null) {
@@ -65,6 +54,12 @@ public class ImplLogMachineBuilder_because
          
         _helper.warn(message, data);
          
+    }
+
+    public GenericBuilder_because_from with(String key, String value) {
+        _helper.with(key, value);
+         
+        return this;
     }
 
     public void trace(String message, Object... data) {
@@ -78,12 +73,26 @@ public class ImplLogMachineBuilder_because
          
     }
 
-    public LogMachineBuilder because(Throwable cause) {
-        _helper.because(cause);
-        ImplLogMachineBuilder step1 = new ImplLogMachineBuilder(_helper, _returnValue);
+    public void debug(String message, Object... data) {
+        BuilderImplementation cur = this;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
          
-        _transferInvocations(step1);
-        return step1;
+        _helper.debug(message, data);
+         
+    }
+
+    public void error(String message, Object... data) {
+        BuilderImplementation cur = this;
+        while (cur!= null) {
+            cur._checkInvocations();
+            cur = cur._getParent();
+        }
+         
+        _helper.error(message, data);
+         
     }
 
     public void info(String message, Object... data) {
@@ -97,27 +106,26 @@ public class ImplLogMachineBuilder_because
          
     }
 
-    public LogMachineBuilder_because with(String key, String value) {
+    public GenericBuilder_from because(Throwable cause) {
+        _helper.because(cause);
+        ImplGenericBuilder_from step1 = new ImplGenericBuilder_from(_helper, _returnValue);
+         
+        _transferInvocations(step1);
+        return step1;
+    }
+
+    public GenericBuilder_because from(String location) {
+        _helper.from(location);
+        ImplGenericBuilder_because step1 = new ImplGenericBuilder_because(_helper, _returnValue);
+         
+        _transferInvocations(step1);
+        return step1;
+    }
+
+    public GenericBuilder_because_from with(String key, Number value) {
         _helper.with(key, value);
          
         return this;
-    }
-
-    public LogMachineBuilder_because with(String key, Number value) {
-        _helper.with(key, value);
-         
-        return this;
-    }
-
-    public void debug(String message, Object... data) {
-        BuilderImplementation cur = this;
-        while (cur!= null) {
-            cur._checkInvocations();
-            cur = cur._getParent();
-        }
-         
-        _helper.debug(message, data);
-         
     }
 
 }

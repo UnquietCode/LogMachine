@@ -16,16 +16,23 @@ import javax.annotation.Generated;
  * 
  */
 @Generated(value = "unquietcode.tools.flapi", date = "October 21, 2012 1:37:21 CDT", comments = "generated using Flapi, the fluent API generator for Java")
-public class LogMachineGenerator {
+public interface GenericBuilder_because<_ReturnType >{
 
 
-    @SuppressWarnings("unchecked")
-    public static LogMachineBuilder<Void> start(LogMachineHelper helper) {
-        if (helper == null) {
-            throw new IllegalArgumentException("Helper cannot be null.");
-        }
-         
-        return new ImplLogMachineBuilder(helper, null);
-    }
+    void warn(String message, Object... data);
+
+    void trace(String message, Object... data);
+
+    GenericBuilder<_ReturnType> because(Throwable cause);
+
+    GenericBuilder_because<_ReturnType> with(String key, String value);
+
+    GenericBuilder_because<_ReturnType> with(String key, Number value);
+
+    void info(String message, Object... data);
+
+    void debug(String message, Object... data);
+
+    void error(String message, Object... data);
 
 }
