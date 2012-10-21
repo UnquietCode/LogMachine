@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine.implementations.jdk;
+package unquietcode.tools.logmachine.impl.jdk14;
 
 import unquietcode.tools.logmachine.LogEvent;
 import unquietcode.tools.logmachine.LogEventHandler;

@@ -7,15 +7,11 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>lm-via-logback</artifactId>
+	<artifactId>lm-via-jdk14</artifactId>
 	<packaging>jar</packaging>
 
-	<name>lm-via-logback</name>
+	<name>lm-via-jdk14</name>
 	<url>http://maven.apache.org</url>
-
-	<properties>
-		<logback.version>1.0.3</logback.version>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -23,16 +19,7 @@
 			<artifactId>lm-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>unquietcode.tools.logmachine</groupId>
-			<artifactId>lm-via-slf4j</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
-		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

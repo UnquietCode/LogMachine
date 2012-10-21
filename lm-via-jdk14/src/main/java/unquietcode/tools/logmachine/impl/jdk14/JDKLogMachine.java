@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine.implementations.jdk;
+package unquietcode.tools.logmachine.impl.jdk14;
 
 import unquietcode.tools.logmachine.LogMachine;
 
@@ -11,6 +11,7 @@ import java.util.logging.Logger;
  */
 public class JDKLogMachine extends LogMachine<Logger> {
 	private final Logger log;
+
 
 	public JDKLogMachine(Logger log) {
 		super(log, new JDKHandler());
