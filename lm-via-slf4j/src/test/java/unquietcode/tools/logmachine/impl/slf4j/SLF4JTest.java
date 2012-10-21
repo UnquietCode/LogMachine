@@ -1,7 +1,7 @@
-package unquietcode.tools.logmachine;
+package unquietcode.tools.logmachine.impl.slf4j;
 
 import org.junit.Test;
-import org.slf4j.LoggerFactory;
+import unquietcode.tools.logmachine.LogMachine;
 
 /**
  * LogMachine backed by SLF4J.
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * @version 05-16-2012
  */
 public class SLF4JTest {
-	private static LogMachine log = LogFactory.getInstance(LoggerFactory.getLogger(SLF4JTest.class));
+	private static LogMachine log = LogFactory.getLogMachine(SLF4JTest.class);
 
 	enum Color {
 		Blue, Red, Yellow, Green

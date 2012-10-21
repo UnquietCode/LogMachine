@@ -1,7 +1,8 @@
-package unquietcode.tools.logmachine;
+package unquietcode.tools.logmachine.impl.slf4j;
 
 import org.junit.Test;
 import org.slf4j.Logger;
+import unquietcode.tools.logmachine.LogMachine;
 
 /**
  * @author Benjamin Fagin
@@ -15,12 +16,12 @@ public class LogMachine_T {
 	@Test
 	public void hi() {
 		//LogMachinePrinter printer = new LogMachineConsolePrinter();
-		LogMachine lm = LogFactory.getInstance(java.util.logging.Logger.getLogger(LogMachine_T.class.getName()));
-
-		lm.from("method").debug("hi");
-		lm.to(Color.Red, Color.Blue).info("hello");
-		lm.info("hello {}", "world");
-		lm.because(new RuntimeException("oh no, not again")).error("goodbye!");
+//		LogMachine lm = LogFactory.getLogMachine(java.util.logging.Logger.getLogger(LogMachine_T.class.getName()));
+//
+//		lm.from("method").debug("hi");
+//		lm.to(Color.Red, Color.Blue).info("hello");
+//		lm.info("hello {}", "world");
+//		lm.because(new RuntimeException("oh no, not again")).error("goodbye!");
 	}
 
 	

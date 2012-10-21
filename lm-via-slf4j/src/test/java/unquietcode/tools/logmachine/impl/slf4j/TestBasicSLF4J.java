@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine;
+package unquietcode.tools.logmachine.impl.slf4j;
 
 import org.junit.Test;
 import org.slf4j.Logger;

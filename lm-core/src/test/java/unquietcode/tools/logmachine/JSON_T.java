@@ -3,7 +3,7 @@ package unquietcode.tools.logmachine;
 import org.junit.Test;
 
 /**
- * @author Ben Fagin (Nokia)
+ * @author Ben Fagin
  * @version 03-04-2012
  */
 public class JSON_T {

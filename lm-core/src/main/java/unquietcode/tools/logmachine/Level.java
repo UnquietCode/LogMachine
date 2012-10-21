@@ -1,6 +1,5 @@
 package unquietcode.tools.logmachine;
 
-import org.slf4j.Logger;
 
 /**
  * @author Benjamin Fagin
@@ -42,31 +41,5 @@ public enum Level {
 	
 	public boolean isEqualTo(Level other) {
 		return this == other;
-	}
-
-	//==o==o==o==o==o==o==| implementation helpers |==o==o==o==o==o==o==//
-
-	public static Level getLevelFromSLF4JLogger(Logger log) {
-		if (log.isTraceEnabled()) {
-			return Level.TRACE;
-		}
-
-		if (log.isDebugEnabled()) {
-			return Level.DEBUG;
-		}
-
-		if (log.isInfoEnabled()) {
-			return Level.INFO;
-		}
-
-		if (log.isWarnEnabled()) {
-			return Level.WARN;
-		}
-
-		if (log.isErrorEnabled()) {
-			return Level.ERROR;
-		}
-
-		throw new RuntimeException("Could not determined log level.");
 	}
 }
