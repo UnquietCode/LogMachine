@@ -1,7 +1,9 @@
-package unquietcode.tools.logmachine;
+package unquietcode.tools.logmachine.impl.logback;
 
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
+import unquietcode.tools.logmachine.LogFactory;
+import unquietcode.tools.logmachine.LogMachine;
 
 /**
  * LogMachine backed by SLF4J.

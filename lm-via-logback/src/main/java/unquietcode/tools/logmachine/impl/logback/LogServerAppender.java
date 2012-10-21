@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine.implementations.logback;
+package unquietcode.tools.logmachine.impl.logback;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;

@@ -6,8 +6,9 @@
 	<artifactId>parent</artifactId>
 	<version>0.1</version>
 	<modules>
-		<module>test-slf4j</module>
+		<module>lm-core</module>
 		<module>lm-via-slf4j</module>
+		<module>lm-via-logback</module>
 	</modules>
 	<packaging>pom</packaging>
 
@@ -16,7 +17,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<logback.version>1.0.3</logback.version>
 		<log4j.version>1.5.1</log4j.version>
 	</properties>
 
