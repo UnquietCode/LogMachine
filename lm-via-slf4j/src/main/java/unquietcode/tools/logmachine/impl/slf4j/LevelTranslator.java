@@ -1,7 +1,7 @@
 package unquietcode.tools.logmachine.impl.slf4j;
 
 import org.slf4j.Logger;
-import unquietcode.tools.logmachine.Level;
+import unquietcode.tools.logmachine.core.Level;
 
 /**
  * @author Ben Fagin

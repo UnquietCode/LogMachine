@@ -4,6 +4,8 @@ import unquietcode.tools.flapi.support.v0_2.ObjectWrapper;
 import unquietcode.tools.logmachine.builder.GenericHelper;
 import unquietcode.tools.logmachine.builder.LogMachineHelper;
 import unquietcode.tools.logmachine.builder.SpecificHelper;
+import unquietcode.tools.logmachine.core.Level;
+import unquietcode.tools.logmachine.core.LogMachine;
 
 
 public class LogMachineHelperImpl implements LogMachineHelper {

@@ -1,6 +1,6 @@
 package unquietcode.tools.logmachine.impl.jdk14;
 
-import unquietcode.tools.logmachine.LogMachine;
+import unquietcode.tools.logmachine.core.LogMachine;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

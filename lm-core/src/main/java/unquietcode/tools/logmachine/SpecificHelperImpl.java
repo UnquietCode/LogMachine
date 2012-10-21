@@ -1,6 +1,9 @@
 package unquietcode.tools.logmachine;
 
 import unquietcode.tools.logmachine.builder.SpecificHelper;
+import unquietcode.tools.logmachine.core.Level;
+import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.LogMachine;
 
 import java.util.Arrays;
 

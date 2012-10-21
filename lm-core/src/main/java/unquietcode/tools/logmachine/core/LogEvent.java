@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine;
+package unquietcode.tools.logmachine.core;
 
 import java.util.HashMap;
 import java.util.List;

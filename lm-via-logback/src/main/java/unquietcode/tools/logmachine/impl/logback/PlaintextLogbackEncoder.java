@@ -3,7 +3,7 @@ package unquietcode.tools.logmachine.impl.logback;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.classic.spi.StackTraceElementProxy;
-import unquietcode.tools.logmachine.EventMetadata;
+import unquietcode.tools.logmachine.core.EventMetadata;
 
 /**
  * @author Ben Fagin

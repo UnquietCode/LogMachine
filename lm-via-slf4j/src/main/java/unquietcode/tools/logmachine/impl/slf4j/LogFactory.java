@@ -2,8 +2,8 @@ package unquietcode.tools.logmachine.impl.slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unquietcode.tools.logmachine.LogMachine;
 import unquietcode.tools.logmachine.core.ILogFactory;
+import unquietcode.tools.logmachine.core.LogMachine;
 
 /**
  * @author Ben Fagin

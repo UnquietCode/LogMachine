@@ -2,8 +2,8 @@ package unquietcode.tools.logmachine.impl.logback;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.encoder.EncoderBase;
-import unquietcode.tools.logmachine.EventMetadata;
-import unquietcode.tools.logmachine.Switchboard;
+import unquietcode.tools.logmachine.core.EventMetadata;
+import unquietcode.tools.logmachine.core.Switchboard;
 
 import java.io.IOException;
 

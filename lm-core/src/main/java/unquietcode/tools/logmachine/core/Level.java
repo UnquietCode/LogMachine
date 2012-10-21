@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine;
+package unquietcode.tools.logmachine.core;
 
 
 /**

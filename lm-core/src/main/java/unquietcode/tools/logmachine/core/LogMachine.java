@@ -1,6 +1,7 @@
-package unquietcode.tools.logmachine;
+package unquietcode.tools.logmachine.core;
 
 
+import unquietcode.tools.logmachine.LogMachineHelperImpl;
 import unquietcode.tools.logmachine.builder.*;
 
 import java.lang.reflect.InvocationHandler;

@@ -1,7 +1,7 @@
 package unquietcode.tools.logmachine.impl.logback;
 
 import org.junit.Test;
-import unquietcode.tools.logmachine.LogMachine;
+import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.impl.slf4j.LogFactory;
 
 /**

@@ -1,6 +1,7 @@
 package unquietcode.tools.logmachine;
 
 import org.junit.Test;
+import unquietcode.tools.logmachine.core.Level;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

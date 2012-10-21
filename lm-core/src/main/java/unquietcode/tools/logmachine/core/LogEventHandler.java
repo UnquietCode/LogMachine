@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine;
+package unquietcode.tools.logmachine.core;
 
 /**
  * Implementations of LogEventHandler are able to respond to new log events

@@ -2,11 +2,7 @@ package unquietcode.tools.logmachine.impl.slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.MDC;
-import unquietcode.tools.logmachine.EventMetadata;
-import unquietcode.tools.logmachine.LogEvent;
-import unquietcode.tools.logmachine.LogEventHandler;
-import unquietcode.tools.logmachine.Switchboard;
-import unquietcode.tools.logmachine.core.LogMachineException;
+import unquietcode.tools.logmachine.core.*;
 
 import java.util.List;
 

@@ -1,7 +1,5 @@
 package unquietcode.tools.logmachine.core;
 
-import unquietcode.tools.logmachine.LogMachine;
-
 /**
  * Simple interface defining contract for LogMachine factory classes.
  *

@@ -3,8 +3,8 @@ package unquietcode.tools.logmachine.impl.logback;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.classic.spi.StackTraceElementProxy;
-import unquietcode.tools.logmachine.EventMetadata;
-import unquietcode.tools.logmachine.Switchboard;
+import unquietcode.tools.logmachine.core.EventMetadata;
+import unquietcode.tools.logmachine.core.Switchboard;
 
 import java.util.HashMap;
 import java.util.Map;

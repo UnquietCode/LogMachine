@@ -1,7 +1,7 @@
 package unquietcode.tools.logmachine.impl.jdk14;
 
-import unquietcode.tools.logmachine.LogEvent;
-import unquietcode.tools.logmachine.LogEventHandler;
+import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.LogEventHandler;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,7 +53,7 @@ public class JDKHandler implements LogEventHandler<Logger> {
 		return sb.toString();
 	}
 
-	private static Level convertLevel(unquietcode.tools.logmachine.Level level) {
+	private static Level convertLevel(unquietcode.tools.logmachine.core.Level level) {
 		switch (level) {
 			case ERROR:
 				return Level.SEVERE;

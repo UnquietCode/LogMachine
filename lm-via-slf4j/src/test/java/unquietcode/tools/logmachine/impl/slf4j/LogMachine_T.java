@@ -2,7 +2,7 @@ package unquietcode.tools.logmachine.impl.slf4j;
 
 import org.junit.Test;
 import org.slf4j.Logger;
-import unquietcode.tools.logmachine.LogMachine;
+import unquietcode.tools.logmachine.core.LogMachine;
 
 /**
  * @author Benjamin Fagin
