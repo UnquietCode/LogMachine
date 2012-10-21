@@ -10,6 +10,7 @@
 		<module>lm-via-slf4j</module>
 		<module>lm-via-logback</module>
 		<module>lm-via-jdk14</module>
+		<module>lm-web</module>
 	</modules>
 	<packaging>pom</packaging>
 
