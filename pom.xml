@@ -7,6 +7,7 @@
 	<version>0.1</version>
 	<modules>
 		<module>test-slf4j</module>
+		<module>lm-via-slf4j</module>
 	</modules>
 	<packaging>pom</packaging>
 
