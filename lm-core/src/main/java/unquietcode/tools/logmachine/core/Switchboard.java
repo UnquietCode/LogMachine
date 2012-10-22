@@ -8,18 +8,18 @@ import java.util.WeakHashMap;
  * @version 08-05-2012
  */
 public class Switchboard {
-	private static final Map<String, EventMetadata> metadataMap = new WeakHashMap<String, EventMetadata>();
-	public static final String MDC_KEY = "__EVENT_METADATA";
+	private static final Map<String, LogEvent> metadataMap = new WeakHashMap<String, LogEvent>();
+	public static final String MDC_KEY = "__LOG_MACHINE_EVENT";
 
 	private static long counter = 1;
 
-	public static String put(EventMetadata metadata) {
+	public static String put(LogEvent event) {
 		String key = Long.toString(counter++);
-		metadataMap.put(key, metadata);
+		metadataMap.put(key, event);
 		return key;
 	}
 
-	public static EventMetadata get(String lookupKey) {
+	public static LogEvent get(String lookupKey) {
 		return metadataMap.get(lookupKey);
 	}
 }

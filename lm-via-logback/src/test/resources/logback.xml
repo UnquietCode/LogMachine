@@ -1,9 +1,9 @@
 <configuration>
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder class="unquietcode.tools.logmachine.impl.logback.PlaintextLogbackEncoder"/>
+		<encoder class="unquietcode.tools.logmachine.impl.logback.LogbackEncoder"/>
 	</appender>
 
-	<appender name="SERVER" class="unquietcode.tools.logmachine.impl.logback.LogServerAppender">
+	<appender name="SERVER" class="unquietcode.tools.logmachine.out.web.LogServerAppender">
 		<retention>50</retention>
 		<port>9000</port>
 	</appender>

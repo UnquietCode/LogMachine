@@ -1,8 +1,9 @@
-package unquietcode.tools.logmachine.impl.logback;
+package unquietcode.tools.logmachine.out.web;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.UnsynchronizedAppenderBase;
-import unquietcode.tools.logmachine.LogServer;
+import unquietcode.tools.logmachine.core.Appender;
+import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.formats.Format;
+import unquietcode.tools.logmachine.core.formats.JSONFormat;
 
 import java.io.IOException;
 
@@ -10,13 +11,12 @@ import java.io.IOException;
  * @author Ben Fagin
  * @version 08-05-2012
  */
-public class LogServerAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
+public class LogServerAppender implements Appender {
+	private static final Format FORMATTER = new JSONFormat();
 	private LogServer server;
 	private int port = 9000;
 	private int retention = 45;
 	private boolean awaitConnection = false;
-	private AbstractLogbackEncoder encoder = new JSONLogbackEncoder();
-
 
 	public void setPort(int port) {
 		this.port = port;
@@ -36,14 +36,10 @@ public class LogServerAppender extends UnsynchronizedAppenderBase<ILoggingEvent>
 		server.setRetention(retention);
 		server.setAwaitConnection(awaitConnection);
 		server.start();
-
-		super.start();
 	}
 
 	@Override
 	public void stop() {
-		super.stop();
-
 		try {
 			server.stop();
 		} catch (IOException ex) {
@@ -54,8 +50,8 @@ public class LogServerAppender extends UnsynchronizedAppenderBase<ILoggingEvent>
 	}
 
 	@Override
-	protected void append(ILoggingEvent event) {
-		String message = encoder.doLayout(event);
+	public void append(LogEvent event) {
+		String message = FORMATTER.format(event);
 		server.newEvent(message);
 	}
 }

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.MDC;
 import unquietcode.tools.logmachine.core.*;
 
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * @author Ben Fagin
@@ -18,15 +18,16 @@ public class SLF4JHandler implements LogEventHandler<Logger> {
 		metadata.setGroups(e.getGroups());
 		metadata.setLocation(e.getLocation());
 		metadata.setData(e.getData());
-		MDC.put(Switchboard.MDC_KEY, Switchboard.put(metadata));
+		MDC.put(Switchboard.MDC_KEY, Switchboard.put(e));
 
 		Object[] data;
-		List<Object> replacements = e.getReplacements();
+		Object[] replacements = e.getReplacements();
+
 		if (e.getCause() != null) {
-			data = replacements.toArray(new Object[replacements.size()+1]);
+			data = Arrays.copyOf(replacements, replacements.length+1);
 			data[data.length-1] = e.getCause();
 		} else {
-			data = replacements.toArray(new Object[replacements.size()]);
+			data = replacements;
 		}
 
 		switch (e.getLevel()) {
@@ -46,7 +47,7 @@ public class SLF4JHandler implements LogEventHandler<Logger> {
 				log.trace(e.getMessage(), data);
 			break;
 			default:
-				throw new LogMachineException("Unknown log level: "+e.getLevel());
+				throw new LogMachineException("internal error");
 		}
 	}
 }

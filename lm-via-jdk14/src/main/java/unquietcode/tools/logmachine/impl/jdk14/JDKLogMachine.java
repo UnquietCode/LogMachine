@@ -40,6 +40,6 @@ public class JDKLogMachine extends LogMachine<Logger> {
 
 	@Override
 	public boolean isTrace() {
-		return log.isLoggable(Level.FINEST);
+		return log.isLoggable(Level.FINEST) || log.isLoggable(Level.FINER);
 	}
 }

@@ -5,4 +5,7 @@ package unquietcode.tools.logmachine.core;
  * @version 10-21-2012
  */
 public interface Appender {
+	void append(LogEvent event);
+	void start();
+	void stop();
 }

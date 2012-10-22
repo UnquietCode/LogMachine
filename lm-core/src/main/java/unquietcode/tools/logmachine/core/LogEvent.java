@@ -14,16 +14,65 @@ public class LogEvent {
 	private String location;
 	private Throwable cause;
 	private List<Enum> groups;
-	private List<Object> replacements;
+	private Object[] replacements;
 	private Map<String, String> data;
+	private long timestamp;
+	private String threadName;
+	private String loggerName;
+	private EventMetadata metadata;
 
+
+
+
+
+
+
+
+	// ILoggingEvent methods
+	private static final String NOT_IMPLEMENTED = "@_@ - You broke it.";
 
 	public Level getLevel() {
 		return level;
 	}
 
+	public EventMetadata getMetadata() {
+		return metadata;
+	}
+
+	public void setMetadata(EventMetadata metadata) {
+		this.metadata = metadata;
+	}
+
+	public String getLoggerName() {
+		return loggerName;
+	}
+
+	public void setLoggerName(String loggerName) {
+		this.loggerName = loggerName;
+	}
+
+	public String getThreadName() {
+		return threadName;
+	}
+
+	public void setThreadName(String threadName) {
+		this.threadName = threadName;
+	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	public void setLevel(Level level) {
 		this.level = level;
+	}
+
+	public Level level() {
+		return level;
 	}
 
 	public String getMessage() {
@@ -58,11 +107,11 @@ public class LogEvent {
 		this.groups = groups;
 	}
 
-	public List<Object> getReplacements() {
+	public Object[] getReplacements() {
 		return replacements;
 	}
 
-	public void setReplacements(List<Object> replacements) {
+	public void setReplacements(Object[] replacements) {
 		this.replacements = replacements;
 	}
 
