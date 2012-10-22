@@ -1,18 +1,26 @@
 <configuration>
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder class="unquietcode.tools.logmachine.impl.logback.LogbackEncoder"/>
+		<encoder>
+			<pattern>%msg%n</pattern>
+		</encoder>
 	</appender>
 
-	<appender name="SERVER" class="unquietcode.tools.logmachine.out.web.LogServerAppender">
-		<retention>50</retention>
-		<port>9000</port>
-	</appender>
+	<!--
+	%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+	-->
 
-	<logger name="unquietcode.tools.logmachine.TestLogbackLogServer" level="DEBUG">
-		<appender-ref ref="SERVER"/>
-	</logger>
+	<!--<appender name="SERVER" class="unquietcode.tools.logmachine.out.web.LogServerAppender">-->
+		<!--<retention>50</retention>-->
+		<!--<port>9000</port>-->
+	<!--</appender>-->
 
-	<root level="debug">
+	<!--<logger name="unquietcode.tools.logmachine.TestLogbackLogServer" level="DEBUG">-->
+		<!--<appender-ref ref="SERVER"/>-->
+	<!--</logger>-->
+
+	<logger name="unquietcode.tools.logmachine.impl.logback" level="DEBUG"/>
+
+	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

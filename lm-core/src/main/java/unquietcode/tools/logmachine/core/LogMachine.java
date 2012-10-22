@@ -32,13 +32,13 @@ public abstract class LogMachine<T> {
 		this.logger = logger;
 	}
 
-	void _log(LogEvent event) {
+	public void _log(LogEvent event) {
 		if (event.getGroups() == null) {
 			event.setGroups(new ArrayList<Enum>());
 		}
 
 		if (event.getReplacements() == null) {
-			event.setReplacements(new ArrayList<Object>());
+			event.setReplacements(new Object[]{});
 		}
 
 		handler.logEvent(logger, event);

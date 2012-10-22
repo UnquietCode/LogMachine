@@ -1,5 +1,6 @@
 package unquietcode.tools.logmachine.impl.slf4j;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unquietcode.tools.logmachine.core.ILogFactory;

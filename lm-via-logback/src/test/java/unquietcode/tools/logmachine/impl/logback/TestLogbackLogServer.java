@@ -1,5 +1,6 @@
 package unquietcode.tools.logmachine.impl.logback;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.impl.slf4j.LogFactory;
@@ -19,6 +20,7 @@ public class TestLogbackLogServer {
 		Blue, Red, Yellow, Green
 	}
 
+	@Ignore("FIXME")
 	@Test
 	public void serverTest() {
 
