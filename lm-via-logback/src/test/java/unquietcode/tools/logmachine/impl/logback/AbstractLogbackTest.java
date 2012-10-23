@@ -5,6 +5,7 @@ import ch.qos.logback.classic.LoggerContext;
 import org.junit.Before;
 import org.slf4j.impl.StaticLoggerBinder;
 import unquietcode.tools.logmachine.core.Level;
+import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.appenders.PersistentLogAppender;
 
 /**
@@ -25,6 +26,16 @@ public abstract class AbstractLogbackTest {
 		logger.addAppender(appender);
 		logger.setLevel(LogbackLevelTranslator.$.fromLogMachine(Level.TRACE));
 		appender.start();
+	}
+
+	protected final LogEvent getSingleEvent() {
+		if (eventAppender.getAllEvents().size() != 1) {
+			throw new RuntimeException("expected one event");
+		}
+
+		LogEvent event = eventAppender.getAllEvents().get(0);
+		eventAppender.getAllEvents().clear();
+		return event;
 	}
 
 	protected final PersistentLogAppender eventAppender = new PersistentLogAppender();

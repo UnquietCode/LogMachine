@@ -1,10 +1,10 @@
 package unquietcode.tools.logmachine.core;
 
-import org.slf4j.helpers.MessageFormatter;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Benjamin Fagin
@@ -124,10 +124,71 @@ public class LogEvent {
 		return data;
 	}
 
+	private static final Pattern REPLACEMENT_PATTERN = Pattern.compile("\\{\\s*(.*?)\\s*\\}");
+
 	public String getFormattedMessage() {
-		if (formattedMessage == null) {
-			formattedMessage = MessageFormatter.arrayFormat(message, replacements).getMessage();
+		if (formattedMessage != null) {
+			return formattedMessage;
 		}
-		return formattedMessage;
+
+		Matcher matcher = REPLACEMENT_PATTERN.matcher(message);
+		StringBuilder builder = new StringBuilder();
+		int i = 0;
+		int idx = 0;
+
+		while (matcher.find()) {
+			builder.append(message.substring(i, matcher.start()));
+
+			String match = matcher.group(1);
+			if (match.isEmpty()) {
+				builder.append(replacements[idx++]);
+			} else {
+				String s = processReplacement(match);
+
+				// if it's null, then stich it back together
+				if (s != null) {
+					builder.append(processReplacement(match));
+				} else {
+					builder.append("{").append(match).append("}");
+				}
+			}
+
+			i = matcher.end();
+		}
+
+		builder.append(message.substring(i, message.length()));
+		return formattedMessage = builder.toString();
+	}
+
+	private String processReplacement(String match) {
+		int length = match.length();
+
+		if (length == 1) {
+			return null;
+		}
+
+		char firstChar = match.charAt(0);
+
+		switch (firstChar) {
+			case '~': {
+				try {
+					int index = Integer.parseInt(match.substring(1, length));
+					if (index != 0) {
+						--index;
+					}
+					return groups.get(index).toString();
+				} catch (NumberFormatException ex) {
+					return null;
+				}
+			}
+
+			case ':': {
+				return data != null ? data.get(match.substring(1, length)) : null;
+			}
+
+			default: {
+				return null;
+			}
+		}
 	}
 }

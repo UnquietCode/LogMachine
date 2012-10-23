@@ -32,22 +32,37 @@ public class SLF4JHandler implements LogEventHandler<Logger> {
 
 		switch (e.getLevel()) {
 			case ERROR:
-				log.error(e.getMessage(), data);
+			if (log.isErrorEnabled()) {
+				log.error(e.getFormattedMessage());
+			}
 			break;
+
 			case WARN:
-				log.warn(e.getMessage(), data);
+			if (log.isWarnEnabled()) {
+				log.warn(e.getFormattedMessage());
+			}
 			break;
+
 			case INFO:
-				log.info(e.getMessage(), data);
+			if (log.isInfoEnabled()) {
+				log.info(e.getFormattedMessage());
+			}
 			break;
+
 			case DEBUG:
-				log.debug(e.getMessage(), data);
+			if (log.isDebugEnabled()) {
+				log.debug(e.getFormattedMessage());
+			}
 			break;
+
 			case TRACE:
-				log.trace(e.getMessage(), data);
+			if (log.isTraceEnabled()) {
+				log.trace(e.getFormattedMessage());
+			}
 			break;
+
 			default:
-				throw new LogMachineException("internal error");
+			throw new LogMachineException("internal error");
 		}
 	}
 }

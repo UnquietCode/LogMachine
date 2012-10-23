@@ -7,6 +7,9 @@ import unquietcode.tools.logmachine.core.LogMachine;
 
 import java.util.Arrays;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 
 public class GenericHelperImpl implements GenericHelper {
 	private final LogMachine lm;
@@ -76,9 +79,9 @@ public class GenericHelperImpl implements GenericHelper {
 
 	@Override
 	public void with(String key, String value) {
-		if (key == null) {
-			throw new IllegalArgumentException("Key cannot be null.");
-		}
+		checkNotNull(key, "key cannot be null");
+		key = key.trim();
+		checkArgument(!key.startsWith("~"), "~ is a reserved character at the start of an identifier");
 
 		event.getData().put(key, value);
 	}
