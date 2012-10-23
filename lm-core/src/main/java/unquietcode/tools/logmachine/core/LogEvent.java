@@ -145,7 +145,7 @@ public class LogEvent {
 			} else {
 				String s = processReplacement(match);
 
-				// if it's null, then stich it back together
+				// if it's null, then stitch it back together
 				if (s != null) {
 					builder.append(processReplacement(match));
 				} else {
@@ -176,14 +176,25 @@ public class LogEvent {
 					if (index != 0) {
 						--index;
 					}
-					return groups.get(index).toString();
+					return index >= groups.size() ? null : groups.get(index).toString();
 				} catch (NumberFormatException ex) {
 					return null;
 				}
 			}
 
 			case ':': {
-				return data != null ? data.get(match.substring(1, length)) : null;
+				if (data == null) {
+					return null;
+				}
+
+				match = match.substring(1, length);
+
+				if (!data.containsKey(match)) {
+					return null;
+				}
+
+				String value = data.get(match);
+				return value != null ? value : "null";
 			}
 
 			default: {

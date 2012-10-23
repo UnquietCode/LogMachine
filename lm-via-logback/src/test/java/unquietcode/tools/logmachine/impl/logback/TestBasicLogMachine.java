@@ -19,6 +19,9 @@ public class TestBasicLogMachine extends AbstractLogbackTest {
 	private static final Logger log = LoggerFactory.getLogger(TestBasicLogMachine.class);
 	private static final LogMachine lm = LogFactory.getLogMachine(log);
 
+	private enum TestGroups {
+		One, Two, Three
+	}
 
 	@Override
 	protected String getLoggerName() {
@@ -102,8 +105,31 @@ public class TestBasicLogMachine extends AbstractLogbackTest {
 	@Test
 	public void testMessageReplacement() {
 		lm.info("hello {}", "world");
-		LogEvent event = eventAppender.getAllEvents().get(0);
+		LogEvent event = getSingleEvent();
 		assertEquals("hello {}", event.getMessage());
 		assertEquals("hello world", event.getFormattedMessage());
+	}
+
+	@Test
+	public void testMessageReplacementWithNulls() {
+		lm.with("greeting", (String) null).info("{:greeting} {:notExists} {}", (Object) null);
+		LogEvent event = getSingleEvent();
+		assertEquals("null {:notExists} null", event.getFormattedMessage());
+	}
+
+	@Test
+	public void testMessageReplacementWithGroupNumber() {
+		lm.to(TestGroups.One, TestGroups.Two, TestGroups.Three)
+		  .info("\"{~0}  { ~1 } { ~2} {~3 }\"");
+
+		LogEvent event = getSingleEvent();
+		assertEquals("\"One  One Two Three\"", event.getFormattedMessage());
+	}
+
+	@Test
+	public void testMessageReplacementWithMissingGroupNumber() {
+		lm.to(TestGroups.One, TestGroups.Two).info("{~1} { ~3} {~2}");
+		LogEvent event = getSingleEvent();
+		assertEquals("One {~3} Two", event.getFormattedMessage());
 	}
 }
