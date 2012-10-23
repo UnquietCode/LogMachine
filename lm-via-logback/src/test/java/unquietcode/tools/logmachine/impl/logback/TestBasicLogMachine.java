@@ -19,6 +19,9 @@ public class TestBasicLogMachine extends AbstractLogbackTest {
 	private static final Logger log = LoggerFactory.getLogger(TestBasicLogMachine.class);
 	private static final LogMachine lm = LogFactory.getLogMachine(log);
 
+	enum Color {
+		Blue, Red, Yellow, Green
+	}
 
 	@Override
 	protected String getLoggerName() {
@@ -98,4 +101,18 @@ public class TestBasicLogMachine extends AbstractLogbackTest {
 		assertEquals("v", event.getData().get("k"));
 		assertEquals("testBuilder()", event.getLocation());
 	}
+
+	@Test
+	public void testMessageReplacement() {
+		lm.info("hello {}", "world");
+		LogEvent event = eventAppender.getAllEvents().get(0);
+		assertEquals("hello {}", event.getMessage());
+		assertEquals("hello world", event.getFormattedMessage());
+	}
+
+//	@Test
+//	public void tst() {
+//		lm.to(Color.Red, Color.Blue).info("hello");
+//		lm.to(Color.Red, Color.Yellow).from("basic()").info("greetings");
+//	}
 }

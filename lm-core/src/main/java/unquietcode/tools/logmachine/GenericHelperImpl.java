@@ -20,6 +20,7 @@ public class GenericHelperImpl implements GenericHelper {
 	public void debug(String message, Object...data) {
 		event.setLevel(Level.DEBUG);
 		event.setMessage(message);
+		event.setReplacements(data);
 	    lm._log(event);
     }
 
@@ -27,6 +28,7 @@ public class GenericHelperImpl implements GenericHelper {
 	public void warn(String message, Object...data) {
 		event.setLevel(Level.WARN);
 		event.setMessage(message);
+		event.setReplacements(data);
 		lm._log(event);
     }
 
@@ -34,6 +36,7 @@ public class GenericHelperImpl implements GenericHelper {
 	public void info(String message, Object...data) {
 		event.setLevel(Level.INFO);
 		event.setMessage(message);
+		event.setReplacements(data);
 		lm._log(event);
     }
 
@@ -41,6 +44,7 @@ public class GenericHelperImpl implements GenericHelper {
 	public void error(String message, Object...data) {
 		event.setLevel(Level.ERROR);
 		event.setMessage(message);
+		event.setReplacements(data);
 		lm._log(event);
 	}
 
@@ -48,6 +52,7 @@ public class GenericHelperImpl implements GenericHelper {
 	public void trace(String message, Object...data) {
 		event.setLevel(Level.TRACE);
 		event.setMessage(message);
+		event.setReplacements(data);
 		lm._log(event);
 	}
 

@@ -1,5 +1,7 @@
 package unquietcode.tools.logmachine.core;
 
+import org.slf4j.helpers.MessageFormatter;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +22,7 @@ public class LogEvent {
 	private String threadName;
 	private String loggerName;
 	private EventMetadata metadata;
-
+	private String formattedMessage;
 
 
 
@@ -123,8 +125,9 @@ public class LogEvent {
 	}
 
 	public String getFormattedMessage() {
-		// TODO formatted message output
-
-		return message;
+		if (formattedMessage == null) {
+			formattedMessage = MessageFormatter.arrayFormat(message, replacements).getMessage();
+		}
+		return formattedMessage;
 	}
 }
