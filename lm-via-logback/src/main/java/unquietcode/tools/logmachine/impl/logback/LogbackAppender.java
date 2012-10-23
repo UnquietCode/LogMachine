@@ -2,9 +2,9 @@ package unquietcode.tools.logmachine.impl.logback;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;
-import unquietcode.tools.logmachine.core.Appender;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.Switchboard;
+import unquietcode.tools.logmachine.core.appenders.Appender;
 
 /**
  * Implementation of {@link Appender} which is able to retrieve

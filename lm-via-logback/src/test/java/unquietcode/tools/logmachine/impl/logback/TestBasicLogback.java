@@ -15,7 +15,7 @@ public class TestBasicLogback {
 	private static final Logger log = LoggerFactory.getLogger(TestBasicLogback.class);
 
 	@Test
-	public void test() {
+	public void testAssertionStream() {
 		AssertionStream stream = new AssertionStream();
 		System.setOut(stream);
 		log.info("Hello world.");

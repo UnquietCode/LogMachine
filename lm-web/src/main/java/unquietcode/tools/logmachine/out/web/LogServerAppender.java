@@ -1,7 +1,7 @@
 package unquietcode.tools.logmachine.out.web;
 
-import unquietcode.tools.logmachine.core.Appender;
 import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.appenders.Appender;
 import unquietcode.tools.logmachine.core.formats.Format;
 import unquietcode.tools.logmachine.core.formats.JSONFormat;
 

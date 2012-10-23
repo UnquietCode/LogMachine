@@ -1,4 +1,6 @@
-package unquietcode.tools.logmachine.core;
+package unquietcode.tools.logmachine.core.appenders;
+
+import unquietcode.tools.logmachine.core.LogEvent;
 
 /**
  * @author Ben Fagin
