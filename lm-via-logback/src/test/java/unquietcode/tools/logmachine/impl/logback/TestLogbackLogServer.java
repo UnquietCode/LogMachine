@@ -3,7 +3,7 @@ package unquietcode.tools.logmachine.impl.logback;
 import org.junit.Ignore;
 import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogMachine;
-import unquietcode.tools.logmachine.impl.slf4j.LogFactory;
+import unquietcode.tools.logmachine.impl.slf4j.SLF4JLogMachine;
 
 import java.util.Random;
 
@@ -14,7 +14,7 @@ import java.util.Random;
  * @version 05-16-2012
  */
 public class TestLogbackLogServer {
-	private static LogMachine log = LogFactory.getLogMachine(TestLogbackLogServer.class);
+	private static LogMachine log = new SLF4JLogMachine(TestLogbackLogServer.class);
 
 	enum Color {
 		Blue, Red, Yellow, Green

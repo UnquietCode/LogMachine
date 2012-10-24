@@ -1,11 +1,11 @@
-package unquietcode.tools.logmachine.impl.logback;
+package unquietcode.tools.logmachine;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
-import unquietcode.tools.logmachine.impl.slf4j.LogFactory;
+import unquietcode.tools.logmachine.impl.simple.SimpleLogFactory;
+import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
+import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import static org.junit.Assert.assertTrue;
  * @author Ben Fagin
  * @version 10-22-2012
  */
-public class TestEventMetadata extends AbstractLogbackTest {
-	private static final Logger log = LoggerFactory.getLogger(TestEventMetadata.class);
-	private static final LogMachine lm = LogFactory.getLogMachine(log);
+public class TestEventMetadata extends AbstractLoggerTest {
+	private static final SimpleLogger log = SimpleLogger.getLogger(TestEventMetadata.class);
+	private static final LogMachine lm = SimpleLogFactory.getLogMachine(log);
 
 	enum PrimaryColor {
 		Blue, Red, Yellow,

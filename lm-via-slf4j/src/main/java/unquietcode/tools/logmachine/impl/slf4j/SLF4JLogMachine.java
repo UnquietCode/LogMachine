@@ -1,6 +1,7 @@
 package unquietcode.tools.logmachine.impl.slf4j;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unquietcode.tools.logmachine.core.LogMachine;
 
 /**
@@ -8,36 +9,17 @@ import unquietcode.tools.logmachine.core.LogMachine;
  * @version 08-05-2012
  */
 public class SLF4JLogMachine extends LogMachine<Logger> {
-	private final Logger log;
-
+	private static final SLF4JHandler HANDLER = new SLF4JHandler();
 
 	public SLF4JLogMachine(Logger log) {
-		super(log, new SLF4JHandler());
-		this.log = log;
+		super(log, HANDLER);
 	}
 
-	@Override
-	public boolean isError() {
-		return log.isErrorEnabled();
+	public SLF4JLogMachine(Class clazz) {
+		this(LoggerFactory.getLogger(clazz));
 	}
 
-	@Override
-	public boolean isWarn() {
-		return log.isWarnEnabled();
-	}
-
-	@Override
-	public boolean isInfo() {
-		return log.isInfoEnabled();
-	}
-
-	@Override
-	public boolean isDebug() {
-		return log.isDebugEnabled();
-	}
-
-	@Override
-	public boolean isTrace() {
-		return log.isTraceEnabled();
+	public SLF4JLogMachine(String name) {
+		this(LoggerFactory.getLogger(name));
 	}
 }

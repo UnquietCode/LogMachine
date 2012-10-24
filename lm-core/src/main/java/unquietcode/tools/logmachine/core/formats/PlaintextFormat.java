@@ -23,24 +23,26 @@ public class PlaintextFormat implements Format {
 		EventMetadata metadata = event.getMetadata();
 		boolean extraDivider = false;
 
-		if (metadata.getGroups() != null && !metadata.getGroups().isEmpty()) {
-			boolean first = true;
-			sb.append("[");
+		if (metadata != null) {
+			if (metadata.getGroups() != null && !metadata.getGroups().isEmpty()) {
+				boolean first = true;
+				sb.append("[");
 
-			for (Enum group : metadata.getGroups()) {
-				if (!first) { sb.append(" | ");	}
-				else { first = false; }
+				for (Enum group : metadata.getGroups()) {
+					if (!first) { sb.append(" | ");	}
+					else { first = false; }
 
-				sb.append(group);
+					sb.append(group);
+				}
+
+				sb.append("] ");
+				extraDivider = true;
 			}
 
-			sb.append("] ");
-			extraDivider = true;
-		}
-
-		if (metadata.getLocation() != null) {
-			sb.append("{@").append(metadata.getLocation()).append("} ");
-			extraDivider = true;
+			if (metadata.getLocation() != null) {
+				sb.append("{@").append(metadata.getLocation()).append("} ");
+				extraDivider = true;
+			}
 		}
 
 		if (extraDivider) {

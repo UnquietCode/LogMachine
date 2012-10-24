@@ -73,10 +73,6 @@ public class LogEvent {
 		this.level = level;
 	}
 
-	public Level level() {
-		return level;
-	}
-
 	public String getMessage() {
 		return message;
 	}

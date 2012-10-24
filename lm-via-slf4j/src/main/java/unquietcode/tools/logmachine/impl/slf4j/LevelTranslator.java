@@ -6,7 +6,9 @@ import unquietcode.tools.logmachine.core.Level;
 /**
  * @author Ben Fagin
  * @version 10-21-2012
+ * @deprecated will be removed if unused
  */
+@Deprecated()
 public class LevelTranslator {
 
 	public static Level getLevelFromSLF4JLogger(Logger log) {

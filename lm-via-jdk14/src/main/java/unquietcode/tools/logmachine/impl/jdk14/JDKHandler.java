@@ -1,7 +1,7 @@
 package unquietcode.tools.logmachine.impl.jdk14;
 
 import unquietcode.tools.logmachine.core.LogEvent;
-import unquietcode.tools.logmachine.core.LogEventHandler;
+import unquietcode.tools.logmachine.core.LogHandler;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,7 +10,32 @@ import java.util.logging.Logger;
  * @author Ben Fagin
  * @version 08-05-2012
  */
-public class JDKHandler implements LogEventHandler<Logger> {
+public class JDKHandler implements LogHandler<Logger> {
+
+	@Override
+	public boolean isError(Logger log) {
+		return log.isLoggable(Level.SEVERE);
+	}
+
+	@Override
+	public boolean isWarn(Logger log) {
+		return log.isLoggable(Level.WARNING);
+	}
+
+	@Override
+	public boolean isInfo(Logger log) {
+		return log.isLoggable(Level.INFO);
+	}
+
+	@Override
+	public boolean isDebug(Logger log) {
+		return log.isLoggable(Level.FINE);
+	}
+
+	@Override
+	public boolean isTrace(Logger log) {
+		return log.isLoggable(Level.FINEST) || log.isLoggable(Level.FINER);
+	}
 
 	@Override
 	public void logEvent(Logger logger, LogEvent e) {
@@ -21,6 +46,9 @@ public class JDKHandler implements LogEventHandler<Logger> {
 		}
 	}
 
+//	TODO abstract or verify this method, then this handler should be good to go
+// TODO move some of the tests to the lm-core package from logback
+	
 	private static String createMessage(LogEvent event) {
 		StringBuilder sb = new StringBuilder();
 

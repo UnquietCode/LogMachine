@@ -10,7 +10,7 @@ import java.util.Arrays;
  * @author Ben Fagin
  * @version 08-05-2012
  */
-public class SLF4JHandler implements LogEventHandler<Logger> {
+public class SLF4JHandler implements LogHandler<Logger> {
 
 	@Override
 	public void logEvent(Logger log, LogEvent e) {
@@ -64,5 +64,30 @@ public class SLF4JHandler implements LogEventHandler<Logger> {
 			default:
 			throw new LogMachineException("internal error");
 		}
+	}
+
+	@Override
+	public boolean isError(Logger log) {
+		return log.isErrorEnabled();
+	}
+
+	@Override
+	public boolean isWarn(Logger log) {
+		return log.isWarnEnabled();
+	}
+
+	@Override
+	public boolean isInfo(Logger log) {
+		return log.isInfoEnabled();
+	}
+
+	@Override
+	public boolean isDebug(Logger log) {
+		return log.isDebugEnabled();
+	}
+
+	@Override
+	public boolean isTrace(Logger log) {
+		return log.isTraceEnabled();
 	}
 }

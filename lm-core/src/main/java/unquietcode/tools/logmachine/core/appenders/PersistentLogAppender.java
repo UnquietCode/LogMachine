@@ -38,7 +38,6 @@ public class PersistentLogAppender implements Appender {
 	@Override
 	public void start() {
 		enabled = true;
-		// nothing
 	}
 
 	@Override

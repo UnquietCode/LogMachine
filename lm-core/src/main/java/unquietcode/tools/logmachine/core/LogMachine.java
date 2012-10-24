@@ -11,25 +11,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * @author Benjamin Fagin
  * @version 10-21-2012
  */
 public abstract class LogMachine<T> {
-	private final LogEventHandler<T> handler;
+	private final LogHandler<T> handler;
 	private final T logger;
 
-	protected LogMachine(T logger, LogEventHandler<T> handler) {
-		if (handler == null) {
-			throw new IllegalArgumentException("Handler cannot be null.");
-		}
-
-		if (logger == null) {
-			throw new IllegalArgumentException("Logger cannot be null.");
-		}
-
-		this.handler = handler;
-		this.logger = logger;
+	protected LogMachine(T logger, LogHandler<T> handler) {
+		this.handler = checkNotNull(handler, "Handler cannot be null.");
+		this.logger = checkNotNull(logger, "Logger cannot be null.");
 	}
 
 	public void _log(LogEvent event) {
@@ -55,29 +49,43 @@ public abstract class LogMachine<T> {
 
 	//==o==o==o==o==o==o==| log level methods |==o==o==o==o==o==o==//
 
-	public abstract boolean isError();
+	public boolean isError() {
+		return handler.isError(logger);
+	}
 	public boolean isErrorEnabled() {
-		return isError();
+		return handler.isError(logger);
 	}
 
-	public abstract boolean isWarn();
+	public boolean isWarn() {
+		return handler.isWarn(logger);
+	}
+
 	public boolean isWarnEnabled() {
-		return isWarn();
+		return handler.isWarn(logger);
 	}
 
-	public abstract boolean isInfo();
+	public boolean isInfo() {
+		return handler.isInfo(logger);
+	}
+
 	public boolean isInfoEnabled() {
-		return isInfo();
+		return handler.isInfo(logger);
 	}
 
-	public abstract boolean isDebug();
+	public boolean isDebug() {
+		return handler.isDebug(logger);
+	}
+
 	public boolean isDebugEnabled() {
-		return isDebug();
+		return handler.isDebug(logger);
 	}
 
-	public abstract boolean isTrace();
+	public boolean isTrace() {
+		return handler.isTrace(logger);
+	}
+
 	public boolean isTraceEnabled() {
-		return isTrace();
+		return handler.isTrace(logger);
 	}
 
 

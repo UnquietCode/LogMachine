@@ -11,6 +11,7 @@
 		<module>lm-via-logback</module>
 		<module>lm-via-jdk14</module>
 		<module>lm-web</module>
+		<module>lm-core-test</module>
 	</modules>
 	<packaging>pom</packaging>
 
