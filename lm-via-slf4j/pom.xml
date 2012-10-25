@@ -37,7 +37,13 @@
 			<version>${slf4j.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>unquietcode.tools.logmachine</groupId>
+			<artifactId>lm-core</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

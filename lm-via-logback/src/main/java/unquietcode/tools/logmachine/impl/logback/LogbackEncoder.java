@@ -9,6 +9,8 @@ import unquietcode.tools.logmachine.core.formats.PlaintextFormat;
 
 import java.io.IOException;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Logback encoder which can process events through the MDC. This can be
  * used to plug enhanced message formatting to existing logback appenders
@@ -21,10 +23,7 @@ public class LogbackEncoder extends EncoderBase<ILoggingEvent> {
 	private Format format = new PlaintextFormat();
 
 	void setFormat(Format format) {
-		if (format == null) {
-			throw new NullPointerException("Format cannot be null.");
-		}
-		this.format = format;
+		this.format = checkNotNull(format, "Format cannot be null.");
 	}
 
 	@Override
@@ -33,8 +32,9 @@ public class LogbackEncoder extends EncoderBase<ILoggingEvent> {
 		LogEvent _event = Switchboard.get(lookupKey);
 		String data = _event != null ? format.format(_event) : null;
 
+		// (formatter could have still returned null)
 		if (data == null) {
-			return ;
+			return;
 		}
 
 		outputStream.write(data.getBytes());

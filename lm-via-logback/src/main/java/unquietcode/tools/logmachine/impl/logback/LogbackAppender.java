@@ -15,7 +15,7 @@ import unquietcode.tools.logmachine.core.appenders.Appender;
  * @author Ben Fagin
  * @version 10-21-2012
  */
-public class LogbackAppenderAdaptor extends UnsynchronizedAppenderBase<ILoggingEvent> {
+public class LogbackAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 	private Appender appender;
 
 	public void setAppender(Appender appender) {
