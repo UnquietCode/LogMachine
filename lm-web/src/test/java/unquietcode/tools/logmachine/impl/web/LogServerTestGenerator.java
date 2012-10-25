@@ -1,9 +1,9 @@
-package unquietcode.tools.logmachine.impl.logback;
+package unquietcode.tools.logmachine.impl.web;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.BeforeClass;
 import unquietcode.tools.logmachine.core.LogMachine;
-import unquietcode.tools.logmachine.impl.slf4j.SLF4JLogMachine;
+import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
+import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
 
 import java.util.Random;
 
@@ -13,15 +13,23 @@ import java.util.Random;
  * @author Ben Fagin
  * @version 05-16-2012
  */
-public class TestLogbackLogServer {
-	private static LogMachine log = new SLF4JLogMachine(TestLogbackLogServer.class);
+public class LogServerTestGenerator {
+	private static LogMachine log;
 
 	enum Color {
 		Blue, Red, Yellow, Green
 	}
 
-	@Ignore("FIXME")
-	@Test
+
+	@BeforeClass
+	public static void setup() {
+		SimpleLogger logger = SimpleLogger.getLogger(LogServerTestGenerator.class);
+		logger.addAppender(new LogServerAppender());
+		log = new SimpleLogMachine(logger);
+	}
+
+
+	//@Test // don't run this normally
 	public void serverTest() {
 
 		for (int i=0; i < 150; ++i) {

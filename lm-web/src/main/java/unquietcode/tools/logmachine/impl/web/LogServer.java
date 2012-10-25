@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine.out.web;
+package unquietcode.tools.logmachine.impl.web;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;

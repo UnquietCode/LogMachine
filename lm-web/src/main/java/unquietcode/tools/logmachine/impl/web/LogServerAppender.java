@@ -1,4 +1,4 @@
-package unquietcode.tools.logmachine.out.web;
+package unquietcode.tools.logmachine.impl.web;
 
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.appenders.Appender;
