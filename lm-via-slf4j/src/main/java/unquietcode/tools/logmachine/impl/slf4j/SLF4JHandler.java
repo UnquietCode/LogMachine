@@ -67,6 +67,16 @@ public class SLF4JHandler implements LogHandler<Logger> {
 	}
 
 	@Override
+	public String getLoggerName(Logger logger) {
+		return logger.getName();
+	}
+
+	@Override
+	public Level getLevel(Logger logger) {
+		return LevelTranslator.getLevelFromSLF4JLogger(logger);
+	}
+
+	@Override
 	public boolean isError(Logger log) {
 		return log.isErrorEnabled();
 	}

@@ -21,6 +21,16 @@ public class SimpleLogHandler implements LogHandler<SimpleLogger> {
 	}
 
 	@Override
+	public String getLoggerName(SimpleLogger logger) {
+		return logger.getName();
+	}
+
+	@Override
+	public Level getLevel(SimpleLogger logger) {
+		return logger.getLevel();
+	}
+
+	@Override
 	public boolean isError(SimpleLogger logger) {
 		return logger.getLevel().isGreaterOrEqual(Level.ERROR);
 	}

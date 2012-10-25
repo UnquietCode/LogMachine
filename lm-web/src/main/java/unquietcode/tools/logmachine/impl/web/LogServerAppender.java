@@ -51,7 +51,11 @@ public class LogServerAppender implements Appender {
 
 	@Override
 	public void append(LogEvent event) {
-		String message = FORMATTER.format(event);
-		server.newEvent(message);
+		LogServer _server = server;
+
+		if (_server != null) {
+			String message = FORMATTER.format(event);
+			_server.newEvent(message);
+		}
 	}
 }

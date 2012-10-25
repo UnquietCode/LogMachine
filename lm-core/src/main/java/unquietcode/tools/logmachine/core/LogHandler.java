@@ -11,6 +11,8 @@ package unquietcode.tools.logmachine.core;
  */
 public interface LogHandler<T> {
 	void logEvent(T logger, LogEvent e);
+	Level getLevel(T logger);
+	String getLoggerName(T logger);
 
 	boolean isError(T logger);
 	boolean isWarn(T logger);

@@ -22,7 +22,6 @@ public class JSONFormat implements Format {
 		  .append(",\"class\": \"").append(event.getLoggerName()).append("\"");
 
 		appendNotNull("message", sb, event.getFormattedMessage());
-		appendNotNull("location", sb, event.getMetadata().getLocation());
 		appendNotNull("thread", sb, event.getThreadName());
 		appendNotNull("level", sb, event.getLevel().toString());
 
@@ -58,44 +57,46 @@ public class JSONFormat implements Format {
 		}
 
 		EventMetadata metadata = event.getMetadata();
+		if (metadata != null) {
+			appendNotNull("location", sb, metadata.getLocation());
 
-		if (metadata.getGroups() != null && !metadata.getGroups().isEmpty()) {
-			sb.append(", \"groups\": [");
-			boolean first = true;
+			if (metadata.getGroups() != null && !metadata.getGroups().isEmpty()) {
+				sb.append(", \"groups\": [");
+				boolean first = true;
 
-			for (Enum group : metadata.getGroups()) {
-				if (!first) { sb.append(", "); }
-				else { first = false; }
+				for (Enum group : metadata.getGroups()) {
+					if (!first) { sb.append(", "); }
+					else { first = false; }
 
-				sb.append("\"").append(group.getDeclaringClass().getName()).append(".").append(group).append("\"");
-			}
-
-			sb.append("]");
-		}
-
-		if (metadata.getData() != null) {
-			// merge MDC with event data, choosing MDC first
-			Map<String, String> data = new HashMap<String, String>();
-			data.putAll(metadata.getData());
-			//data.putAll(event.getMDCPropertyMap());
-			data.remove(Switchboard.MDC_KEY);
-
-			sb.append(", \"data\": {");
-			boolean first = true;
-
-			for (Map.Entry<String, String> datum : data.entrySet()) {
-				if (!first) {
-					sb.append(", ");
-				} else {
-					first = false;
+					sb.append("\"").append(group.getDeclaringClass().getName()).append(".").append(group).append("\"");
 				}
 
-				sb.append("\"").append(datum.getKey()).append("\": \"").append(datum.getValue()).append("\"");
+				sb.append("]");
 			}
 
-			sb.append("}");
-		}
+			if (metadata.getData() != null) {
+				// merge MDC with event data, choosing MDC first
+				Map<String, String> data = new HashMap<String, String>();
+				data.putAll(metadata.getData());
+				//data.putAll(event.getMDCPropertyMap());
+				data.remove(Switchboard.MDC_KEY);
 
+				sb.append(", \"data\": {");
+				boolean first = true;
+
+				for (Map.Entry<String, String> datum : data.entrySet()) {
+					if (!first) {
+						sb.append(", ");
+					} else {
+						first = false;
+					}
+
+					sb.append("\"").append(datum.getKey()).append("\": \"").append(datum.getValue()).append("\"");
+				}
+
+				sb.append("}");
+			}
+		}
 
 		return sb.append("}").toString();
 	}

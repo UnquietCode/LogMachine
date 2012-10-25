@@ -14,6 +14,7 @@ public class SpecificHelperImpl implements SpecificHelper {
 
 	public SpecificHelperImpl(LogMachine lm, Level level) {
 		this.lm = lm;
+		event.setLoggerName(lm.getLoggerName());
 		event.setLevel(level);
 	}
 
@@ -21,8 +22,7 @@ public class SpecificHelperImpl implements SpecificHelper {
 	@Override
 	public void send(String message, Object... data) {
 		event.setMessage(message);
-
-		// TODO data!
+		event.setReplacements(data);
 
 		lm._log(event);
 	}

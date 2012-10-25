@@ -17,6 +17,7 @@ public class GenericHelperImpl implements GenericHelper {
 
 	public GenericHelperImpl(LogMachine lm) {
 		this.lm = lm;
+		event.setLoggerName(lm.getLoggerName());
 	}
 
 	@Override

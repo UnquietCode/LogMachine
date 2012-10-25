@@ -88,6 +88,11 @@ public abstract class LogMachine<T> {
 		return handler.isTrace(logger);
 	}
 
+	public String getLoggerName() {
+		return handler.getLoggerName(logger);
+	}
+
+
 
 	//==o==o==o==o==o==o==| logging methods |==o==o==o==o==o==o==//
 

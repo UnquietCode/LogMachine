@@ -15,6 +15,27 @@ import java.util.logging.Logger;
 public class JDKHandler implements LogHandler<Logger> {
 
 	@Override
+	public void logEvent(Logger logger, LogEvent e) {
+		Level level = JDKLevelTranslator.$.fromLogMachine(e.getLevel());
+		LogRecord lr = new LogRecord(level, e.getFormattedMessage());
+		lr.setThrown(e.getCause());
+		lr.setParameters(e.getReplacements());
+
+		Switchboard.put(e, "_"+lr.getSequenceNumber());
+		logger.log(lr);
+	}
+
+	@Override
+	public String getLoggerName(Logger logger) {
+		return logger.getName();
+	}
+
+	@Override
+	public unquietcode.tools.logmachine.core.Level getLevel(Logger logger) {
+		return JDKLevelTranslator.$.toLogMachine(logger.getLevel());
+	}
+
+	@Override
 	public boolean isError(Logger log) {
 		return log.isLoggable(Level.SEVERE);
 	}
@@ -37,16 +58,5 @@ public class JDKHandler implements LogHandler<Logger> {
 	@Override
 	public boolean isTrace(Logger log) {
 		return log.isLoggable(Level.FINEST) || log.isLoggable(Level.FINER);
-	}
-
-	@Override
-	public void logEvent(Logger logger, LogEvent e) {
-		Level level = JDKLevelTranslator.$.fromLogMachine(e.getLevel());
-		LogRecord lr = new LogRecord(level, e.getFormattedMessage());
-		lr.setThrown(e.getCause());
-		lr.setParameters(e.getReplacements());
-
-		Switchboard.put(e, "_"+lr.getSequenceNumber());
-		logger.log(lr);
 	}
 }

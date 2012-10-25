@@ -3,6 +3,7 @@ package unquietcode.tools.logmachine.impl.simple;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.appenders.Appender;
 
+import java.lang.ref.WeakReference;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -19,7 +20,7 @@ public class SimpleLogger {
 
 	private Level level;
 	private final List<Appender> appenders = new ArrayList<Appender>();
-
+	private WeakReference<String> name;
 
 	private SimpleLogger() { }
 
@@ -30,6 +31,7 @@ public class SimpleLogger {
 			SimpleLogger logger = new SimpleLogger();
 			logger.level = Level.INFO;
 			logger.appenders.add(DEFAULT_APPENDER);
+			logger.name = new WeakReference<String>(name);
 
 			LOGGERS.put(name, logger);
 			return logger;
@@ -38,6 +40,11 @@ public class SimpleLogger {
 
 	public static SimpleLogger getLogger(Class clazz) {
 		return getLogger(checkNotNull(clazz).getName());
+	}
+
+	public String getName() {
+		String s = name.get();
+		return s == null ? "" : s;
 	}
 
 	public Level getLevel() {

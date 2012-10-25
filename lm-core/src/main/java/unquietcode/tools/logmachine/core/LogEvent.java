@@ -18,8 +18,8 @@ public class LogEvent {
 	private List<Enum> groups;
 	private Object[] replacements;
 	private Map<String, String> data;
-	private long timestamp;
-	private String threadName;
+	private long timestamp = System.currentTimeMillis();
+	private String threadName = Thread.currentThread().getName();
 	private String loggerName;
 	private EventMetadata metadata;
 	private String formattedMessage;
@@ -57,16 +57,8 @@ public class LogEvent {
 		return threadName;
 	}
 
-	public void setThreadName(String threadName) {
-		this.threadName = threadName;
-	}
-
 	public long getTimestamp() {
 		return timestamp;
-	}
-
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
 	}
 
 	public void setLevel(Level level) {
