@@ -19,7 +19,24 @@ public class Switchboard {
 		return key;
 	}
 
+	public static void put(LogEvent event, String key) {
+		synchronized (Switchboard.class) {
+			if (metadataMap.containsKey(key)) {
+				throw new LogMachineException("key already exists");
+			}
+		}
+		metadataMap.put(key, event);
+	}
+
 	public static LogEvent get(String lookupKey) {
 		return metadataMap.get(lookupKey);
+	}
+
+	public static class Token {
+		public final String key;
+
+		public Token(String key) {
+			this.key = key;
+		}
 	}
 }

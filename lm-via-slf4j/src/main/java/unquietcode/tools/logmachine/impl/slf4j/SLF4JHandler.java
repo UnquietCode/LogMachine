@@ -33,31 +33,31 @@ public class SLF4JHandler implements LogHandler<Logger> {
 		switch (e.getLevel()) {
 			case ERROR:
 			if (log.isErrorEnabled()) {
-				log.error(e.getFormattedMessage());
+				log.error(e.getFormattedMessage(), data);
 			}
 			break;
 
 			case WARN:
 			if (log.isWarnEnabled()) {
-				log.warn(e.getFormattedMessage());
+				log.warn(e.getFormattedMessage(), data);
 			}
 			break;
 
 			case INFO:
 			if (log.isInfoEnabled()) {
-				log.info(e.getFormattedMessage());
+				log.info(e.getFormattedMessage(), data);
 			}
 			break;
 
 			case DEBUG:
 			if (log.isDebugEnabled()) {
-				log.debug(e.getFormattedMessage());
+				log.debug(e.getFormattedMessage(), data);
 			}
 			break;
 
 			case TRACE:
 			if (log.isTraceEnabled()) {
-				log.trace(e.getFormattedMessage());
+				log.trace(e.getFormattedMessage(), data);
 			}
 			break;
 

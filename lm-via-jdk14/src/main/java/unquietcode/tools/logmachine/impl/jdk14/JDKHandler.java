@@ -2,8 +2,10 @@ package unquietcode.tools.logmachine.impl.jdk14;
 
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogHandler;
+import unquietcode.tools.logmachine.core.Switchboard;
 
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
@@ -39,62 +41,12 @@ public class JDKHandler implements LogHandler<Logger> {
 
 	@Override
 	public void logEvent(Logger logger, LogEvent e) {
-		if (e.getCause() == null) {
-			logger.log(convertLevel(e.getLevel()), createMessage(e));
-		} else {
-			logger.log(convertLevel(e.getLevel()), createMessage(e), e.getCause());
-		}
-	}
+		Level level = JDKLevelTranslator.$.fromLogMachine(e.getLevel());
+		LogRecord lr = new LogRecord(level, e.getFormattedMessage());
+		lr.setThrown(e.getCause());
+		lr.setParameters(e.getReplacements());
 
-//	TODO abstract or verify this method, then this handler should be good to go
-// TODO move some of the tests to the lm-core package from logback
-	
-	private static String createMessage(LogEvent event) {
-		StringBuilder sb = new StringBuilder();
-
-		// print groups
-		if (!event.getGroups().isEmpty()) {
-			boolean first = true;
-			sb.append("[");
-
-			for (Enum group : event.getGroups()) {
-				if (!first) {
-					sb.append(" | ");
-				} else {
-					first = false;
-				}
-
-				sb.append(group);
-			}
-
-			sb.append("] ");
-		}
-
-		// print source
-		if (event.getLocation() != null) {
-			sb.append("(").append(event.getLevel()).append(") ");
-		}
-
-		// print data
-		sb.append(event.getFormattedMessage());
-
-		return sb.toString();
-	}
-
-	private static Level convertLevel(unquietcode.tools.logmachine.core.Level level) {
-		switch (level) {
-			case ERROR:
-				return Level.SEVERE;
-			case WARN:
-				return Level.WARNING;
-			case INFO:
-				return Level.INFO;
-			case DEBUG:
-				return Level.FINE;
-			case TRACE:
-				return Level.FINEST;
-			default:
-				throw new RuntimeException("Unknown logging level: "+level.toString());
-		}
+		Switchboard.put(e, "_"+lr.getSequenceNumber());
+		logger.log(lr);
 	}
 }
