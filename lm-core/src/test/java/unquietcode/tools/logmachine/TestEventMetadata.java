@@ -3,8 +3,7 @@ package unquietcode.tools.logmachine;
 import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
-import unquietcode.tools.logmachine.impl.simple.SimpleLogFactory;
-import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
+import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
 import java.util.List;
@@ -17,8 +16,6 @@ import static org.junit.Assert.assertTrue;
  * @version 10-22-2012
  */
 public class TestEventMetadata extends AbstractLoggerTest {
-	private static final SimpleLogger log = SimpleLogger.getLogger(TestEventMetadata.class);
-	private static final LogMachine lm = SimpleLogFactory.getLogMachine(log);
 
 	enum PrimaryColor {
 		Blue, Red, Yellow,
@@ -33,6 +30,10 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		return TestEventMetadata.class.getName();
 	}
 
+	@Override
+	public LogMachine getLogMachine() {
+		return new SimpleLogMachine(TestEventMetadata.class);
+	}
 
 	@Test
 	public void testEventCategories() {

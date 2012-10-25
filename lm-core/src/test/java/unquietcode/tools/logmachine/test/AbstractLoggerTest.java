@@ -1,9 +1,11 @@
 package unquietcode.tools.logmachine.test;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.appenders.PersistentLogAppender;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
 
@@ -12,25 +14,47 @@ import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
  * @version 10-24-2012
  */
 public abstract class AbstractLoggerTest {
+	protected final LogMachine lm;
+	private boolean initialized = false;
+
+	protected AbstractLoggerTest() {
+		lm = getLogMachine();
+	}
 
 	@Before
 	public void _setup() {
+		if (initialized) { return; }
+
 		SimpleLogger logger = SimpleLogger.getLogger(getLoggerName());
 		logger.addAppender(eventAppender);
 		logger.setLevel(Level.TRACE);
 		eventAppender.start();
+
+		initialized = true;
+	}
+
+	@After
+	public void cleanup() {
+		getEventAppender().getAllEvents().clear();
 	}
 
 	protected final LogEvent getSingleEvent() {
-		Assert.assertEquals("expected one event", 1, eventAppender.getAllEvents().size());
-		LogEvent event = eventAppender.getAllEvents().get(0);
-		eventAppender.getAllEvents().clear();
+		PersistentLogAppender appender = getEventAppender();
+		Assert.assertEquals("expected one event", 1, appender.getAllEvents().size());
+		LogEvent event = appender.getAllEvents().get(0);
+		appender.getAllEvents().clear();
 		return event;
 	}
 
-	protected final PersistentLogAppender eventAppender = new PersistentLogAppender();
+	private final PersistentLogAppender eventAppender = new PersistentLogAppender();
+
+	public PersistentLogAppender getEventAppender() {
+		return eventAppender;
+	}
 
 	protected abstract String getLoggerName();
+
+	public abstract LogMachine getLogMachine();
 
 	/**
 	 * Set the desired test level. defaults to {@link unquietcode.tools.logmachine.core.Level#DEBUG}

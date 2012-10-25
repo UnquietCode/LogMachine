@@ -4,8 +4,7 @@ import org.junit.Test;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
-import unquietcode.tools.logmachine.impl.simple.SimpleLogFactory;
-import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
+import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
 import java.util.HashMap;
@@ -16,8 +15,9 @@ import static org.junit.Assert.assertTrue;
 
 
 public class TestBasicLogMachine extends AbstractLoggerTest {
-	private static final SimpleLogger log = SimpleLogger.getLogger(TestBasicLogMachine.class);
-	private static final LogMachine lm = SimpleLogFactory.getLogMachine(log);
+
+	// it's not the same logger factory, so it's not going to the right place.
+	// could change them to getters and setters, but then it starts to become ridic.
 
 	private enum TestGroups {
 		One, Two, Three
@@ -29,6 +29,11 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	}
 
 	@Override
+	public LogMachine getLogMachine() {
+		return new SimpleLogMachine(TestBasicLogMachine.class);
+	}
+
+	@Override
 	protected Level getLevel() {
 		return Level.TRACE;
 	}
@@ -36,9 +41,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test
 	public void testBasicEvent() {
 		lm.info("Hello world.");
-		assertEquals("expected one event", 1, eventAppender.getAllEvents().size());
-
-		LogEvent event = eventAppender.getAllEvents().get(0);
+		LogEvent event = getSingleEvent();
 		assertEquals("expected same log level", Level.INFO, event.getLevel());
 		assertEquals("expected same log level", "Hello world.", event.getMessage());
 	}
@@ -59,7 +62,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		Map<Level, Boolean> seenLevels = new HashMap<Level, Boolean>();
 		Map<String, Integer> seenStrings = new HashMap<String, Integer>();
 
-		for (LogEvent event : eventAppender.getAllEvents()) {
+		for (LogEvent event : getEventAppender().getAllEvents()) {
 			seenLevels.put(event.getLevel(), true);
 			String message = event.getMessage();
 
@@ -80,8 +83,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	public void testWithInlineThrowable() {
 		ExceptionalException ex = new ExceptionalException("fail");
 		lm.warn("Oh %^&%!", ex);
-		assertEquals("expected one event", 1, eventAppender.getAllEvents().size());
-		LogEvent event = eventAppender.getAllEvents().get(0);
+		LogEvent event = getSingleEvent();
 
 		assertEquals("expected same log level", Level.WARN, event.getLevel());
 		assertEquals("expected same log level", "Oh %^&%!", event.getMessage());
@@ -92,8 +94,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	public void testBuilder() {
 		ExceptionalException ex = new ExceptionalException("fail");
 		lm.because(ex).from("testBuilder()").with("k", "v").debug("Oh %^&%!");
-		assertEquals("expected one event", 1, eventAppender.getAllEvents().size());
-		LogEvent event = eventAppender.getAllEvents().get(0);
+		LogEvent event = getSingleEvent();
 
 		assertEquals("expected same log level", Level.DEBUG, event.getLevel());
 		assertEquals("expected same log level", "Oh %^&%!", event.getMessage());

@@ -3,7 +3,7 @@ package unquietcode.tools.logmachine.impl.logback;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import unquietcode.tools.logmachine.TestBasicLogMachine;
+import unquietcode.tools.logmachine.TestEventMetadata;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.appenders.PersistentLogAppender;
 import unquietcode.tools.logmachine.impl.slf4j.SLF4JLogMachine;
@@ -13,20 +13,20 @@ import unquietcode.tools.logmachine.impl.slf4j.SLF4JLogMachine;
  * @version 10-24-2012
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({BasicLogMachineTest.TestBasicLogMachine_Proxy.class})
-public class BasicLogMachineTest {
+@Suite.SuiteClasses({BasicEventMetadataTest.TestEventMetadata_Proxy.class})
+public class BasicEventMetadataTest {
 
-	public static class TestBasicLogMachine_Proxy extends TestBasicLogMachine {
+	public static class TestEventMetadata_Proxy extends TestEventMetadata {
 		private static final AbstractLogbackTest proxy = new AbstractLogbackTest() {
 
 			@Override
 			protected String getLoggerName() {
-				return TestBasicLogMachine.class.getName();
+				return TestEventMetadata.class.getName();
 			}
 
 			@Override
 			public LogMachine getLogMachine() {
-				return new SLF4JLogMachine(TestBasicLogMachine.class);
+				return new SLF4JLogMachine(TestEventMetadata.class);
 			}
 		};
 
