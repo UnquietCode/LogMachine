@@ -73,6 +73,9 @@ public class LogstashEvent {
 		@JsonProperty
 		ThrowableInfo cause;
 
+		@JsonProperty("class")
+		String clazz;
+
 
 		static ThrowableInfo create(Throwable throwable) {
 			if (throwable == null) {
@@ -84,6 +87,7 @@ public class LogstashEvent {
 
 			while (throwable != null) {
 				info.message = throwable.getMessage();
+				info.clazz = throwable.getClass().getName();
 
 				for (StackTraceElement ste : throwable.getStackTrace()) {
 					info.stacktrace.add(ste.toString());

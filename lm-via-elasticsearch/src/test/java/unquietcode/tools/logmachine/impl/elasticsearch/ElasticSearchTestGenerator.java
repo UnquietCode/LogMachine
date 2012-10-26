@@ -2,6 +2,7 @@ package unquietcode.tools.logmachine.impl.elasticsearch;
 
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
@@ -35,7 +36,7 @@ public class ElasticSearchTestGenerator {
 		log = new SimpleLogMachine(logger);
 	}
 
-//	@Test // don't run this normally
+	@Test // don't run this normally
 	public void serverTest() {
 		for (int i=0; i < 150; ++i) {
 			try { Thread.sleep(400); }
@@ -49,8 +50,7 @@ public class ElasticSearchTestGenerator {
 				case 3: log.info("hello {}", "world"); break;
 				case 4: log.to(Color.Red, Color.Yellow).from("basic()").info("greetings");
 				case 5: log.because(new RuntimeException("oh no, not again", new NullPointerException("null pointer"))).error("goodbye!");
-				case 6: log.because(new RuntimeException("oh no, not again",
-										new NullPointerException("null pointer")))
+				case 6: log.because(new RuntimeException("oh no, not again", new NullPointerException("null pointer")))
 						   .from("serverTest()")
 						   .with("count", i)
 						   .with("reason", "Because being alone sucks.")
