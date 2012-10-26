@@ -11,7 +11,8 @@
 		<module>lm-via-logback</module>
 		<module>lm-via-jdk14</module>
 		<module>lm-web</module>
-		<module>lm-via-elasticsearch</module>
+		<module>lm-to-elasticsearch</module>
+		<module>lm-via-log4j</module>
 	</modules>
 	<packaging>pom</packaging>
 
