@@ -20,11 +20,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>unquietcode.tools.logmachine</groupId>
-			<artifactId>lm-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>unquietcode.tools.logmachine</groupId>
 			<artifactId>lm-via-slf4j</artifactId>
 			<version>${project.version}</version>
 		</dependency>
