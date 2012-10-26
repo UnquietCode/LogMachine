@@ -14,10 +14,6 @@ public class SLF4JHandler implements LogHandler<Logger> {
 
 	@Override
 	public void logEvent(Logger log, LogEvent e) {
-		EventMetadata metadata = new EventMetadata();
-		metadata.setGroups(e.getGroups());
-		metadata.setLocation(e.getLocation());
-		metadata.setData(e.getData());
 		MDC.put(Switchboard.MDC_KEY, Switchboard.put(e));
 
 		Object[] data;

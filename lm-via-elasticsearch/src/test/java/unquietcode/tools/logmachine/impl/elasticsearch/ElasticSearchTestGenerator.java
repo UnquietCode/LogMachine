@@ -1,20 +1,20 @@
-package unquietcode.tools.logmachine.impl.web;
+package unquietcode.tools.logmachine.impl.elasticsearch;
 
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
- * LogMachine backed by SLF4J.
- *
  * @author Ben Fagin
- * @version 05-16-2012
+ * @version 10-25-2012
  */
-public class LogServerTestGenerator {
+public class ElasticSearchTestGenerator {
 	private static LogMachine log;
 
 	enum Color {
@@ -24,44 +24,39 @@ public class LogServerTestGenerator {
 
 	@BeforeClass
 	public static void setup() {
-		SimpleLogger logger = SimpleLogger.getLogger(LogServerTestGenerator.class);
-		LogServerAppender appender = new LogServerAppender();
+		SimpleLogger logger = SimpleLogger.getLogger(ElasticSearchTestGenerator.class);
+		ElasticSearchAppender appender = new ElasticSearchAppender();
+		appender.setBatchThreshold(Level.TRACE);
+		appender.setIndexName("test");
+		appender.setServers(Arrays.asList(new InetSocketTransportAddress("localhost", 9300)));
+
 		logger.addAppender(appender);
 		appender.start();
 		log = new SimpleLogMachine(logger);
 	}
 
-	// because you can't specify that @Before only happens once, you hack to do the inverse in cleanup
-	// or use a static flag. I like that flow though, Run this once.
-
-	/*
-			 var f = function() {
-			    doX();
-			    doY();
-
-			    yield break;      // returns here next time when called
-
-			    f = new function() { };
-			 };
-
-	  */
-
-
-
-	@Test // don't run this normally
+//	@Test // don't run this normally
 	public void serverTest() {
 		for (int i=0; i < 150; ++i) {
-			try { Thread.sleep(1000); }
+			try { Thread.sleep(400); }
 			catch (Exception ex) { throw new RuntimeException(ex); }
 			Random gen = new Random();
 
-			switch (gen.nextInt(10)) {
+			switch (gen.nextInt(20)) {
 				case 0: log.from("method").debug("hi"); break;
 				case 1: log.to(Color.Red, Color.Blue).info("hello");
 				case 2: log.to(Color.Red, Color.Blue).info("hello"); break;
 				case 3: log.info("hello {}", "world"); break;
 				case 4: log.to(Color.Red, Color.Yellow).from("basic()").info("greetings");
 				case 5: log.because(new RuntimeException("oh no, not again", new NullPointerException("null pointer"))).error("goodbye!");
+				case 6: log.because(new RuntimeException("oh no, not again",
+										new NullPointerException("null pointer")))
+						   .from("serverTest()")
+						   .with("count", i)
+						   .with("reason", "Because being alone sucks.")
+						   .to(Color.Blue)
+						   .error("Why am I always so {~0}? {:reason}");
+				break;
 			}
 		}
 	}

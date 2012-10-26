@@ -1,10 +1,10 @@
 package unquietcode.tools.logmachine.core.formats;
 
-import unquietcode.tools.logmachine.core.EventMetadata;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.Switchboard;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,46 +56,44 @@ public class JSONFormat implements Format {
 			sb.append("]");
 		}
 
-		EventMetadata metadata = event.getMetadata();
-		if (metadata != null) {
-			appendNotNull("location", sb, metadata.getLocation());
+		appendNotNull("location", sb, event.getLocation());
 
-			if (metadata.getGroups() != null && !metadata.getGroups().isEmpty()) {
-				sb.append(", \"groups\": [");
-				boolean first = true;
+		List<Enum> groups = event.getGroups();
+		if (groups != null && !groups.isEmpty()) {
+			sb.append(", \"groups\": [");
+			boolean first = true;
 
-				for (Enum group : metadata.getGroups()) {
-					if (!first) { sb.append(", "); }
-					else { first = false; }
+			for (Enum group : groups) {
+				if (!first) { sb.append(", "); }
+				else { first = false; }
 
-					sb.append("\"").append(group.getDeclaringClass().getName()).append(".").append(group).append("\"");
-				}
-
-				sb.append("]");
+				sb.append("\"").append(group.getDeclaringClass().getName()).append(".").append(group).append("\"");
 			}
 
-			if (metadata.getData() != null) {
-				// merge MDC with event data, choosing MDC first
-				Map<String, String> data = new HashMap<String, String>();
-				data.putAll(metadata.getData());
-				//data.putAll(event.getMDCPropertyMap());
-				data.remove(Switchboard.MDC_KEY);
+			sb.append("]");
+		}
 
-				sb.append(", \"data\": {");
-				boolean first = true;
+		if (event.getData() != null) {
+			// merge MDC with event data, choosing MDC first
+			Map<String, String> data = new HashMap<String, String>();
+			data.putAll(event.getData());
+			//data.putAll(event.getMDCPropertyMap());
+			data.remove(Switchboard.MDC_KEY);
 
-				for (Map.Entry<String, String> datum : data.entrySet()) {
-					if (!first) {
-						sb.append(", ");
-					} else {
-						first = false;
-					}
+			sb.append(", \"data\": {");
+			boolean first = true;
 
-					sb.append("\"").append(datum.getKey()).append("\": \"").append(datum.getValue()).append("\"");
+			for (Map.Entry<String, String> datum : data.entrySet()) {
+				if (!first) {
+					sb.append(", ");
+				} else {
+					first = false;
 				}
 
-				sb.append("}");
+				sb.append("\"").append(datum.getKey()).append("\": \"").append(datum.getValue()).append("\"");
 			}
+
+			sb.append("}");
 		}
 
 		return sb.append("}").toString();

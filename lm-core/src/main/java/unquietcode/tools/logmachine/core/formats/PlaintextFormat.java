@@ -1,6 +1,5 @@
 package unquietcode.tools.logmachine.core.formats;
 
-import unquietcode.tools.logmachine.core.EventMetadata;
 import unquietcode.tools.logmachine.core.LogEvent;
 
 /**
@@ -20,29 +19,26 @@ public class PlaintextFormat implements Format {
 			.append(" - ")
 		;
 
-		EventMetadata metadata = event.getMetadata();
 		boolean extraDivider = false;
 
-		if (metadata != null) {
-			if (metadata.getGroups() != null && !metadata.getGroups().isEmpty()) {
-				boolean first = true;
-				sb.append("[");
+		if (event.getGroups() != null && !event.getGroups().isEmpty()) {
+			boolean first = true;
+			sb.append("[");
 
-				for (Enum group : metadata.getGroups()) {
-					if (!first) { sb.append(" | ");	}
-					else { first = false; }
+			for (Enum group : event.getGroups()) {
+				if (!first) { sb.append(" | ");	}
+				else { first = false; }
 
-					sb.append(group);
-				}
-
-				sb.append("] ");
-				extraDivider = true;
+				sb.append(group);
 			}
 
-			if (metadata.getLocation() != null) {
-				sb.append("{@").append(metadata.getLocation()).append("} ");
-				extraDivider = true;
-			}
+			sb.append("] ");
+			extraDivider = true;
+		}
+
+		if (event.getLocation() != null) {
+			sb.append("{@").append(event.getLocation()).append("} ");
+			extraDivider = true;
 		}
 
 		if (extraDivider) {

@@ -11,6 +11,7 @@
 		<module>lm-via-logback</module>
 		<module>lm-via-jdk14</module>
 		<module>lm-web</module>
+		<module>lm-via-elasticsearch</module>
 	</modules>
 	<packaging>pom</packaging>
 
@@ -23,6 +24,17 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- jackson annotations -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>2.0.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.0.2</version>
+			</dependency>
 
 			<!-- test dependencies -->
 			<dependency>

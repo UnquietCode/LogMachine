@@ -21,12 +21,7 @@ public class LogEvent {
 	private long timestamp = System.currentTimeMillis();
 	private String threadName = Thread.currentThread().getName();
 	private String loggerName;
-	private EventMetadata metadata;
 	private String formattedMessage;
-
-
-
-
 
 
 
@@ -37,13 +32,6 @@ public class LogEvent {
 		return level;
 	}
 
-	public EventMetadata getMetadata() {
-		return metadata;
-	}
-
-	public void setMetadata(EventMetadata metadata) {
-		this.metadata = metadata;
-	}
 
 	public String getLoggerName() {
 		return loggerName;
