@@ -1,18 +1,18 @@
 package unquietcode.tools.logmachine;
 
 import unquietcode.tools.logmachine.builder.SpecificHelper;
+import unquietcode.tools.logmachine.core.BaseLogMachine;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
-import unquietcode.tools.logmachine.core.LogMachine;
 
 import java.util.Arrays;
 
 
 public class SpecificHelperImpl implements SpecificHelper {
-	private final LogMachine lm;
+	private final BaseLogMachine lm;
 	private final LogEvent event = new LogEvent();
 
-	public SpecificHelperImpl(LogMachine lm, Level level) {
+	public SpecificHelperImpl(BaseLogMachine lm, Level level) {
 		this.lm = lm;
 		event.setLoggerName(lm.getLoggerName());
 		event.setLevel(level);

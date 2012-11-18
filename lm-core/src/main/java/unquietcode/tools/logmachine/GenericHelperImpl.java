@@ -1,9 +1,9 @@
 package unquietcode.tools.logmachine;
 
 import unquietcode.tools.logmachine.builder.GenericHelper;
+import unquietcode.tools.logmachine.core.BaseLogMachine;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
-import unquietcode.tools.logmachine.core.LogMachine;
 
 import java.util.Arrays;
 
@@ -12,10 +12,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public class GenericHelperImpl implements GenericHelper {
-	private final LogMachine lm;
+	private final BaseLogMachine lm;
 	private final LogEvent event = new LogEvent();
 
-	public GenericHelperImpl(LogMachine lm) {
+	public GenericHelperImpl(BaseLogMachine lm) {
 		this.lm = lm;
 		event.setLoggerName(lm.getLoggerName());
 	}
