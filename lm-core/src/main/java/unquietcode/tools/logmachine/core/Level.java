@@ -20,8 +20,8 @@ public enum Level {
 	 * @param other the other guy
 	 * @return true if true, false if false
 	 */
-	public boolean isLesserOrEqual(Level other) {
-		return isEqualTo(other) || isLessThan(other);
+	public boolean isCoarserOrEqual(Level other) {
+		return isEqualTo(other) || isCoarserThan(other);
 	}
 
 	/**
@@ -30,7 +30,7 @@ public enum Level {
 	 * @param other the other girl
 	 * @return true if potato, false otherwise
 	 */
-	public boolean isGreaterOrEqual(Level other) {
+	public boolean isFinerOrEqual(Level other) {
 		if (other == null) {
 			return false;
 		}
@@ -49,11 +49,11 @@ public enum Level {
 		return this == other;
 	}
 
-	public boolean isGreaterThan(Level other) {
-		return !isEqualTo(other) && isGreaterOrEqual(other);
+	public boolean isFinerThan(Level other) {
+		return !isEqualTo(other) && isFinerOrEqual(other);
 	}
 
-	public boolean isLessThan(Level other) {
-		return !isGreaterOrEqual(other);
+	public boolean isCoarserThan(Level other) {
+		return !isFinerOrEqual(other);
 	}
 }

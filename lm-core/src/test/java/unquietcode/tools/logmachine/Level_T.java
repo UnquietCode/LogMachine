@@ -16,67 +16,67 @@ public class Level_T {
 	
 	@Test
 	public void lesserThanOrEqual() {
-		assertTrue(Level.ERROR.isLesserOrEqual(Level.ERROR));
-		assertTrue(Level.ERROR.isLesserOrEqual(Level.WARN));
-		assertTrue(Level.ERROR.isLesserOrEqual(Level.INFO));
-		assertTrue(Level.ERROR.isLesserOrEqual(Level.DEBUG));
-		assertTrue(Level.ERROR.isLesserOrEqual(Level.TRACE));
+		assertTrue(Level.ERROR.isCoarserOrEqual(Level.ERROR));
+		assertTrue(Level.ERROR.isCoarserOrEqual(Level.WARN));
+		assertTrue(Level.ERROR.isCoarserOrEqual(Level.INFO));
+		assertTrue(Level.ERROR.isCoarserOrEqual(Level.DEBUG));
+		assertTrue(Level.ERROR.isCoarserOrEqual(Level.TRACE));
 
-		assertFalse(Level.WARN.isLesserOrEqual(Level.ERROR));
-		assertTrue(Level.WARN.isLesserOrEqual(Level.WARN));
-		assertTrue(Level.WARN.isLesserOrEqual(Level.INFO));
-		assertTrue(Level.WARN.isLesserOrEqual(Level.DEBUG));
-		assertTrue(Level.WARN.isLesserOrEqual(Level.TRACE));
+		assertFalse(Level.WARN.isCoarserOrEqual(Level.ERROR));
+		assertTrue(Level.WARN.isCoarserOrEqual(Level.WARN));
+		assertTrue(Level.WARN.isCoarserOrEqual(Level.INFO));
+		assertTrue(Level.WARN.isCoarserOrEqual(Level.DEBUG));
+		assertTrue(Level.WARN.isCoarserOrEqual(Level.TRACE));
 
-		assertFalse(Level.INFO.isLesserOrEqual(Level.ERROR));
-		assertFalse(Level.INFO.isLesserOrEqual(Level.WARN));
-		assertTrue(Level.INFO.isLesserOrEqual(Level.INFO));
-		assertTrue(Level.INFO.isLesserOrEqual(Level.DEBUG));
-		assertTrue(Level.INFO.isLesserOrEqual(Level.TRACE));
+		assertFalse(Level.INFO.isCoarserOrEqual(Level.ERROR));
+		assertFalse(Level.INFO.isCoarserOrEqual(Level.WARN));
+		assertTrue(Level.INFO.isCoarserOrEqual(Level.INFO));
+		assertTrue(Level.INFO.isCoarserOrEqual(Level.DEBUG));
+		assertTrue(Level.INFO.isCoarserOrEqual(Level.TRACE));
 
-		assertFalse(Level.DEBUG.isLesserOrEqual(Level.ERROR));
-		assertFalse(Level.DEBUG.isLesserOrEqual(Level.WARN));
-		assertFalse(Level.DEBUG.isLesserOrEqual(Level.INFO));
-		assertTrue(Level.DEBUG.isLesserOrEqual(Level.DEBUG));
-		assertTrue(Level.DEBUG.isLesserOrEqual(Level.TRACE));
+		assertFalse(Level.DEBUG.isCoarserOrEqual(Level.ERROR));
+		assertFalse(Level.DEBUG.isCoarserOrEqual(Level.WARN));
+		assertFalse(Level.DEBUG.isCoarserOrEqual(Level.INFO));
+		assertTrue(Level.DEBUG.isCoarserOrEqual(Level.DEBUG));
+		assertTrue(Level.DEBUG.isCoarserOrEqual(Level.TRACE));
 
-		assertFalse(Level.TRACE.isLesserOrEqual(Level.ERROR));
-		assertFalse(Level.TRACE.isLesserOrEqual(Level.WARN));
-		assertFalse(Level.TRACE.isLesserOrEqual(Level.INFO));
-		assertFalse(Level.TRACE.isLesserOrEqual(Level.DEBUG));
-		assertTrue(Level.TRACE.isLesserOrEqual(Level.TRACE));
+		assertFalse(Level.TRACE.isCoarserOrEqual(Level.ERROR));
+		assertFalse(Level.TRACE.isCoarserOrEqual(Level.WARN));
+		assertFalse(Level.TRACE.isCoarserOrEqual(Level.INFO));
+		assertFalse(Level.TRACE.isCoarserOrEqual(Level.DEBUG));
+		assertTrue(Level.TRACE.isCoarserOrEqual(Level.TRACE));
 	}
 	
 	@Test
 	public void greaterThanOrEqual() {
-		assertTrue(Level.ERROR.isGreaterOrEqual(Level.ERROR));
-		assertFalse(Level.ERROR.isGreaterOrEqual(Level.WARN));
-		assertFalse(Level.ERROR.isGreaterOrEqual(Level.INFO));
-		assertFalse(Level.ERROR.isGreaterOrEqual(Level.DEBUG));
-		assertFalse(Level.ERROR.isGreaterOrEqual(Level.TRACE));
+		assertTrue(Level.ERROR.isFinerOrEqual(Level.ERROR));
+		assertFalse(Level.ERROR.isFinerOrEqual(Level.WARN));
+		assertFalse(Level.ERROR.isFinerOrEqual(Level.INFO));
+		assertFalse(Level.ERROR.isFinerOrEqual(Level.DEBUG));
+		assertFalse(Level.ERROR.isFinerOrEqual(Level.TRACE));
 
-		assertTrue(Level.WARN.isGreaterOrEqual(Level.ERROR));
-		assertTrue(Level.WARN.isGreaterOrEqual(Level.WARN));
-		assertFalse(Level.WARN.isGreaterOrEqual(Level.INFO));
-		assertFalse(Level.WARN.isGreaterOrEqual(Level.DEBUG));
-		assertFalse(Level.WARN.isGreaterOrEqual(Level.TRACE));
+		assertTrue(Level.WARN.isFinerOrEqual(Level.ERROR));
+		assertTrue(Level.WARN.isFinerOrEqual(Level.WARN));
+		assertFalse(Level.WARN.isFinerOrEqual(Level.INFO));
+		assertFalse(Level.WARN.isFinerOrEqual(Level.DEBUG));
+		assertFalse(Level.WARN.isFinerOrEqual(Level.TRACE));
 
-		assertTrue(Level.INFO.isGreaterOrEqual(Level.ERROR));
-		assertTrue(Level.INFO.isGreaterOrEqual(Level.WARN));
-		assertTrue(Level.INFO.isGreaterOrEqual(Level.INFO));
-		assertFalse(Level.INFO.isGreaterOrEqual(Level.DEBUG));
-		assertFalse(Level.INFO.isGreaterOrEqual(Level.TRACE));
+		assertTrue(Level.INFO.isFinerOrEqual(Level.ERROR));
+		assertTrue(Level.INFO.isFinerOrEqual(Level.WARN));
+		assertTrue(Level.INFO.isFinerOrEqual(Level.INFO));
+		assertFalse(Level.INFO.isFinerOrEqual(Level.DEBUG));
+		assertFalse(Level.INFO.isFinerOrEqual(Level.TRACE));
 
-		assertTrue(Level.DEBUG.isGreaterOrEqual(Level.ERROR));
-		assertTrue(Level.DEBUG.isGreaterOrEqual(Level.WARN));
-		assertTrue(Level.DEBUG.isGreaterOrEqual(Level.INFO));
-		assertTrue(Level.DEBUG.isGreaterOrEqual(Level.DEBUG));
-		assertFalse(Level.DEBUG.isGreaterOrEqual(Level.TRACE));
+		assertTrue(Level.DEBUG.isFinerOrEqual(Level.ERROR));
+		assertTrue(Level.DEBUG.isFinerOrEqual(Level.WARN));
+		assertTrue(Level.DEBUG.isFinerOrEqual(Level.INFO));
+		assertTrue(Level.DEBUG.isFinerOrEqual(Level.DEBUG));
+		assertFalse(Level.DEBUG.isFinerOrEqual(Level.TRACE));
 
-		assertTrue(Level.TRACE.isGreaterOrEqual(Level.ERROR));
-		assertTrue(Level.TRACE.isGreaterOrEqual(Level.WARN));
-		assertTrue(Level.TRACE.isGreaterOrEqual(Level.INFO));
-		assertTrue(Level.TRACE.isGreaterOrEqual(Level.DEBUG));
-		assertTrue(Level.TRACE.isGreaterOrEqual(Level.TRACE));
+		assertTrue(Level.TRACE.isFinerOrEqual(Level.ERROR));
+		assertTrue(Level.TRACE.isFinerOrEqual(Level.WARN));
+		assertTrue(Level.TRACE.isFinerOrEqual(Level.INFO));
+		assertTrue(Level.TRACE.isFinerOrEqual(Level.DEBUG));
+		assertTrue(Level.TRACE.isFinerOrEqual(Level.TRACE));
 	}	
 }

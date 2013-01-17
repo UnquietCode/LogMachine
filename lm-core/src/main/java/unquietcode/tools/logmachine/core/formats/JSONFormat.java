@@ -75,7 +75,7 @@ public class JSONFormat implements Format {
 
 		if (event.getData() != null) {
 			// merge MDC with event data, choosing MDC first
-			Map<String, String> data = new HashMap<String, String>();
+			Map<String, Object> data = new HashMap<String, Object>();
 			data.putAll(event.getData());
 			//data.putAll(event.getMDCPropertyMap());
 			data.remove(Switchboard.MDC_KEY);
@@ -83,7 +83,7 @@ public class JSONFormat implements Format {
 			sb.append(", \"data\": {");
 			boolean first = true;
 
-			for (Map.Entry<String, String> datum : data.entrySet()) {
+			for (Map.Entry<String, Object> datum : data.entrySet()) {
 				if (!first) {
 					sb.append(", ");
 				} else {

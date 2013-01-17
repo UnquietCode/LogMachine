@@ -26,7 +26,7 @@ public class GroupingLogHandler<T> implements LogHandler<T> {
 		for (T delegate : delegates) {
 			Level _level = handler.getLevel(delegate);
 
-			if (_level.isGreaterThan(level)) {
+			if (_level.isFinerThan(level)) {
 				level = _level;
 			}
 		}
@@ -38,7 +38,7 @@ public class GroupingLogHandler<T> implements LogHandler<T> {
 	public void logEvent(T logger, LogEvent e) {
 		Level level = aggregateLevel(logger);
 
-		if (level.isGreaterOrEqual(e.getLevel())) {
+		if (level.isFinerOrEqual(e.getLevel())) {
 			handler.logEvent(logger, e);
 		}
 	}
@@ -55,26 +55,26 @@ public class GroupingLogHandler<T> implements LogHandler<T> {
 
 	@Override
 	public boolean isError(T logger) {
-		return aggregateLevel(logger).isGreaterOrEqual(Level.ERROR);
+		return aggregateLevel(logger).isFinerOrEqual(Level.ERROR);
 	}
 
 	@Override
 	public boolean isWarn(T logger) {
-		return aggregateLevel(logger).isGreaterOrEqual(Level.WARN);
+		return aggregateLevel(logger).isFinerOrEqual(Level.WARN);
 	}
 
 	@Override
 	public boolean isInfo(T logger) {
-		return aggregateLevel(logger).isGreaterOrEqual(Level.INFO);
+		return aggregateLevel(logger).isFinerOrEqual(Level.INFO);
 	}
 
 	@Override
 	public boolean isDebug(T logger) {
-		return aggregateLevel(logger).isGreaterOrEqual(Level.DEBUG);
+		return aggregateLevel(logger).isFinerOrEqual(Level.DEBUG);
 	}
 
 	@Override
 	public boolean isTrace(T logger) {
-		return aggregateLevel(logger).isGreaterOrEqual(Level.TRACE);
+		return aggregateLevel(logger).isFinerOrEqual(Level.TRACE);
 	}
 }

@@ -13,7 +13,7 @@ public class SimpleLogHandler implements LogHandler<SimpleLogger> {
 
 	@Override
 	public void logEvent(SimpleLogger logger, LogEvent e) {
-		if (logger.getLevel().isGreaterOrEqual(e.getLevel())) {
+		if (logger.getLevel().isFinerOrEqual(e.getLevel())) {
 			for (Appender appender : logger.getAppenders()) {
 				appender.append(e);
 			}
@@ -32,26 +32,26 @@ public class SimpleLogHandler implements LogHandler<SimpleLogger> {
 
 	@Override
 	public boolean isError(SimpleLogger logger) {
-		return logger.getLevel().isGreaterOrEqual(Level.ERROR);
+		return logger.getLevel().isFinerOrEqual(Level.ERROR);
 	}
 
 	@Override
 	public boolean isWarn(SimpleLogger logger) {
-		return logger.getLevel().isGreaterOrEqual(Level.WARN);
+		return logger.getLevel().isFinerOrEqual(Level.WARN);
 	}
 
 	@Override
 	public boolean isInfo(SimpleLogger logger) {
-		return logger.getLevel().isGreaterOrEqual(Level.INFO);
+		return logger.getLevel().isFinerOrEqual(Level.INFO);
 	}
 
 	@Override
 	public boolean isDebug(SimpleLogger logger) {
-		return logger.getLevel().isGreaterOrEqual(Level.DEBUG);
+		return logger.getLevel().isFinerOrEqual(Level.DEBUG);
 	}
 
 	@Override
 	public boolean isTrace(SimpleLogger logger) {
-		return logger.getLevel().isGreaterOrEqual(Level.TRACE);
+		return logger.getLevel().isFinerOrEqual(Level.TRACE);
 	}
 }

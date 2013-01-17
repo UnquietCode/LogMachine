@@ -1,10 +1,10 @@
-package unquietcode.tools.logmachine.impl.elasticsearch;
+package unquietcode.tools.logmachine.impl.elasticsearch.test;
 
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogMachine;
+import unquietcode.tools.logmachine.impl.elasticsearch.ElasticSearchAppender;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
 
@@ -36,7 +36,7 @@ public class ElasticSearchTestGenerator {
 		log = new SimpleLogMachine(logger);
 	}
 
-	@Test // don't run this normally
+	//@Test // don't run this normally
 	public void serverTest() {
 		for (int i=0; i < 150; ++i) {
 			try { Thread.sleep(400); }

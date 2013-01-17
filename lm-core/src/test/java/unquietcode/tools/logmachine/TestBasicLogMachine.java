@@ -129,8 +129,22 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testMessageReplacementWithMissingGroupNumber() {
-		lm.to(TestGroups.One, TestGroups.Two).info("{~1} { ~3} {~2}");
+		lm.to(TestGroups.One, TestGroups.Two).info("{~1} {~3} {~2}");
 		LogEvent event = getSingleEvent();
 		assertEquals("One {~3} Two", event.getFormattedMessage());
+	}
+
+	@Test
+	public void testMessageReplacementWithAssignment() {
+		lm.info("Hi {@name}!", "Bob");
+		LogEvent event = getSingleEvent();
+		assertEquals("Hi Bob!", event.getFormattedMessage());
+		assertEquals("Bob", event.getData().get("name"));
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testMessageReplacementWithConflictingAssignment() {
+		String name = "Bob";
+		lm.with("name", name).info("{@name}", name);
 	}
 }

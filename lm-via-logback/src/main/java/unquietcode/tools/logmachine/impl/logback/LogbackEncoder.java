@@ -22,7 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class LogbackEncoder extends EncoderBase<ILoggingEvent> {
 	private Format format = new PlaintextFormat();
 
-	void setFormat(Format format) {
+	public void setFormat(Format format) {
 		this.format = checkNotNull(format, "Format cannot be null.");
 	}
 

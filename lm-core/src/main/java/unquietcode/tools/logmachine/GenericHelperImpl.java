@@ -21,40 +21,32 @@ public class GenericHelperImpl implements GenericHelper {
 	}
 
 	@Override
-	public void debug(String message, Object...data) {
-		event.setLevel(Level.DEBUG);
-		event.setMessage(message);
-		event.setReplacements(data);
-	    lm._log(event);
-    }
+	public void error(String message, Object...data) {
+		logEvent(Level.ERROR, message, data);
+	}
 
 	@Override
 	public void warn(String message, Object...data) {
-		event.setLevel(Level.WARN);
-		event.setMessage(message);
-		event.setReplacements(data);
-		lm._log(event);
-    }
+		logEvent(Level.WARN, message, data);
+	}
 
 	@Override
 	public void info(String message, Object...data) {
-		event.setLevel(Level.INFO);
-		event.setMessage(message);
-		event.setReplacements(data);
-		lm._log(event);
-    }
+		logEvent(Level.INFO, message, data);
+	}
 
 	@Override
-	public void error(String message, Object...data) {
-		event.setLevel(Level.ERROR);
-		event.setMessage(message);
-		event.setReplacements(data);
-		lm._log(event);
+	public void debug(String message, Object...data) {
+		logEvent(Level.DEBUG, message, data);
 	}
 
 	@Override
 	public void trace(String message, Object...data) {
-		event.setLevel(Level.TRACE);
+		logEvent(Level.TRACE, message, data);
+	}
+
+	private void logEvent(Level level, String message, Object[] data) {
+		event.setLevel(level);
 		event.setMessage(message);
 		event.setReplacements(data);
 		lm._log(event);

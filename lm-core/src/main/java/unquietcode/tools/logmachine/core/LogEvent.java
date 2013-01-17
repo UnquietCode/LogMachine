@@ -3,6 +3,7 @@ package unquietcode.tools.logmachine.core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +18,7 @@ public class LogEvent {
 	private Throwable cause;
 	private List<Enum> groups;
 	private Object[] replacements;
-	private Map<String, String> data;
+	private Map<String, Object> data;
 	private long timestamp = System.currentTimeMillis();
 	private String threadName = Thread.currentThread().getName();
 	private String loggerName;
@@ -93,9 +94,9 @@ public class LogEvent {
 		this.replacements = replacements;
 	}
 
-	public Map<String, String> getData() {
+	public Map<String, Object> getData() {
 		if (data == null) {
-			data = new HashMap<String, String>();
+			data = new HashMap<String, Object>();
 		}
 		return data;
 	}
@@ -110,20 +111,24 @@ public class LogEvent {
 		Matcher matcher = REPLACEMENT_PATTERN.matcher(message);
 		StringBuilder builder = new StringBuilder();
 		int i = 0;
-		int idx = 0;
+		AtomicInteger idx = new AtomicInteger(0);
 
 		while (matcher.find()) {
 			builder.append(message.substring(i, matcher.start()));
 
 			String match = matcher.group(1);
 			if (match.isEmpty()) {
-				builder.append(replacements[idx++]);
+				if (idx.get() >= replacements.length) {
+					builder.append("{}");
+				} else {
+					builder.append(replacements[idx.getAndIncrement()]);
+				}
 			} else {
-				String s = processReplacement(match);
+				String string = processReplacement(match, idx);
 
-				// if it's null, then stitch it back together
-				if (s != null) {
-					builder.append(processReplacement(match));
+				// if it's null, then give up and stitch it back together
+				if (string != null) {
+					builder.append(string);
 				} else {
 					builder.append("{").append(match).append("}");
 				}
@@ -136,7 +141,7 @@ public class LogEvent {
 		return formattedMessage = builder.toString();
 	}
 
-	private String processReplacement(String match) {
+	private String processReplacement(String match, AtomicInteger idx) {
 		int length = match.length();
 
 		if (length == 1) {
@@ -144,11 +149,14 @@ public class LogEvent {
 		}
 
 		char firstChar = match.charAt(0);
+		String key = match.substring(1, length);
 
 		switch (firstChar) {
+
+			// group name
 			case '~': {
 				try {
-					int index = Integer.parseInt(match.substring(1, length));
+					int index = Integer.parseInt(key);
 					if (index != 0) {
 						--index;
 					}
@@ -158,19 +166,37 @@ public class LogEvent {
 				}
 			}
 
+			// property name
 			case ':': {
 				if (data == null) {
 					return null;
 				}
 
-				match = match.substring(1, length);
-
-				if (!data.containsKey(match)) {
+				if (!data.containsKey(key)) {
 					return null;
 				}
 
-				String value = data.get(match);
-				return value != null ? value : "null";
+				Object value = data.get(key);
+				return value != null ? value.toString() : "null";
+			}
+
+			// property assignment
+			case '@': {
+				if (data != null) {
+					if (data.containsKey(key)) {
+						throw new IllegalStateException("Property '"+key+"' cannot be assigned because it already exists.");
+					}
+				} else {
+					data = new HashMap<String, Object>();
+				}
+
+				if (idx.get() >= replacements.length) {
+					return "{@"+match+"}";
+				} else {
+					Object value = replacements[idx.getAndIncrement()];
+					data.put(key, value);
+					return value != null ? value.toString() : "null";
+				}
 			}
 
 			default: {
