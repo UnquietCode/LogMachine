@@ -19,13 +19,13 @@ public class TestBasicLog4j {
 	public void testAssertionStream() {
 		AssertionStream stream = new AssertionStream();
 		PrintStream out = System.out;
+		System.setOut(stream);
 
 		ConsoleAppender appender = new ConsoleAppender();
 		appender.setLayout(new PatternLayout());
 		log.addAppender(appender);
 		appender.activateOptions();
 
-		System.setOut(stream);
 		log.info("Hello world.");
 		System.setOut(out);
 

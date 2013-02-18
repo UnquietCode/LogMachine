@@ -2,6 +2,7 @@ package unquietcode.tools.logmachine.impl.log4j;
 
 import org.apache.log4j.Logger;
 import unquietcode.tools.logmachine.core.Level;
+import unquietcode.tools.logmachine.core.appenders.BlackholeLogAppender;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
 /**
@@ -15,12 +16,19 @@ public abstract class AbstractLog4jTest extends AbstractLoggerTest {
 	public void _setup() {
 		if (initialized) { return; }
 
+		Logger logger = Logger.getLogger(getLoggerName());
+		logger.setLevel(Log4jLevelTranslator.$.fromLogMachine(Level.TRACE));
+
+		// persistent appender
 		Log4jAppender appender = new Log4jAppender();
 		appender.setAppender(getEventAppender());
-
-		Logger logger = Logger.getLogger(getLoggerName());
 		logger.addAppender(appender);
-		logger.setLevel(Log4jLevelTranslator.$.fromLogMachine(Level.TRACE));
+		appender.start();
+
+		// non-printing appender
+		appender = new Log4jAppender();
+		appender.setAppender(new BlackholeLogAppender());
+		logger.addAppender(appender);
 		appender.start();
 
 		initialized = true;
