@@ -24,6 +24,7 @@ public abstract class BaseLogMachine<T> {
 	}
 
 	public void _log(LogEvent event) {
+		// TODO make these lazy created lists of the object
 		if (event.getGroups() == null) {
 			event.setGroups(new ArrayList<Enum>());
 		}

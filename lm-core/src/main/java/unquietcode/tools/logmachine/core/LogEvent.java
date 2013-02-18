@@ -1,5 +1,8 @@
 package unquietcode.tools.logmachine.core;
 
+import unquietcode.tools.logmachine.LazyString;
+import unquietcode.tools.logmachine.core.formats.JSONFormat;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +15,12 @@ import java.util.regex.Pattern;
  * @version 02-12-2012
  */
 public class LogEvent {
+	public static final String TOPICS_KEY = "LM-TOPICS";
+	public static final String TOPICS_TEXT_KEY = "LM-TOPICS-TEXT";
+	public static final String JSON_PROPERTIES_KEY = "LM-PROPS-JSON";
+	public static final String HAML_PROPERTIES_KEY = "LM-PROPS-HAML";
+	public static final String TEXT_PROPERTIES_KEY = "LM-PROPS-TEXT";
+
 	private Level level;
 	private String message = "";
 	private String location;
@@ -22,17 +31,12 @@ public class LogEvent {
 	private long timestamp = System.currentTimeMillis();
 	private String threadName = Thread.currentThread().getName();
 	private String loggerName;
-	private String formattedMessage;
+	private final LogEvent self = this;
 
-
-
-	// ILoggingEvent methods
-	private static final String NOT_IMPLEMENTED = "@_@ - You broke it.";
 
 	public Level getLevel() {
 		return level;
 	}
-
 
 	public String getLoggerName() {
 		return loggerName;
@@ -101,45 +105,95 @@ public class LogEvent {
 		return data;
 	}
 
-	private static final Pattern REPLACEMENT_PATTERN = Pattern.compile("\\{\\s*(.*?)\\s*\\}");
+	//==o==o==o==o==o==o==| Topics |==o==o==o==o==o==o==//
 
-	public String getFormattedMessage() {
-		if (formattedMessage != null) {
-			return formattedMessage;
-		}
+	public final LazyString topics = new LazyString() {
+		protected String _getString() {
+			List<Enum> topics = getGroups();
+			if (topics == null || topics.isEmpty()) { return ""; }
 
-		Matcher matcher = REPLACEMENT_PATTERN.matcher(message);
-		StringBuilder builder = new StringBuilder();
-		int i = 0;
-		AtomicInteger idx = new AtomicInteger(0);
+			StringBuilder sb = new StringBuilder().append("[");
+			boolean first = true;
 
-		while (matcher.find()) {
-			builder.append(message.substring(i, matcher.start()));
-
-			String match = matcher.group(1);
-			if (match.isEmpty()) {
-				if (idx.get() >= replacements.length) {
-					builder.append("{}");
+			for (Enum topic : topics) {
+				if (first) {
+					first = false;
 				} else {
-					builder.append(replacements[idx.getAndIncrement()]);
+					sb.append(" | ");
 				}
-			} else {
-				String string = processReplacement(match, idx);
 
-				// if it's null, then give up and stitch it back together
-				if (string != null) {
-					builder.append(string);
-				} else {
-					builder.append("{").append(match).append("}");
-				}
+				sb.append(topic);
 			}
 
-			i = matcher.end();
+			return sb.append("]").toString();
 		}
+	};
 
-		builder.append(message.substring(i, message.length()));
-		return formattedMessage = builder.toString();
+	//==o==o==o==o==o==o==| Properties |==o==o==o==o==o==o==//
+
+	private static final JSONFormat jsonFormat = new JSONFormat();
+
+	public final LazyString properties_json = new LazyString() {
+		protected String _getString() {
+			return jsonFormat.format(self);
+		}
+	};
+
+	private final LazyString properties_haml = new LazyString() {
+		protected String _getString() {
+			throw new RuntimeException("not implemented");
+		}
+	};
+
+	private final LazyString properties_text = new LazyString() {
+		protected String _getString() {
+			throw new RuntimeException("not implemented");
+		}
+	};
+
+	//==o==o==o==o==o==o==| Message Formatting |==o==o==o==o==o==o==//
+
+	public String getFormattedMessage() {
+		return formattedMessage.getString();
 	}
+
+	private static final Pattern REPLACEMENT_PATTERN = Pattern.compile("\\{\\s*(.*?)\\s*\\}");
+
+	public final LazyString formattedMessage = new LazyString() {
+		protected String _getString() {
+			Matcher matcher = REPLACEMENT_PATTERN.matcher(message);
+			StringBuilder builder = new StringBuilder();
+			int i = 0;
+			AtomicInteger idx = new AtomicInteger(0);
+
+			while (matcher.find()) {
+				builder.append(message.substring(i, matcher.start()));
+
+				String match = matcher.group(1);
+				if (match.isEmpty()) {
+					if (idx.get() >= replacements.length) {
+						builder.append("{}");
+					} else {
+						builder.append(replacements[idx.getAndIncrement()]);
+					}
+				} else {
+					String string = processReplacement(match, idx);
+
+					// if it's null, then give up and stitch it back together
+					if (string != null) {
+						builder.append(string);
+					} else {
+						builder.append("{").append(match).append("}");
+					}
+				}
+
+				i = matcher.end();
+			}
+
+			builder.append(message.substring(i, message.length()));
+			return builder.toString();
+		}
+	};
 
 	private String processReplacement(String match, AtomicInteger idx) {
 		int length = match.length();

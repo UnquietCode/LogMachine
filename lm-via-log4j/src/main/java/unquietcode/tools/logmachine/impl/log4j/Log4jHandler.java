@@ -13,46 +13,49 @@ public class Log4jHandler implements LogHandler<Logger> {
 	@Override
 	public void logEvent(Logger log, LogEvent e) {
 		MDC.put(Switchboard.MDC_KEY, Switchboard.put(e));
+		MDC.put(LogEvent.TOPICS_KEY, e.getGroups());
+		MDC.put(LogEvent.TOPICS_TEXT_KEY, e.topics);
+		MDC.put(LogEvent.JSON_PROPERTIES_KEY, e.properties_json);
 		Throwable cause = e.getCause();
 
 		switch (e.getLevel()) {
 			case ERROR:
 				if (cause == null) {
-					log.error(new DefferedToString(e));
+					log.error(e.formattedMessage);
 				} else {
-					log.error(new DefferedToString(e), cause);
+					log.error(e.formattedMessage, cause);
 				}
 			break;
 
 			case WARN:
 				if (cause == null) {
-					log.warn(new DefferedToString(e));
+					log.warn(e.formattedMessage);
 				} else {
-					log.warn(new DefferedToString(e), cause);
+					log.warn(e.formattedMessage, cause);
 				}
 			break;
 
 			case INFO:
 				if (cause == null) {
-					log.info(new DefferedToString(e));
+					log.info(e.formattedMessage);
 				} else {
-					log.info(new DefferedToString(e), cause);
+					log.info(e.formattedMessage, cause);
 				}
 			break;
 
 			case DEBUG:
 				if (cause == null) {
-					log.debug(new DefferedToString(e));
+					log.debug(e.formattedMessage);
 				} else {
-					log.debug(new DefferedToString(e), cause);
+					log.debug(e.formattedMessage, cause);
 				}
 			break;
 
 			case TRACE:
 				if (cause == null) {
-					log.trace(new DefferedToString(e));
+					log.trace(e.formattedMessage);
 				} else {
-					log.trace(new DefferedToString(e), cause);
+					log.trace(e.formattedMessage, cause);
 				}
 			break;
 
@@ -94,19 +97,5 @@ public class Log4jHandler implements LogHandler<Logger> {
 	@Override
 	public boolean isTrace(Logger log) {
 		return log.isTraceEnabled();
-	}
-
-	private static class DefferedToString {
-		private final LogEvent e;
-
-		DefferedToString(LogEvent e) {
-			this.e = e;
-		}
-
-		@Override
-		public String toString() {
-			return e.getFormattedMessage();
-		}
-
 	}
 }

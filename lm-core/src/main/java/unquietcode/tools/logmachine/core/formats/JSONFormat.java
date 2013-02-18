@@ -55,7 +55,7 @@ public class JSONFormat implements Format {
 
 			sb.append("]");
 		}
-
+// TODO 'groups' -> 'topics'
 		appendNotNull("location", sb, event.getLocation());
 
 		List<Enum> groups = event.getGroups();
@@ -80,20 +80,35 @@ public class JSONFormat implements Format {
 			//data.putAll(event.getMDCPropertyMap());
 			data.remove(Switchboard.MDC_KEY);
 
-			sb.append(", \"data\": {");
-			boolean first = true;
+			sb.append(", \"data\": ").append(getPropertiesJson(data));
+		}
 
-			for (Map.Entry<String, Object> datum : data.entrySet()) {
-				if (!first) {
-					sb.append(", ");
-				} else {
-					first = false;
-				}
+		return sb.append("}").toString();
+	}
 
-				sb.append("\"").append(datum.getKey()).append("\": \"").append(datum.getValue()).append("\"");
+	private static String getPropertiesJson(Map<String, Object> data) {
+		StringBuilder sb = new StringBuilder().append("{");
+		boolean first = true;
+
+		for (Map.Entry<String, Object> property : data.entrySet()) {
+			if (first) {
+				first = false;
+			} else {
+				sb.append(",");
 			}
 
-			sb.append("}");
+			sb.append("\"").append(property.getKey()).append("\":");
+			Object value = property.getValue();
+
+			if (value == null) {
+				sb.append("null");
+			} else if (Boolean.class.isAssignableFrom(value.getClass())) {
+				sb.append(value);
+			} else if (Number.class.isAssignableFrom(value.getClass())) {
+				sb.append(value);
+			} else {
+				sb.append("\"").append(value.toString()).append("\"");
+			}
 		}
 
 		return sb.append("}").toString();

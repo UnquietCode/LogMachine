@@ -6,6 +6,8 @@ import org.apache.log4j.PatternLayout;
 import org.junit.Test;
 import unquietcode.tools.logmachine.test.AssertionStream;
 
+import java.io.PrintStream;
+
 /**
  * @author Ben Fagin
  * @version 10-26-12
@@ -16,14 +18,17 @@ public class TestBasicLog4j {
 	@Test
 	public void testAssertionStream() {
 		AssertionStream stream = new AssertionStream();
-		System.setOut(stream);
+		PrintStream out = System.out;
 
 		ConsoleAppender appender = new ConsoleAppender();
 		appender.setLayout(new PatternLayout());
 		log.addAppender(appender);
 		appender.activateOptions();
 
+		System.setOut(stream);
 		log.info("Hello world.");
-		stream.assertEquals("Hello world.\n", "expected exact message printed.");
+		System.setOut(out);
+
+		stream.assertEquals("Hello world.\n", "expected exact message printed");
 	}
 }
