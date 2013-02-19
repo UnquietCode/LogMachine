@@ -7,6 +7,8 @@ import unquietcode.tools.logmachine.core.appenders.Appender;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
 
  * @author Ben Fagin
@@ -16,7 +18,7 @@ public class JDKHandlerAdaptor extends Handler {
 	private Appender appender;
 
 	public void setAppender(Appender appender) {
-		this.appender = appender;
+		this.appender = checkNotNull(appender, "appender cannot be null");
 	}
 
 	@Override
@@ -40,6 +42,8 @@ public class JDKHandlerAdaptor extends Handler {
 
 	@Override
 	public void close() throws SecurityException {
-		appender.stop();
+		if (appender != null) {
+			appender.stop();
+		}
 	}
 }

@@ -14,7 +14,6 @@ public class Log4jHandler implements LogHandler<Logger> {
 	public void logEvent(Logger log, LogEvent e) {
 		MDC.put(Switchboard.MDC_KEY, Switchboard.put(e));
 		MDC.put(LogEvent.TOPICS_KEY, e.topics);
-		MDC.put(LogEvent.JSON_FORMAT_KEY, e.properties_json);
 		Throwable cause = e.getCause();
 
 		try {
@@ -65,7 +64,6 @@ public class Log4jHandler implements LogHandler<Logger> {
 		}} finally {
 			MDC.remove(Switchboard.MDC_KEY);
 			MDC.remove(LogEvent.TOPICS_KEY);
-			MDC.remove(LogEvent.JSON_FORMAT_KEY);
 		}
 	}
 

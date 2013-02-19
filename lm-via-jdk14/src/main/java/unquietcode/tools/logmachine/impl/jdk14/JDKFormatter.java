@@ -11,7 +11,7 @@ import java.util.logging.LogRecord;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Adaptor which allows log machine to be used as a formatter for
+ * Adaptor which allows log machine formats to be used as a formatter for
  * an existing {@link java.util.logging.Handler}.
  *
  * @author Ben Fagin
@@ -19,9 +19,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class JDKFormatter extends Formatter {
 	private Format format = new PlaintextFormat();
+	private Formatter fallbackFormater;
 
 	public void setFormat(Format format) {
 		this.format = checkNotNull(format, "format cannot be null");
+	}
+
+	public void setFallbackFormater(Formatter formatter) {
+		this.fallbackFormater = checkNotNull(formatter, "formatter cannot be null");
 	}
 
 	@Override
@@ -31,6 +36,10 @@ public class JDKFormatter extends Formatter {
 		String data = _event != null ? format.format(_event) : null;
 
 		// (formatter could have still returned null)
-		return data == null ? "" : data;
+		if (data == null && fallbackFormater != null) {
+			return fallbackFormater.format(event);
+		} else {
+			return "";
+		}
 	}
 }
