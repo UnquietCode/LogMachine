@@ -15,6 +15,7 @@ public class SLF4JHandler implements LogHandler<Logger> {
 	@Override
 	public void logEvent(Logger log, LogEvent e) {
 		MDC.put(Switchboard.MDC_KEY, Switchboard.put(e));
+		MDC.put(LogEvent.TOPICS_KEY, e.topics.toString());
 
 		Object[] data;
 		Object[] replacements = e.getReplacements();
@@ -26,39 +27,44 @@ public class SLF4JHandler implements LogHandler<Logger> {
 			data = replacements;
 		}
 
+		try {
 		switch (e.getLevel()) {
-			case ERROR:
+		  case ERROR:
 			if (log.isErrorEnabled()) {
 				log.error(e.getFormattedMessage(), data);
 			}
-			break;
+		  break;
 
-			case WARN:
+		  case WARN:
 			if (log.isWarnEnabled()) {
 				log.warn(e.getFormattedMessage(), data);
 			}
-			break;
+		  break;
 
-			case INFO:
+		  case INFO:
 			if (log.isInfoEnabled()) {
 				log.info(e.getFormattedMessage(), data);
 			}
-			break;
+		  break;
 
-			case DEBUG:
+		  case DEBUG:
 			if (log.isDebugEnabled()) {
 				log.debug(e.getFormattedMessage(), data);
 			}
-			break;
+		  break;
 
-			case TRACE:
+		  case TRACE:
 			if (log.isTraceEnabled()) {
 				log.trace(e.getFormattedMessage(), data);
 			}
-			break;
+		  break;
 
-			default:
+		  default:
 			throw new LogMachineException("internal error");
+
+		}} finally {
+			MDC.remove(Switchboard.MDC_KEY);
+			MDC.remove(LogEvent.TOPICS_KEY);
 		}
 	}
 

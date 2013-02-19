@@ -13,11 +13,11 @@ public class Log4jHandler implements LogHandler<Logger> {
 	@Override
 	public void logEvent(Logger log, LogEvent e) {
 		MDC.put(Switchboard.MDC_KEY, Switchboard.put(e));
-		MDC.put(LogEvent.TOPICS_KEY, e.getGroups());
-		MDC.put(LogEvent.TOPICS_TEXT_KEY, e.topics);
-		MDC.put(LogEvent.JSON_PROPERTIES_KEY, e.properties_json);
+		MDC.put(LogEvent.TOPICS_KEY, e.topics);
+		MDC.put(LogEvent.JSON_FORMAT_KEY, e.properties_json);
 		Throwable cause = e.getCause();
 
+		try {
 		switch (e.getLevel()) {
 			case ERROR:
 				if (cause == null) {
@@ -61,6 +61,11 @@ public class Log4jHandler implements LogHandler<Logger> {
 
 			default:
 			throw new LogMachineException("internal error");
+
+		}} finally {
+			MDC.remove(Switchboard.MDC_KEY);
+			MDC.remove(LogEvent.TOPICS_KEY);
+			MDC.remove(LogEvent.JSON_FORMAT_KEY);
 		}
 	}
 

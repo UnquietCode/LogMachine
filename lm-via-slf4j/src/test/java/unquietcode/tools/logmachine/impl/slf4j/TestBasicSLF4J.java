@@ -20,6 +20,6 @@ public class TestBasicSLF4J {
 		System.setErr(stream);
 
 		log.info("Hello world xoxo.");
-		stream.assertContains("Hello world xoxo.", "expected exact message printed.");
+		stream.assertContains("Hello world xoxo.", "expected exact message printed");
 	}
 }

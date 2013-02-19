@@ -6,6 +6,9 @@ package unquietcode.tools.logmachine.helpers;
  * It is, of course, possible in theory, but the risk should be low enough, and the
  * consequence seems minor (exceedingly rare duplicate slips through).
  *
+ * TODO Do multiple loggers produce distinct event objects? In that case, this will fail
+ *      and we will need to use a different key than identity hash.
+ *
  * @author Ben Fagin
  * @version 02-17-2013
  */

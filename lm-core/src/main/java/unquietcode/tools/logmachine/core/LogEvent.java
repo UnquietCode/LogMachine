@@ -1,7 +1,6 @@
 package unquietcode.tools.logmachine.core;
 
 import unquietcode.tools.logmachine.LazyString;
-import unquietcode.tools.logmachine.core.formats.JSONFormat;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +15,6 @@ import java.util.regex.Pattern;
  */
 public class LogEvent {
 	public static final String TOPICS_KEY = "LM-TOPICS";
-	public static final String TOPICS_TEXT_KEY = "LM-TOPICS-TEXT";
-	public static final String JSON_PROPERTIES_KEY = "LM-PROPS-JSON";
-	public static final String HAML_PROPERTIES_KEY = "LM-PROPS-HAML";
-	public static final String TEXT_PROPERTIES_KEY = "LM-PROPS-TEXT";
 
 	private Level level;
 	private String message = "";
@@ -126,28 +121,6 @@ public class LogEvent {
 			}
 
 			return sb.append("]").toString();
-		}
-	};
-
-	//==o==o==o==o==o==o==| Properties |==o==o==o==o==o==o==//
-
-	private static final JSONFormat jsonFormat = new JSONFormat();
-
-	public final LazyString properties_json = new LazyString() {
-		protected String _getString() {
-			return jsonFormat.format(self);
-		}
-	};
-
-	private final LazyString properties_haml = new LazyString() {
-		protected String _getString() {
-			throw new RuntimeException("not implemented");
-		}
-	};
-
-	private final LazyString properties_text = new LazyString() {
-		protected String _getString() {
-			throw new RuntimeException("not implemented");
 		}
 	};
 

@@ -21,6 +21,6 @@
 	<logger name="unquietcode.tools.logmachine.impl.logback" level="DEBUG"/>
 
 	<root level="INFO">
-		<appender-ref ref="STDOUT" />
+		<!--<appender-ref ref="STDOUT" />-->
 	</root>
 </configuration>

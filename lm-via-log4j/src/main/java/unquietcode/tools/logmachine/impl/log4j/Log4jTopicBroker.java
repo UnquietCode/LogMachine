@@ -5,9 +5,8 @@ import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.Switchboard;
 import unquietcode.tools.logmachine.helpers.TopicBrokerHelper;
-
-import java.util.Collection;
 
 /**
  * Implementation of {@link org.apache.log4j.Appender} which acts as a
@@ -36,10 +35,14 @@ public class Log4jTopicBroker extends AppenderSkeleton {
 	}
 
 	private void log(LoggingEvent event) {
-		@SuppressWarnings("unchecked")
-		Collection<Enum> eventTopics = (Collection<Enum>) event.getMDC(LogEvent.TOPICS_KEY);
+		String lookupKey = (String) event.getMDC(Switchboard.MDC_KEY);
+		LogEvent _event = Switchboard.get(lookupKey);
 
-		for (Appender appender : helper.getAppenders(eventTopics)) {
+		if (_event == null) {
+			return;
+		}
+
+		for (Appender appender : helper.getAppenders(_event.getGroups())) {
 			appender.doAppend(event);
 		}
 	}

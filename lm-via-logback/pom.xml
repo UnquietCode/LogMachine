@@ -14,7 +14,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<logback.version>1.0.3</logback.version>
+		<logback.version>1.0.8</logback.version>
 	</properties>
 
 	<dependencies>
