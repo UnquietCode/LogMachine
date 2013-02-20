@@ -9,6 +9,8 @@ import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.Switchboard;
 import unquietcode.tools.logmachine.helpers.TopicBrokerHelper;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Implementation of {@link Appender} which acts as a
  * broker for subscribers to LogMachine enum topics.
@@ -18,7 +20,8 @@ import unquietcode.tools.logmachine.helpers.TopicBrokerHelper;
  */
 public class LogbackTopicBroker extends UnsynchronizedAppenderBase<ILoggingEvent> {
 	public static final LogbackTopicBroker INSTANCE = new LogbackTopicBroker();
-	private static final TopicBrokerHelper<Appender> helper = new TopicBrokerHelper<Appender>();
+	private static final TopicBrokerHelper<Appender<ILoggingEvent>> helper
+		= new TopicBrokerHelper<Appender<ILoggingEvent>>();
 
 	// subscribe to the root logger on startup
 	static {
@@ -34,12 +37,12 @@ public class LogbackTopicBroker extends UnsynchronizedAppenderBase<ILoggingEvent
 	private LogbackTopicBroker() { }
 
 
-	public static void subscribe(Appender appender, Enum...topics) {
-		helper.subscribe(appender, topics);
+	public static void subscribe(Appender<ILoggingEvent> appender, Enum...topics) {
+		helper.subscribe(checkNotNull(appender), checkNotNull(topics));
 	}
 
-	@SuppressWarnings("unchecked")
-	private void log(ILoggingEvent event) {
+	@Override
+	protected void append(ILoggingEvent event) {
 		String lookupKey = event.getMDCPropertyMap().get(Switchboard.MDC_KEY);
 		LogEvent _event = Switchboard.get(lookupKey);
 
@@ -47,14 +50,12 @@ public class LogbackTopicBroker extends UnsynchronizedAppenderBase<ILoggingEvent
 			return;
 		}
 
-		for (Appender appender : helper.getAppenders(_event.getGroups())) {
-			appender.doAppend(event);
+		for (Appender<ILoggingEvent> appender : helper.getAppenders(_event.getGroups())) {
+			if (appender.isStarted()) {
+				// filtering is done in the superclass doAppend method
+				appender.doAppend(event);
+			}
 		}
-	}
-
-	@Override
-	protected void append(ILoggingEvent event) {
-		log(event);
 	}
 
 	@Override

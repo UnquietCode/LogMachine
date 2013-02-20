@@ -8,6 +8,8 @@ import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.Switchboard;
 import unquietcode.tools.logmachine.helpers.TopicBrokerHelper;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Implementation of {@link org.apache.log4j.Appender} which acts as a
  * broker for subscribers to LogMachine enum topics.
@@ -31,10 +33,11 @@ public class Log4jTopicBroker extends AppenderSkeleton {
 
 
 	public static void subscribe(Appender appender, Enum...topics) {
-		helper.subscribe(appender, topics);
+		helper.subscribe(checkNotNull(appender), checkNotNull(topics));
 	}
 
-	private void log(LoggingEvent event) {
+	@Override
+	protected void append(LoggingEvent event) {
 		String lookupKey = (String) event.getMDC(Switchboard.MDC_KEY);
 		LogEvent _event = Switchboard.get(lookupKey);
 
@@ -43,13 +46,9 @@ public class Log4jTopicBroker extends AppenderSkeleton {
 		}
 
 		for (Appender appender : helper.getAppenders(_event.getGroups())) {
+			// filtering is done in the superclass doAppend method
 			appender.doAppend(event);
 		}
-	}
-
-	@Override
-	protected void append(LoggingEvent event) {
-		log(event);
 	}
 
 	@Override

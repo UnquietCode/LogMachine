@@ -120,7 +120,7 @@ public class LogEvent {
 				sb.append(topic);
 			}
 
-			return sb.append("]").toString();
+			return sb.append("] ").toString();
 		}
 	};
 
