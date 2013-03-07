@@ -18,7 +18,7 @@ public class PlaintextFormat implements Format {
 
 
 	@Override
-	public String format(LogEvent event) {
+	public StringBuilder format(LogEvent event) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(event.getTimestamp())
@@ -80,6 +80,6 @@ public class PlaintextFormat implements Format {
 			}
 		}
 
-		return sb.toString();
+		return sb;
 	}
 }

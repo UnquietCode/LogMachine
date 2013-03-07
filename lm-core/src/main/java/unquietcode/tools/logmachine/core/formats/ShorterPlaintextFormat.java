@@ -11,7 +11,7 @@ import unquietcode.tools.logmachine.core.LogEvent;
 public class ShorterPlaintextFormat implements Format {
 
 	@Override
-	public String format(LogEvent event) {
+	public StringBuilder format(LogEvent event) {
 		StringBuilder sb = new StringBuilder();
 
 		// print groups
@@ -40,6 +40,6 @@ public class ShorterPlaintextFormat implements Format {
 		// print data
 		sb.append(event.getFormattedMessage());
 
-		return sb.toString();
+		return sb;
 	}
 }

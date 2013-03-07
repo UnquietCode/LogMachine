@@ -7,5 +7,5 @@ import unquietcode.tools.logmachine.core.LogEvent;
  * @version 10-21-2012
  */
 public interface Format {
-	String format(LogEvent event);
+	StringBuilder format(LogEvent event);
 }

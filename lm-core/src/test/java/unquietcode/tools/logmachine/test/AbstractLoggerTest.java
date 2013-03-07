@@ -57,7 +57,7 @@ public abstract class AbstractLoggerTest {
 	public abstract LogMachine getLogMachine();
 
 	/**
-	 * Set the desired test level. defaults to {@link unquietcode.tools.logmachine.core.Level#DEBUG}
+	 * Provide the desired test level. defaults to {@link unquietcode.tools.logmachine.core.Level#DEBUG}
 	 */
 	protected Level getLevel() {
 		return Level.DEBUG;

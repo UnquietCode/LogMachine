@@ -33,10 +33,11 @@ public class JDKFormatter extends Formatter {
 	public String format(LogRecord event) {
 		String lookupKey = "_"+event.getSequenceNumber();
 		LogEvent _event = Switchboard.get(lookupKey);
-		String data = _event != null ? format.format(_event) : null;
+		StringBuilder data = _event != null ? format.format(_event) : null;
 
-		// (formatter could have still returned null)
-		if (data == null && fallbackFormater != null) {
+		if (data != null) {
+			return data.append("\n").toString();
+		} else if (fallbackFormater != null) {
 			return fallbackFormater.format(event);
 		} else {
 			return "";

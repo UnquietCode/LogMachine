@@ -15,7 +15,7 @@ public class SimpleAppender implements Appender {
 
 	@Override
 	public void append(LogEvent event) {
-		String msg = format.format(event);
+		StringBuilder msg = format.format(event);
 
 		switch (event.getLevel()) {
 			case ERROR:

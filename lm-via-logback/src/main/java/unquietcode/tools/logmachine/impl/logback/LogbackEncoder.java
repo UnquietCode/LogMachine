@@ -39,7 +39,7 @@ public class LogbackEncoder extends EncoderBase<ILoggingEvent> {
 	public void doEncode(ILoggingEvent event) throws IOException {
 		String lookupKey = event.getMDCPropertyMap().get(Switchboard.MDC_KEY);
 		LogEvent _event = Switchboard.get(lookupKey);
-		String data = _event != null ? format.format(_event) : null;
+		StringBuilder data = _event != null ? format.format(_event) : null;
 
 		// (formatter could have still returned null)
 		if (data == null) {
@@ -51,8 +51,8 @@ public class LogbackEncoder extends EncoderBase<ILoggingEvent> {
 			}
 		}
 
-		outputStream.write(data.getBytes());
-		outputStream.write("\n".getBytes());
+		data.append("\n");
+		outputStream.write(data.toString().getBytes());
 		outputStream.flush();
 	}
 

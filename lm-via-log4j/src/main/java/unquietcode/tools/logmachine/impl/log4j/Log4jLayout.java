@@ -34,10 +34,11 @@ public class Log4jLayout extends Layout {
 	public String format(LoggingEvent event) {
 		String lookupKey = (String) event.getMDC(Switchboard.MDC_KEY);
 		LogEvent _event = Switchboard.get(lookupKey);
-		String data = _event != null ? format.format(_event) : null;
+		StringBuilder data = _event != null ? format.format(_event) : null;
 
-		// (formatter could have still returned null)
-		if (data == null && fallbackLayout != null) {
+		if (data != null) {
+			return data.append("\n").toString();
+		} else if (fallbackLayout != null) {
 			return fallbackLayout.format(event);
 		} else {
 			return "";

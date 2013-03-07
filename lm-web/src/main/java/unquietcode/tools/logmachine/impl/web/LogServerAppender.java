@@ -54,8 +54,8 @@ public class LogServerAppender implements Appender {
 		LogServer _server = server;
 
 		if (_server != null) {
-			String message = FORMATTER.format(event);
-			_server.newEvent(message);
+			StringBuilder message = FORMATTER.format(event);
+			_server.newEvent(message.toString());
 		}
 	}
 }

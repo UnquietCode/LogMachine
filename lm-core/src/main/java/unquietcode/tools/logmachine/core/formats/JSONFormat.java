@@ -14,7 +14,7 @@ import java.util.Map;
 public class JSONFormat implements Format {
 
 	@Override
-	public String format(LogEvent event) {
+	public StringBuilder format(LogEvent event) {
 		StringBuilder sb = new StringBuilder();
 
 		// start, and all non-string properties
@@ -83,7 +83,7 @@ public class JSONFormat implements Format {
 
 		sb.append(", \"data\": ").append(getPropertiesJson(data));
 
-		return sb.append("}").toString();
+		return sb.append("}");
 	}
 
 	private static String getPropertiesJson(Map<String, Object> data) {
