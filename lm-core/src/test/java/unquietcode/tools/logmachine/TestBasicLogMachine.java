@@ -147,4 +147,9 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		String name = "Bob";
 		lm.with("name", name).info("{@name}", name);
 	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testDuplicateTopics() {
+		lm.to(TestGroups.One, TestGroups.Two, TestGroups.One).info("oops");
+	}
 }
