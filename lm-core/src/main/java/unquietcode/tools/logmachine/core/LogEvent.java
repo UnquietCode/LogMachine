@@ -94,10 +94,7 @@ public class LogEvent {
 	}
 
 	public Map<String, Object> getData() {
-		if (data == null) {
-			data = new HashMap<String, Object>();
-		}
-		return data;
+		return data != null ? data : (data = new HashMap<String, Object>());
 	}
 
 	//==o==o==o==o==o==o==| Topics |==o==o==o==o==o==o==//

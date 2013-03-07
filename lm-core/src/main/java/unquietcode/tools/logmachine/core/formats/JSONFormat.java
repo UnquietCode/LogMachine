@@ -73,15 +73,15 @@ public class JSONFormat implements Format {
 			sb.append("]");
 		}
 
-		if (event.getData() != null) {
-			// merge MDC with event data, choosing MDC first
-			Map<String, Object> data = new HashMap<String, Object>();
-			data.putAll(event.getData());
-			//data.putAll(event.getMDCPropertyMap());
-			data.remove(Switchboard.MDC_KEY);
+		// Event data
+		// TODO clean up
+		// merge MDC with event data, choosing MDC first
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.putAll(event.getData());
+		//data.putAll(event.getMDCPropertyMap());
+		data.remove(Switchboard.MDC_KEY);
 
-			sb.append(", \"data\": ").append(getPropertiesJson(data));
-		}
+		sb.append(", \"data\": ").append(getPropertiesJson(data));
 
 		return sb.append("}").toString();
 	}
