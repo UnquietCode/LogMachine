@@ -4,7 +4,6 @@ package unquietcode.tools.logmachine.core;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,15 +23,6 @@ public abstract class BaseLogMachine<T> {
 	}
 
 	public void _log(LogEvent event) {
-		// TODO make these lazy created lists of the object
-		if (event.getGroups() == null) {
-			event.setGroups(new ArrayList<Enum>());
-		}
-
-		if (event.getReplacements() == null) {
-			event.setReplacements(new Object[]{});
-		}
-
 		handler.logEvent(logger, event);
 	}
 

@@ -2,6 +2,7 @@ package unquietcode.tools.logmachine.core;
 
 import unquietcode.tools.logmachine.LazyString;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,6 @@ public class LogEvent {
 	private long timestamp = System.currentTimeMillis();
 	private String threadName = Thread.currentThread().getName();
 	private String loggerName;
-	private final LogEvent self = this;
 
 
 	public Level getLevel() {
@@ -78,7 +78,7 @@ public class LogEvent {
 	}
 
 	public List<Enum> getGroups() {
-		return groups;
+		return groups != null ? groups : (groups = new ArrayList<Enum>());
 	}
 
 	public void setGroups(List<Enum> groups) {
@@ -86,7 +86,7 @@ public class LogEvent {
 	}
 
 	public Object[] getReplacements() {
-		return replacements;
+		return replacements != null ? replacements : (replacements = new Object[0]);
 	}
 
 	public void setReplacements(Object[] replacements) {

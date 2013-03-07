@@ -59,7 +59,7 @@ public class JSONFormat implements Format {
 		appendNotNull("location", sb, event.getLocation());
 
 		List<Enum> groups = event.getGroups();
-		if (groups != null && !groups.isEmpty()) {
+		if (!groups.isEmpty()) {
 			sb.append(", \"groups\": [");
 			boolean first = true;
 

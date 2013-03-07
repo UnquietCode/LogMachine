@@ -30,7 +30,7 @@ public class PlaintextFormat implements Format {
 
 		boolean extraDivider = false;
 
-		if (event.getGroups() != null && !event.getGroups().isEmpty()) {
+		if (!event.getGroups().isEmpty()) {
 			boolean first = true;
 			sb.append("[");
 
