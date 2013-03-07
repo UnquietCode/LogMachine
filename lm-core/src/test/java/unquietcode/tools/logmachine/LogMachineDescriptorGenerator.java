@@ -22,7 +22,8 @@ public class LogMachineDescriptorGenerator {
 			.startBlock("Generic", "generic()").last()
 				.addMethod("with(String key, Number value)").any()
 				.addMethod("with(String key, String value)").any()
-				.addMethod("from(String location)").atMost(1)
+				.addMethod("from(String location)").atMost(1,1)
+				.addMethod("from()").atMost(1, 1)
 				.addMethod("to(Enum...categories)").atMost(1)
 				.addMethod("because(Throwable cause)").atMost(1)
 
@@ -37,7 +38,8 @@ public class LogMachineDescriptorGenerator {
 				.addMethod("with(String key, Number value)").any()
 				.addMethod("with(String key, String value)").any()
 
-				.addMethod("from(String location)").atMost(1)
+				.addMethod("from(String location)").atMost(1, 1)
+				.addMethod("from()").atMost(1, 1)
 				.addMethod("to(Enum...categories)").atMost(1)
 				.addMethod("because(Throwable cause)").atMost(1)
 				.addMethod("send(String message, Object...data)").last()

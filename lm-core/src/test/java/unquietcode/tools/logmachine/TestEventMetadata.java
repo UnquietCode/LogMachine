@@ -102,4 +102,11 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		assertEquals(SecondaryColor.Purple.name(), event.getData().get("color"));
 		assertEquals("Red + Blue {=>} Purple", event.getFormattedMessage());
 	}
+
+	@Test
+	public void testAutomaticSource() {
+		lm.from().info("Where you at dawg?");
+		LogEvent event = getSingleEvent();
+		assertEquals("testAutomaticSource", event.getLocation());
+	}
 }

@@ -1,9 +1,9 @@
 package unquietcode.tools.logmachine;
 
-import unquietcode.tools.flapi.support.v0_2.ObjectWrapper;
-import unquietcode.tools.logmachine.builder.GenericHelper;
-import unquietcode.tools.logmachine.builder.LogMachineHelper;
-import unquietcode.tools.logmachine.builder.SpecificHelper;
+import unquietcode.tools.flapi.support.ObjectWrapper;
+import unquietcode.tools.logmachine.builder.Generic.GenericHelper;
+import unquietcode.tools.logmachine.builder.LogMachine.LogMachineHelper;
+import unquietcode.tools.logmachine.builder.Specific.SpecificHelper;
 import unquietcode.tools.logmachine.core.BaseLogMachine;
 import unquietcode.tools.logmachine.core.Level;
 

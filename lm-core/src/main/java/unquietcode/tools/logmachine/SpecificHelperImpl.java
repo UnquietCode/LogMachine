@@ -1,6 +1,6 @@
 package unquietcode.tools.logmachine;
 
-import unquietcode.tools.logmachine.builder.SpecificHelper;
+import unquietcode.tools.logmachine.builder.Specific.SpecificHelper;
 import unquietcode.tools.logmachine.core.BaseLogMachine;
 import unquietcode.tools.logmachine.core.Level;
 

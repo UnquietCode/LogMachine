@@ -1,7 +1,10 @@
 package unquietcode.tools.logmachine;
 
+import sun.misc.JavaLangAccess;
+import sun.misc.SharedSecrets;
 import unquietcode.tools.logmachine.core.BaseLogMachine;
 import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.LogMachine;
 
 import java.util.Arrays;
 
@@ -10,6 +13,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public abstract class BuilderHelperBase {
+	private static final String logClassName = LogMachine.class.getName();
+
 	protected final BaseLogMachine lm;
 	protected final LogEvent event = new LogEvent();
 
@@ -22,6 +27,39 @@ public abstract class BuilderHelperBase {
 	public void from(String location) {
 		event.setLocation(location);
     }
+
+	/**
+	 * Copied with modifications from {@link java.util.logging.LogRecord#inferCaller}.
+	 */
+	public void from() {
+		JavaLangAccess access = SharedSecrets.getJavaLangAccess();
+		Throwable throwable = new Throwable();
+		int depth = access.getStackTraceDepth(throwable);
+		boolean lookingForLogger = true;
+
+		for (int ix = 0; ix < depth; ix++) {
+			// Calling getStackTraceElement directly prevents the VM
+			// from paying the cost of building the entire stack frame.
+			StackTraceElement frame = access.getStackTraceElement(throwable, ix);
+			String cname = frame.getClassName();
+
+			if (lookingForLogger) {
+				// Skip all frames until we have found the first logger frame.
+				if (cname.equals(logClassName)) {
+					lookingForLogger = false;
+				}
+			} else {
+				if (!cname.equals(logClassName)) {
+					// We've found the relevant frame.
+					String source = frame.getMethodName();
+					from(source);
+					return;
+				}
+			}
+		}
+
+		from("???");
+	}
 
 	public void to(Enum...categories) {
 		if (categories == null) {

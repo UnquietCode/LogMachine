@@ -67,7 +67,7 @@
 			<!-- used to generate the builders -->
 			<groupId>unquietcode.tools.flapi</groupId>
 			<artifactId>flapi</artifactId>
-			<version>0.2</version>
+			<version>0.3</version>
 			<scope>test</scope>
 		</dependency>
 

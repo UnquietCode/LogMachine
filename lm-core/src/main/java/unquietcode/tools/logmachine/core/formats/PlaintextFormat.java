@@ -25,9 +25,13 @@ public class PlaintextFormat implements Format {
 			.append(" [").append(event.getThreadName())
 			.append("] ").append(event.getLevel().toString())
 			.append(" ").append(event.getLoggerName())
-			.append(" - ")
 		;
 
+		if (event.getLocation() != null) {
+			sb.append(" @").append(event.getLocation());
+		}
+
+		sb.append(" - ");
 		boolean extraDivider = false;
 
 		if (!event.getGroups().isEmpty()) {
@@ -42,11 +46,6 @@ public class PlaintextFormat implements Format {
 			}
 
 			sb.append("] ");
-			extraDivider = true;
-		}
-
-		if (event.getLocation() != null) {
-			sb.append("{@").append(event.getLocation()).append("} ");
 			extraDivider = true;
 		}
 
