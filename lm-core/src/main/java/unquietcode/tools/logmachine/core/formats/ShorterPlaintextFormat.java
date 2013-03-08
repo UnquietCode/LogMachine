@@ -14,7 +14,10 @@ public class ShorterPlaintextFormat implements Format {
 	public StringBuilder format(LogEvent event) {
 		StringBuilder sb = new StringBuilder();
 
-		// print groups
+		// log level
+		sb.append("[").append(event.getLevel()).append("] ");
+
+		// topics
 		if (!event.getGroups().isEmpty()) {
 			boolean first = true;
 			sb.append("[");
@@ -34,11 +37,11 @@ public class ShorterPlaintextFormat implements Format {
 
 		// print source
 		if (event.getLocation() != null) {
-			sb.append("(").append(event.getLevel()).append(") ");
+			sb.append("(").append(event.getLocation()).append(") ");
 		}
 
 		// print data
-		sb.append(event.getFormattedMessage());
+		sb.append("- ").append(event.getFormattedMessage());
 
 		return sb;
 	}

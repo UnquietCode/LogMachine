@@ -10,8 +10,12 @@ import java.util.Map;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
+ * Not really used as a base in terms of type hierarchy, but merely as
+ * a cleaner way of dividing up the logic into two smaller files.
+ *
  * @author Benjamin Fagin
  * @version 10-21-2012
+ * @see LogMachine
  */
 public abstract class BaseLogMachine<T> {
 	private final LogHandler<T> handler;

@@ -37,15 +37,15 @@ public class TestLog4jTopicBroker {
 		Log4jTopicBroker.subscribe(appender, X.TWO);
 
 		lm.info("should always print");
-		stream.assertEquals("should always print\n", "expected exact message printed");
+		stream.assertEquals("[INFO] - should always print\n", "expected exact message printed");
 		stream.clear();
 
 		lm.to(X.ONE).info("should print once");
-		stream.assertEquals("[ONE] should print once\n", "expected exact message printed");
+		stream.assertEquals("[INFO] [ONE] - should print once\n", "expected exact message printed");
 		stream.clear();
 
 		lm.to(X.TWO).info("should print twice");
-		stream.assertEquals("[TWO] should print twice\n[TWO] should print twice\n", "expected exact message printed");
+		stream.assertEquals("[INFO] [TWO] - should print twice\n[INFO] [TWO] - should print twice\n", "expected exact message printed");
 		stream.clear();
 
 		System.setOut(out);
@@ -73,15 +73,15 @@ public class TestLog4jTopicBroker {
 		Log4jTopicBroker.subscribe(appender, X.TWO);
 
 		lm.info("should always print");
-		stream.assertEquals("should always print\n", "expected exact message printed");
+		stream.assertEquals("[INFO] - should always print\n", "expected exact message printed");
 		stream.clear();
 
 		lm.to(X.ONE, X.TWO).info("should print once");
-		stream.assertEquals("[ONE | TWO] should print once\n", "expected exact message printed");
+		stream.assertEquals("[INFO] [ONE | TWO] - should print once\n", "expected exact message printed");
 		stream.clear();
 
 		lm.to(X.TWO).info("should also print once");
-		stream.assertEquals("[TWO] should also print once\n", "expected exact message printed");
+		stream.assertEquals("[INFO] [TWO] - should also print once\n", "expected exact message printed");
 		stream.clear();
 
 		log.info("should prince once via fallback");

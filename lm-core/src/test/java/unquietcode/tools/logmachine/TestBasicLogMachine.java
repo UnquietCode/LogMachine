@@ -16,9 +16,6 @@ import static org.junit.Assert.assertTrue;
 
 public class TestBasicLogMachine extends AbstractLoggerTest {
 
-	// it's not the same logger factory, so it's not going to the right place.
-	// could change them to getters and setters, but then it starts to become ridic.
-
 	private enum TestGroups {
 		One, Two, Three
 	}

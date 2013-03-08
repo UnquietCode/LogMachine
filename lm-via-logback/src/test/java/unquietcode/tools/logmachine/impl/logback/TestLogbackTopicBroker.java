@@ -54,15 +54,15 @@ public class TestLogbackTopicBroker {
 		LogbackTopicBroker.subscribe(appender, X.TWO);
 
 		lm.info("should always print");
-		stream.assertEquals("should always print\n", "expected exact message printed");
+		stream.assertEquals("[INFO] - should always print\n", "expected exact message printed");
 		stream.clear();
 
 		lm.to(X.ONE, X.TWO).info("should print once");
-		stream.assertEquals("[ONE | TWO] should print once\n", "expected exact message printed");
+		stream.assertEquals("[INFO] [ONE | TWO] - should print once\n", "expected exact message printed");
 		stream.clear();
 
 		lm.to(X.TWO).info("should also print once");
-		stream.assertEquals("[TWO] should also print once\n", "expected exact message printed");
+		stream.assertEquals("[INFO] [TWO] - should also print once\n", "expected exact message printed");
 		stream.clear();
 
 		log.info("should print once via fallback");
