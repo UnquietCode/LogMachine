@@ -17,8 +17,10 @@ import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachineException;
 import unquietcode.tools.logmachine.core.appenders.Appender;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -34,20 +36,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @version 10-24-2012
  */
 public class ElasticSearchAppender implements Appender {
-	private static final LogstashFormatter formatter = new LogstashFormatter();
+	private ElasticSearchJSONFormatter formatter = new LogstashFormatter_V1();
 	private Client client;
 
 	private List<InetSocketTransportAddress> servers; // the servers this client will connect to
 	private String clusterName = "elasticsearch";     // cluster name, where ES's default is the default
 	private int batchSize = 10;                       // number of events to wait for (the trade-off is in lost events)
 	private Level batchThreshold = Level.ERROR;       // log level which permits skipping the batch (null := never)
-	private String indexName = createIndexName();     // the name of the index to log events to
 	private final Queue<LogEvent> queue = new ConcurrentLinkedQueue<LogEvent>();
 	private boolean enabled = true;
-
-	private static String createIndexName() {
-		return new SimpleDateFormat("yyyy.MM.dd").format(new Date());
-	}
 
 	@Override
 	public void append(LogEvent event) {
@@ -114,7 +111,7 @@ public class ElasticSearchAppender implements Appender {
 	}
 
 	private IndexRequestBuilder createRequest(LogEvent event) {
-		return client.prepareIndex(indexName, "lm")
+		return client.prepareIndex(formatter.getIndexName(event), "lm")
 			.setSource(formatter.format(event))         // is there an ostream constructor?
 			.setContentType(XContentType.JSON)
 			.setTimestamp(Long.toString(event.getTimestamp()))
@@ -211,7 +208,7 @@ public class ElasticSearchAppender implements Appender {
 		this.batchThreshold = checkNotNull(batchThreshold);
 	}
 
-	public void setIndexName(String indexName) {
-		this.indexName = checkNotNull(indexName);
+	public void setFormatter(ElasticSearchJSONFormatter formatter) {
+		this.formatter = checkNotNull(formatter);
 	}
 }

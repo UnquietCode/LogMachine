@@ -5,13 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import unquietcode.tools.logmachine.core.LogEvent;
 
 import java.net.InetAddress;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
  * @author Ben Fagin
  * @version 10-24-2012
  */
-public class LogstashFormatter {
+public class LogstashFormatter_V1 implements ElasticSearchJSONFormatter {
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
 
 	private static final ObjectMapper json = new ObjectMapper(); static {
 		json.setVisibilityChecker(json.getVisibilityChecker().with(JsonAutoDetect.Visibility.NONE));
@@ -34,7 +37,7 @@ public class LogstashFormatter {
 
 	public byte[] format(LogEvent event) {
 		// basic info
-		LogstashEvent _event = new LogstashEvent();
+		LogstashEvent_V1 _event = new LogstashEvent_V1();
 		_event.setMessage(event.getFormattedMessage());
 		_event.setTimestamp(event.getTimestamp());
 		_event.setLocation(event.getLocation() != null ? event.getLocation() : event.getLoggerName());
@@ -78,7 +81,7 @@ public class LogstashFormatter {
 		}
 
 		try {
-			return json.writerWithType(LogstashEvent.class).writeValueAsBytes(_event);
+			return json.writerWithType(LogstashEvent_V1.class).writeValueAsBytes(_event);
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
@@ -86,5 +89,10 @@ public class LogstashFormatter {
 
 	public void useShortTopicNames(boolean value) {
 		useShortTopicNames = value;
+	}
+
+	@Override
+	public String getIndexName(LogEvent event) {
+		return dateFormat.format(new Date(event.getTimestamp()));
 	}
 }

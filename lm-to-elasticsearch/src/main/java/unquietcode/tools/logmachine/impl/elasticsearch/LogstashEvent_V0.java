@@ -14,13 +14,10 @@ import java.util.*;
  * Object to be marshalled into logstash JSON object, to be sent to ElasticSearch.
  * https://github.com/logstash/logstash/wiki/logstash's-internal-message-format
  *
- * NOTE: I am pre-emptively using a proposed newer format:
- * https://logstash.jira.com/browse/LOGSTASH-675
- *
  * @author Ben Fagin
- * @version 10-24-2012
+ * @version 04-01-2013
  */
-public class LogstashEvent {
+public class LogstashEvent_V0 {
 	private static final ObjectMapper mapper = new ObjectMapper();
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"); static {
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -30,27 +27,27 @@ public class LogstashEvent {
 	private String timestamp;
 
 	@JsonProperty("@version")
-	public final int version = 1;
+	public final int version = 0;
 
-	@JsonProperty
+	@JsonProperty("@message")
 	private String message;
 
-	@JsonProperty
+	@JsonProperty("@source")
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private String location;
 
-	@JsonProperty
+	@JsonProperty("@tags")
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private final List<String> topics = new ArrayList<String>();
 
 	@JsonProperty
 	private Level level;
 
-	@JsonProperty
+	@JsonProperty("@source_host")
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private String host;
 
-	@JsonProperty
+	@JsonProperty("@fields")
 	@JsonInclude(JsonInclude.Include.NON_EMPTY) // TODO jackson does not honor this
 	private final ObjectNode fields = mapper.createObjectNode();
 
