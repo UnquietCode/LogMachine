@@ -25,32 +25,35 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
+ * Every incoming event goes on a queue.
+ * A thread eats from it, consuming X at a time, then sleeping for Y.
+ * On interrupt, shut down everything and die gracefully.
+ *
+ *
  * @author Ben Fagin
  * @version 10-24-2012
  */
 public class ElasticSearchAppender implements Appender {
-	private static final LogstashFormat formatter = new LogstashFormat();
+	private static final LogstashFormatter formatter = new LogstashFormatter();
 	private Client client;
 
 	private List<InetSocketTransportAddress> servers; // the servers this client will connect to
-	private String clusterName = "elasticsearch";     // cluster name, where es default is default
+	private String clusterName = "elasticsearch";     // cluster name, where ES's default is the default
 	private int batchSize = 10;                       // number of events to wait for (the trade-off is in lost events)
-	private Level batchThreshold = Level.ERROR;       // log level which permits skipping the batch
+	private Level batchThreshold = Level.ERROR;       // log level which permits skipping the batch (null := never)
 	private String indexName = createIndexName();     // the name of the index to log events to
 	private final Queue<LogEvent> queue = new ConcurrentLinkedQueue<LogEvent>();
 	private boolean enabled = true;
-	private final Object indexerLock = new Object();
 
 	private static String createIndexName() {
-		return new SimpleDateFormat("MM-dd-yyyy").format(new Date());
+		return new SimpleDateFormat("yyyy.MM.dd").format(new Date());
 	}
-
 
 	@Override
 	public void append(LogEvent event) {
 		if (!enabled) { return; }
 
-		if (event.getLevel().isLesserOrEqual(batchThreshold)) {
+		if (event.getLevel().isCoarserOrEqual(batchThreshold)) {
 			logSingleEvent(event);
 		} else {
 			queue.add(event);
@@ -67,6 +70,17 @@ public class ElasticSearchAppender implements Appender {
 
 		if (!events.isEmpty()) {
 			System.err.println("could not save all events");
+		}
+	}
+
+	private void logSingleEvent(LogEvent event) {
+		ListenableActionFuture<IndexResponse> future = createRequest(event).execute();
+
+		try {
+			future.actionGet();
+		} catch (Exception ex) {
+			System.err.println("error while saving a log event to elastic search");
+			ex.printStackTrace(System.err);
 		}
 	}
 
@@ -99,17 +113,6 @@ public class ElasticSearchAppender implements Appender {
 		return retries;
 	}
 
-	private void logSingleEvent(LogEvent event) {
-		ListenableActionFuture<IndexResponse> future = createRequest(event).execute();
-
-		try {
-			future.actionGet();
-		} catch (Exception ex) {
-			System.err.println("error while saving a log event to elastic search");
-			ex.printStackTrace(System.err);
-		}
-	}
-
 	private IndexRequestBuilder createRequest(LogEvent event) {
 		return client.prepareIndex(indexName, "lm")
 			.setSource(formatter.format(event))         // is there an ostream constructor?
@@ -120,8 +123,6 @@ public class ElasticSearchAppender implements Appender {
 
 	@Override
 	public void start() {
-
-
 		if (servers == null || servers.isEmpty()) {
 			throw new LogMachineException("At least one server address is required.");
 		}
@@ -143,11 +144,9 @@ public class ElasticSearchAppender implements Appender {
 		indexer.start();
 	}
 
-
 	@Override
 	public void stop() {
 		enabled = false;
-		indexerLock.notify();
 	}
 
 	/**
@@ -172,15 +171,17 @@ public class ElasticSearchAppender implements Appender {
 					else { break; }
 				}
 
-				int size = events.size();
-
-				if (size == 0) {
-//					try {
-//						indexerLock.wait();
-//					} catch (InterruptedException ex) {
-//						break;
-//					}
-				} else if (size == 1) {
+				if (events.size() == 0) {
+					if (enabled) {
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException ex) {
+							// nothing
+						}
+					} else {
+						break;
+					}
+				} else if (events.size() == 1) {
 					logSingleEvent(events.get(0));
 				} else {
 					logMultipleEvents(events);

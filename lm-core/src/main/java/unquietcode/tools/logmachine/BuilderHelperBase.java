@@ -58,6 +58,7 @@ public abstract class BuilderHelperBase {
 			}
 		}
 
+		// fail gracefully
 		from("???");
 	}
 
