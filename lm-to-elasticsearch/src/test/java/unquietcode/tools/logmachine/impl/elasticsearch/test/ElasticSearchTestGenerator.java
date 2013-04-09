@@ -28,7 +28,6 @@ public class ElasticSearchTestGenerator {
 		SimpleLogger logger = SimpleLogger.getLogger(ElasticSearchTestGenerator.class);
 		ElasticSearchAppender appender = new ElasticSearchAppender();
 		appender.setBatchThreshold(Level.TRACE);
-		appender.setIndexName("test");
 		appender.setServers(Arrays.asList(new InetSocketTransportAddress("localhost", 9300)));
 
 		logger.addAppender(appender);
