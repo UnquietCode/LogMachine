@@ -105,7 +105,7 @@ public abstract class BaseLogMachine<T> {
 
 			Object returnValue;
 
-			if (returnType.equals(void.class) || returnType.equals(Void.class)) {
+			if (returnType.equals(void.class) || returnType.equals(Void.class) || returnType.equals(Object.class)) {
 				returnValue = null;
 			} else {
 				returnValue = Proxy.newProxyInstance(returnType.getClassLoader(), new Class<?>[]{returnType}, this);
