@@ -181,10 +181,12 @@ public class LogEvent {
 			case '~': {
 				try {
 					int index = Integer.parseInt(key);
-					if (index != 0) {
-						--index;
+
+					if (index > 0 && index <= groups.size()) {
+						return groups.get(index-1).toString();
+					} else {
+						return null;
 					}
-					return index >= groups.size() ? null : groups.get(index).toString();
 				} catch (NumberFormatException ex) {
 					return null;
 				}

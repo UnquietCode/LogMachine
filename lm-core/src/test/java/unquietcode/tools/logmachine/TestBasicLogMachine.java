@@ -121,7 +121,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		  .info("\"{~0}  { ~1 } { ~2} {~3 }\"");
 
 		LogEvent event = getSingleEvent();
-		assertEquals("\"One  One Two Three\"", event.getFormattedMessage());
+		assertEquals("\"{~0}  One Two Three\"", event.getFormattedMessage());
 	}
 
 	@Test
@@ -148,5 +148,14 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testDuplicateTopics() {
 		lm.to(TestGroups.One, TestGroups.Two, TestGroups.One).info("oops");
+	}
+
+	@Test
+	public void testConditionalBuilder() {
+		lm.when(false).info().send("hi");
+		assertEquals(0, getEventAppender().getAllEvents().size());
+
+		lm.when(true).info("sup");
+		assertEquals(1, getEventAppender().getAllEvents().size());
 	}
 }
