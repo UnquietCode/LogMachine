@@ -2,12 +2,12 @@ package unquietcode.tools.logmachine.core;
 
 
 import unquietcode.tools.logmachine.LogMachineHelperImpl;
-import unquietcode.tools.logmachine.builder.Generic.GenericBuilder_because_debug_error_from_from$A_info_to_trace_warn_with_with$A;
-import unquietcode.tools.logmachine.builder.Generic.GenericBuilder_because_debug_error_from_from$A_info_trace_warn_with_with$A;
-import unquietcode.tools.logmachine.builder.Generic.GenericBuilder_because_debug_error_info_to_trace_warn_with_with$A;
-import unquietcode.tools.logmachine.builder.Generic.GenericBuilder_debug_error_from_from$A_info_to_trace_warn_with_with$A;
+import unquietcode.tools.logmachine.builder.Generic.GenericBuilder_because_debug_error_from_from$A_info_trace_warn;
+import unquietcode.tools.logmachine.builder.Generic.GenericBuilder_because_debug_error_info_to_trace_warn;
+import unquietcode.tools.logmachine.builder.Generic.GenericBuilder_because_from_from$A_to;
+import unquietcode.tools.logmachine.builder.Generic.GenericBuilder_debug_error_from_from$A_info_to_trace_warn;
 import unquietcode.tools.logmachine.builder.LogMachine.LogMachineGenerator;
-import unquietcode.tools.logmachine.builder.Specific.SpecificBuilder_because_from_from$A_send_to_with_with$A;
+import unquietcode.tools.logmachine.builder.Specific.SpecificBuilder_because_from_from$A_to;
 
 import java.lang.reflect.Proxy;
 
@@ -15,7 +15,7 @@ import java.lang.reflect.Proxy;
  * @author Benjamin Fagin
  * @version 10-21-2012
  */
-public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMachineBuilders_when {
+public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 
 	protected LogMachine(T logger, LogHandler<T> handler) {
 		super(logger, handler);
@@ -99,7 +99,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	// specific builders
 
 	@Override
-	public SpecificBuilder_because_from_from$A_send_to_with_with$A<Void> error() {
+	public SpecificBuilder_because_from_from$A_to<Void> error() {
 		if (isError()) {
 			LogMachineHelperImpl helper = new LogMachineHelperImpl(this, Level.ERROR);
 			return LogMachineGenerator.start(helper).specific();
@@ -109,7 +109,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificBuilder_because_from_from$A_send_to_with_with$A<Void> warn() {
+	public SpecificBuilder_because_from_from$A_to<Void> warn() {
 		if (isWarn()) {
 			LogMachineHelperImpl helper = new LogMachineHelperImpl(this, Level.WARN);
 			return LogMachineGenerator.start(helper).specific();
@@ -119,7 +119,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificBuilder_because_from_from$A_send_to_with_with$A<Void> info() {
+	public SpecificBuilder_because_from_from$A_to<Void> info() {
 		if (isInfo()) {
 			LogMachineHelperImpl helper = new LogMachineHelperImpl(this, Level.INFO);
 			return LogMachineGenerator.start(helper).specific();
@@ -129,7 +129,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificBuilder_because_from_from$A_send_to_with_with$A<Void> debug() {
+	public SpecificBuilder_because_from_from$A_to<Void> debug() {
 		if (isError()) {
 			LogMachineHelperImpl helper = new LogMachineHelperImpl(this, Level.DEBUG);
 			return LogMachineGenerator.start(helper).specific();
@@ -139,7 +139,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificBuilder_because_from_from$A_send_to_with_with$A<Void> trace() {
+	public SpecificBuilder_because_from_from$A_to<Void> trace() {
 		if (isError()) {
 			LogMachineHelperImpl helper = new LogMachineHelperImpl(this, Level.TRACE);
 			return LogMachineGenerator.start(helper).specific();
@@ -149,16 +149,16 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@SuppressWarnings("unchecked")
-	private static final SpecificBuilder_because_from_from$A_send_to_with_with$A<Void> DEAD_PROXY
-		= (SpecificBuilder_because_from_from$A_send_to_with_with$A<Void>) Proxy.newProxyInstance(
-			SpecificBuilder_because_from_from$A_send_to_with_with$A.class.getClassLoader(),
-			new Class<?>[]{SpecificBuilder_because_from_from$A_send_to_with_with$A.class},
+	private static final SpecificBuilder_because_from_from$A_to<Void> DEAD_PROXY
+		= (SpecificBuilder_because_from_from$A_to<Void>) Proxy.newProxyInstance(
+			SpecificBuilder_because_from_from$A_to.class.getClassLoader(),
+			new Class<?>[]{SpecificBuilder_because_from_from$A_to.class},
 			new ProxyHelper()
 		);
 
 	@SuppressWarnings("unchecked")
-	private static final LogMachineBuilders DEAD_SELF_PROXY
-		= (LogMachineBuilders) Proxy.newProxyInstance(
+	private final LogMachineBuilders<T> DEAD_SELF_PROXY
+		= (LogMachineBuilders<T>) Proxy.newProxyInstance(
 			LogMachineBuilders.class.getClassLoader(),
 			new Class<?>[]{LogMachineBuilders.class},
 			new ProxyHelper()
@@ -168,41 +168,40 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	// generic builders
 
 	@Override
-	public GenericBuilder_debug_error_from_from$A_info_to_trace_warn_with_with$A<Void> because(Throwable cause) {
+	public GenericBuilder_debug_error_from_from$A_info_to_trace_warn<Void> because(Throwable cause) {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().because(cause);
 	}
 
 	@Override
-	public GenericBuilder_because_debug_error_info_to_trace_warn_with_with$A<Void> from(String location) {
+	public GenericBuilder_because_debug_error_info_to_trace_warn<Void> from(String location) {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().from(location);
 	}
 
 	@Override
-	public GenericBuilder_because_debug_error_info_to_trace_warn_with_with$A<Void> from() {
+	public GenericBuilder_because_debug_error_info_to_trace_warn<Void> from() {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().from();
 	}
 
 	@Override
-	public GenericBuilder_because_debug_error_from_from$A_info_trace_warn_with_with$A<Void> to(Enum... topics) {
+	public GenericBuilder_because_debug_error_from_from$A_info_trace_warn<Void> to(Enum... topics) {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().to(topics);
 	}
 
 	@Override
-	public GenericBuilder_because_debug_error_from_from$A_info_to_trace_warn_with_with$A<Void> with(String key, String value) {
+	public GenericBuilder_because_from_from$A_to<Void> with(String key, String value) {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().with(key, value);
 	}
 
 	@Override
-	public GenericBuilder_because_debug_error_from_from$A_info_to_trace_warn_with_with$A<Void> with(String key, Number value) {
+	public GenericBuilder_because_from_from$A_to<Void> with(String key, Number value) {
 		return LogMachineGenerator.start(new LogMachineHelperImpl(this)).generic().with(key, value);
 	}
-
 
 	// conditional builders
 
 	@Override
-	public LogMachineBuilders when(boolean flag) {
-		if (flag) {
+	public LogMachineBuilders<T> when(Boolean flag) {
+		if (flag != null && flag) {
 			return this;
 		} else {
 			return DEAD_SELF_PROXY;

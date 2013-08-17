@@ -12,6 +12,7 @@
 		<module>lm-via-jdk14</module>
 		<module>lm-to-elasticsearch</module>
 		<module>lm-via-log4j</module>
+		<module>lm-builder</module>
 	</modules>
 	<packaging>pom</packaging>
 

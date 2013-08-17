@@ -1,19 +1,17 @@
 package unquietcode.tools.logmachine;
 
 import unquietcode.tools.flapi.Descriptor;
+import unquietcode.tools.flapi.DescriptorMaker;
 import unquietcode.tools.flapi.Flapi;
 
 /**
  * @author Ben Fagin
  * @version 05-16-2012
  */
-public class LogMachineDescriptorGenerator {
+public class LogMachineDescriptorGenerator implements DescriptorMaker {
 
-	public static void main(String[] args) {
-		generateBuilder(args[0]);
-	}
-
-	public static void generateBuilder(String folder) {
+	@Override
+	public Descriptor descriptor() {
 		Descriptor builder = Flapi.builder()
 			.setPackage("unquietcode.tools.logmachine.builder")
 			.setDescriptorName("LogMachine")
@@ -46,7 +44,7 @@ public class LogMachineDescriptorGenerator {
 			.endBlock()
 		.build();
 
-		builder.writeToFolder(folder);
+		return builder;
 	}
 
 

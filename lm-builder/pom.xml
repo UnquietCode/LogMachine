@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>unquietcode.tools.flapi</groupId>
+		<artifactId>build-project</artifactId>
+		<version>0.4-SNAPSHOT</version>
+	</parent>
+
+	<groupId>unquietcode.tools.logmachine</groupId>
+	<artifactId>lm-builder</artifactId>
+	<version>0.1</version>
+
+	<properties>
+		<flapi.descriptor.class>unquietcode.tools.logmachine.LogMachineDescriptorGenerator</flapi.descriptor.class>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<!-- used to confer the runtime dependencies to consumers -->
+		<dependency>
+			<groupId>unquietcode.tools.flapi</groupId>
+			<artifactId>flapi-runtime</artifactId>
+			<version>0.4-SNAPSHOT</version>
+		</dependency>
+
+		<!-- used to generate the builders -->
+		<dependency>
+			<groupId>unquietcode.tools.flapi</groupId>
+			<artifactId>flapi</artifactId>
+			<version>0.4-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
