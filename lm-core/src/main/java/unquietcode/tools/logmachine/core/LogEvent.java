@@ -173,7 +173,7 @@ public class LogEvent {
 		}
 
 		char firstChar = match.charAt(0);
-		String key = match.substring(1, length);
+		String key = match.substring(1, length).trim();
 
 		switch (firstChar) {
 
