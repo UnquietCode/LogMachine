@@ -155,6 +155,9 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		lm.when(false).info().send("hi");
 		assertEquals(0, getEventAppender().getAllEvents().size());
 
+		lm.when(null).info("yo");
+		assertEquals(0, getEventAppender().getAllEvents().size());
+
 		lm.when(true).info("sup");
 		assertEquals(1, getEventAppender().getAllEvents().size());
 	}
