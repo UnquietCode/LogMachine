@@ -7,12 +7,28 @@
 	<parent>
 		<groupId>unquietcode.tools.flapi</groupId>
 		<artifactId>build-project</artifactId>
-		<version>0.4-SNAPSHOT</version>
+		<version>0.4</version>
 	</parent>
 
 	<groupId>unquietcode.tools.logmachine</groupId>
 	<artifactId>lm-builder</artifactId>
 	<version>0.1</version>
+
+	<repositories>
+		<repository>
+			<id>uqc</id>
+			<name>UnquietCode Repository</name>
+			<url>http://www.unquietcode.com/maven/releases</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>uqc</id>
+			<name>UnquietCode Repository</name>
+			<url>http://www.unquietcode.com/maven/releases</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<properties>
 		<flapi.descriptor.class>unquietcode.tools.logmachine.LogMachineDescriptorGenerator</flapi.descriptor.class>
@@ -38,14 +54,14 @@
 		<dependency>
 			<groupId>unquietcode.tools.flapi</groupId>
 			<artifactId>flapi-runtime</artifactId>
-			<version>0.4-SNAPSHOT</version>
+			<version>${flapi.version}</version>
 		</dependency>
 
 		<!-- used to generate the builders -->
 		<dependency>
 			<groupId>unquietcode.tools.flapi</groupId>
 			<artifactId>flapi</artifactId>
-			<version>0.4-SNAPSHOT</version>
+			<version>${flapi.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
