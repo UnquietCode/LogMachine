@@ -5,15 +5,6 @@
 	<groupId>unquietcode.tools.logmachine</groupId>
 	<artifactId>parent</artifactId>
 	<version>0.1</version>
-	<modules>
-		<module>lm-core</module>
-		<module>lm-via-slf4j</module>
-		<module>lm-via-logback</module>
-		<module>lm-via-jdk14</module>
-		<module>lm-to-elasticsearch</module>
-		<module>lm-via-log4j</module>
-		<module>lm-builder</module>
-	</modules>
 	<packaging>pom</packaging>
 
 	<name>Log Machine Parent</name>
@@ -41,7 +32,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.10</version>
+				<version>4.11</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -99,4 +90,14 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<modules>
+		<module>lm-builder</module>
+		<module>lm-core</module>
+		<module>lm-via-slf4j</module>
+		<module>lm-via-logback</module>
+		<module>lm-via-jdk14</module>
+		<module>lm-to-elasticsearch</module>
+		<module>lm-via-log4j</module>
+	</modules>
 </project>
