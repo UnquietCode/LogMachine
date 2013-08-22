@@ -1,6 +1,7 @@
 package unquietcode.tools.logmachine.core;
 
 import unquietcode.tools.logmachine.LazyString;
+import unquietcode.tools.logmachine.core.topics.Topic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class LogEvent {
 	private String message = "";
 	private String location;
 	private Throwable cause;
-	private List<Enum> groups;
+	private List<Topic> groups;
 	private Object[] replacements;
 	private Map<String, Object> data;
 	private long timestamp = System.currentTimeMillis();
@@ -77,11 +78,11 @@ public class LogEvent {
 		this.cause = cause;
 	}
 
-	public List<Enum> getGroups() {
-		return groups != null ? groups : (groups = new ArrayList<Enum>());
+	public List<Topic> getGroups() {
+		return groups != null ? groups : (groups = new ArrayList<Topic>());
 	}
 
-	public void setGroups(List<Enum> groups) {
+	public void setGroups(List<Topic> groups) {
 		this.groups = groups;
 	}
 
@@ -101,13 +102,13 @@ public class LogEvent {
 
 	public final LazyString topics = new LazyString() {
 		protected String _getString() {
-			List<Enum> topics = getGroups();
+			List<Topic> topics = getGroups();
 			if (topics == null || topics.isEmpty()) { return ""; }
 
 			StringBuilder sb = new StringBuilder().append("[");
 			boolean first = true;
 
-			for (Enum topic : topics) {
+			for (Topic topic : topics) {
 				if (first) {
 					first = false;
 				} else {

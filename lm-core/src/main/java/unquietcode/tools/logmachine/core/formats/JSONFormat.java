@@ -2,6 +2,7 @@ package unquietcode.tools.logmachine.core.formats;
 
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.Switchboard;
+import unquietcode.tools.logmachine.core.topics.Topic;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,19 +56,19 @@ public class JSONFormat implements Format {
 
 			sb.append("]");
 		}
-// TODO 'groups' -> 'topics'
+
 		appendNotNull("location", sb, event.getLocation());
 
-		List<Enum> groups = event.getGroups();
+		List<Topic> groups = event.getGroups();
 		if (!groups.isEmpty()) {
-			sb.append(", \"groups\": [");
+			sb.append(", \"topics\": [");
 			boolean first = true;
 
-			for (Enum group : groups) {
+			for (Topic topic : groups) {
 				if (!first) { sb.append(", "); }
 				else { first = false; }
 
-				sb.append("\"").append(group.getDeclaringClass().getName()).append(".").append(group).append("\"");
+				sb.append("\"").append(topic.name()).append(".").append(topic).append("\"");
 			}
 
 			sb.append("]");

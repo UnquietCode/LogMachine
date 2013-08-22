@@ -3,6 +3,7 @@ package unquietcode.tools.logmachine;
 import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
+import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
@@ -17,11 +18,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class TestEventMetadata extends AbstractLoggerTest {
 
-	enum PrimaryColor {
+	enum PrimaryColor implements Topic {
 		Blue, Red, Yellow,
 	}
 
-	enum SecondaryColor {
+	enum SecondaryColor implements Topic {
 		Green, Purple, Orange
 	}
 
@@ -40,7 +41,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		class Mixer {
 			void orange() {
 				LogEvent event = getSingleEvent();
-				List<Enum> groups = event.getGroups();
+				List<Topic> groups = event.getGroups();
 				assertEquals(2, groups.size());
 				assertTrue(groups.contains(PrimaryColor.Red));
 				assertTrue(groups.contains(PrimaryColor.Yellow));
@@ -49,7 +50,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 
 			void green() {
 				LogEvent event = getSingleEvent();
-				List<Enum> groups = event.getGroups();
+				List<Topic> groups = event.getGroups();
 				assertEquals(2, groups.size());
 				assertTrue(groups.contains(PrimaryColor.Blue));
 				assertTrue(groups.contains(PrimaryColor.Yellow));
@@ -58,7 +59,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 
 			void purple() {
 				LogEvent event = getSingleEvent();
-				List<Enum> groups = event.getGroups();
+				List<Topic> groups = event.getGroups();
 				assertEquals(2, groups.size());
 				assertTrue(groups.contains(PrimaryColor.Red));
 				assertTrue(groups.contains(PrimaryColor.Blue));
@@ -81,7 +82,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 	public void testHeterogeneousEnums() {
 		lm.to(PrimaryColor.Red, PrimaryColor.Yellow, SecondaryColor.Orange).info("Orange");
 		LogEvent event = getSingleEvent();
-		List<Enum> groups = event.getGroups();
+		List<Topic> groups = event.getGroups();
 		assertEquals(3, groups.size());
 		assertTrue(groups.contains(PrimaryColor.Red));
 		assertTrue(groups.contains(PrimaryColor.Yellow));
@@ -95,7 +96,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		  .debug("{~1} {} {~2} {=>} {:color}", "+");
 
 		LogEvent event = getSingleEvent();
-		List<Enum> groups = event.getGroups();
+		List<Topic> groups = event.getGroups();
 		assertEquals(2, groups.size());
 		assertTrue(groups.contains(PrimaryColor.Red));
 		assertTrue(groups.contains(PrimaryColor.Blue));

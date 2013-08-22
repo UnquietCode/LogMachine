@@ -4,6 +4,7 @@ import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.formats.ShorterPlaintextFormat;
+import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
@@ -38,7 +39,7 @@ public class TestFormatters extends AbstractLoggerTest {
 		assertEquals("[DEBUG] [One | Three] (testShortFormat_2) - hi", result.toString());
 	}
 
-	private enum TestTopics {
+	private enum TestTopics implements Topic {
 		One, Two, Three
 	}
 }

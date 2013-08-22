@@ -5,6 +5,7 @@ import sun.misc.SharedSecrets;
 import unquietcode.tools.logmachine.core.BaseLogMachine;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
+import unquietcode.tools.logmachine.core.topics.Topic;
 
 import java.util.Arrays;
 
@@ -62,24 +63,23 @@ public abstract class BuilderHelperBase {
 		from("???");
 	}
 
-	public void to(Enum...categories) {
-		if (categories == null) {
-			categories = new Enum[]{null};
+	public void to(Topic...topics) {
+		if (topics == null) {
+			topics = new Topic[]{};
+		}
 
 		// simple loop which checks for duplicates
-		} else {
-			for (int i=0; i < categories.length; ++i) {
-				for (int j=i+1; j < categories.length; ++j) {
-					if (categories[i] == categories[j]) {
-						throw new IllegalArgumentException(
-							"Two instances of topic '"+categories[i].name()+"' were provided."
-						);
-					}
+		for (int i=0; i < topics.length; ++i) {
+			for (int j=i+1; j < topics.length; ++j) {
+				if (topics[i] == topics[j]) {
+					throw new IllegalArgumentException(
+						"Two instances of topic '"+topics[i].name()+"' were provided."
+					);
 				}
 			}
 		}
 
-		event.setGroups(Arrays.asList(categories));
+		event.setGroups(Arrays.asList(topics));
     }
 
 	public void because(Throwable cause) {

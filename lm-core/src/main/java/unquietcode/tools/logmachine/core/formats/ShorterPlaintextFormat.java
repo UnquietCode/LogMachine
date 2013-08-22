@@ -1,6 +1,7 @@
 package unquietcode.tools.logmachine.core.formats;
 
 import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.topics.Topic;
 
 /**
  * Warning: this class may be useless.
@@ -22,14 +23,14 @@ public class ShorterPlaintextFormat implements Format {
 			boolean first = true;
 			sb.append("[");
 
-			for (Enum group : event.getGroups()) {
+			for (Topic topic : event.getGroups()) {
 				if (!first) {
 					sb.append(" | ");
 				} else {
 					first = false;
 				}
 
-				sb.append(group);
+				sb.append(topic.name());
 			}
 
 			sb.append("] ");

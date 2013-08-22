@@ -2,6 +2,7 @@ package unquietcode.tools.logmachine.core.formats;
 
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.topics.Topic;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -38,11 +39,11 @@ public class PlaintextFormat implements Format {
 			boolean first = true;
 			sb.append("[");
 
-			for (Enum group : event.getGroups()) {
+			for (Topic topic : event.getGroups()) {
 				if (!first) { sb.append(" | ");	}
 				else { first = false; }
 
-				sb.append(group);
+				sb.append(topic.name());
 			}
 
 			sb.append("] ");

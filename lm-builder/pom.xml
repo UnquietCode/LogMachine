@@ -31,7 +31,7 @@
 	</pluginRepositories>
 
 	<properties>
-		<flapi.descriptor.class>unquietcode.tools.logmachine.LogMachineDescriptorGenerator</flapi.descriptor.class>
+		<flapi.descriptor.class>unquietcode.tools.logmachine.LogMachineGenericDescriptor</flapi.descriptor.class>
 	</properties>
 
 	<build>
@@ -44,6 +44,24 @@
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>unquietcode.tools.flapi</groupId>
+				<artifactId>flapi-build-plugin</artifactId>
+				<version>${flapi.version}</version>
+				<executions>
+					<execution>
+						<id>specificDescriptor</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<descriptorClass>unquietcode.tools.logmachine.LogMachineSpecificDescriptor</descriptorClass>
+							<includeRuntime>false</includeRuntime>
+							<sourcesDirectory>${flapi.generated.sources}</sourcesDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

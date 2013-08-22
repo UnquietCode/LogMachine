@@ -1,11 +1,11 @@
 package unquietcode.tools.logmachine;
 
-import unquietcode.tools.logmachine.builder.Specific.SpecificHelper;
+import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineHelper;
 import unquietcode.tools.logmachine.core.BaseLogMachine;
 import unquietcode.tools.logmachine.core.Level;
 
 
-public class SpecificHelperImpl extends BuilderHelperBase implements SpecificHelper {
+public class SpecificHelperImpl extends BuilderHelperBase implements SpecificLogMachineHelper {
 
 	public SpecificHelperImpl(BaseLogMachine lm, Level level) {
 		super(lm);
