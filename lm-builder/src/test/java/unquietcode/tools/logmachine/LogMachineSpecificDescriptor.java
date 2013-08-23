@@ -21,7 +21,7 @@ public class LogMachineSpecificDescriptor implements DescriptorMaker {
 
 			.addMethod("from(String location)").atMost(1, 1)
 			.addMethod("from()").atMost(1, 1)
-			.addMethod("to(unquietcode.tools.logmachine.core.topics.Topic...categories)").atMost(1)
+			.addMethod("to(unquietcode.tools.logmachine.core.topics.Topic...topics)").atMost(1)
 			.addMethod("because(Throwable cause)").atMost(1)
 			.addMethod("send(String message, Object...data)").last()
 		.build();

@@ -6,6 +6,7 @@ import org.apache.log4j.PatternLayout;
 import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.formats.ShorterPlaintextFormat;
+import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.test.AssertionStream;
 
 import java.io.PrintStream;
@@ -91,7 +92,7 @@ public class TestLog4jTopicBroker {
 		System.setOut(out);
 	}
 
-	enum X {
+	enum X implements Topic {
 		ONE, TWO
 	}
 }

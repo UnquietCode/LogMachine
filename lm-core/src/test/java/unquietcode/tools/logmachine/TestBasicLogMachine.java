@@ -4,6 +4,7 @@ import org.junit.Test;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
+import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
@@ -13,10 +14,9 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-
 public class TestBasicLogMachine extends AbstractLoggerTest {
 
-	private enum TestGroups {
+	private enum TestGroups implements Topic {
 		One, Two, Three
 	}
 
@@ -161,4 +161,5 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		lm.when(true).info("sup");
 		assertEquals(1, getEventAppender().getAllEvents().size());
 	}
+
 }

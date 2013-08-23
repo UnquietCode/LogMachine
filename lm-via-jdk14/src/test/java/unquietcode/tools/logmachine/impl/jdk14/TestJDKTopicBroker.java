@@ -4,6 +4,7 @@ import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.formats.Format;
 import unquietcode.tools.logmachine.core.formats.ShorterPlaintextFormat;
+import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.test.AssertionStream;
 
 import java.io.PrintStream;
@@ -57,7 +58,7 @@ public class TestJDKTopicBroker {
 		stream.clear();
 	}
 
-	enum X {
+	enum X implements Topic {
 		ONE, TWO
 	}
 }

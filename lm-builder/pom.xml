@@ -4,15 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>unquietcode.tools.flapi</groupId>
-		<artifactId>build-project</artifactId>
-		<version>0.4</version>
-	</parent>
-
 	<groupId>unquietcode.tools.logmachine</groupId>
 	<artifactId>lm-builder</artifactId>
 	<version>0.1</version>
+
+	<properties>
+		<flapi.generated.sources>${project.build.directory}/generated-sources/flapi</flapi.generated.sources>
+		<flapi.version>0.4</flapi.version>
+	</properties>
 
 	<repositories>
 		<repository>
@@ -30,12 +29,41 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-	<properties>
-		<flapi.descriptor.class>unquietcode.tools.logmachine.LogMachineGenericDescriptor</flapi.descriptor.class>
-	</properties>
-
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>unquietcode.tools.flapi</groupId>
+				<artifactId>flapi-build-plugin</artifactId>
+				<version>${flapi.version}</version>
+				<executions>
+					<execution>
+						<id>genericDescriptor</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<descriptorClass>unquietcode.tools.logmachine.LogMachineGenericDescriptor</descriptorClass>
+							<sourcesDirectory>${flapi.generated.sources}</sourcesDirectory>
+							<includeRuntime>false</includeRuntime>
+							<writeClasses>false</writeClasses>
+						</configuration>
+					</execution>
+					<execution>
+						<id>specificDescriptor</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<descriptorClass>unquietcode.tools.logmachine.LogMachineSpecificDescriptor</descriptorClass>
+							<sourcesDirectory>${flapi.generated.sources}</sourcesDirectory>
+							<includeRuntime>false</includeRuntime>
+							<writeClasses>false</writeClasses>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- specify the default compiler settings -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -45,20 +73,53 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+
+			<!-- create a source jar at the end -->
 			<plugin>
-				<groupId>unquietcode.tools.flapi</groupId>
-				<artifactId>flapi-build-plugin</artifactId>
-				<version>${flapi.version}</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
 				<executions>
 					<execution>
-						<id>specificDescriptor</id>
 						<goals>
-							<goal>generate</goal>
+							<goal>jar</goal>
 						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- create a javadoc jar at the end -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- add generated sources directory -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-sources</id>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<phase>generate-test-sources</phase>
 						<configuration>
-							<descriptorClass>unquietcode.tools.logmachine.LogMachineSpecificDescriptor</descriptorClass>
-							<includeRuntime>false</includeRuntime>
-							<sourcesDirectory>${flapi.generated.sources}</sourcesDirectory>
+							<sources>
+								<source>${flapi.generated.sources}</source>
+							</sources>
 						</configuration>
 					</execution>
 				</executions>

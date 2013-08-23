@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.slf4j.LoggerFactory;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.formats.ShorterPlaintextFormat;
+import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.impl.slf4j.SLF4JLogMachine;
 import unquietcode.tools.logmachine.test.AssertionStream;
 
@@ -70,7 +71,7 @@ public class TestLogbackTopicBroker {
 		stream.clear();
 	}
 
-	enum X {
+	enum X implements Topic {
 		ONE, TWO
 	}
 }
