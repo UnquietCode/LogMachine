@@ -1,9 +1,9 @@
 package unquietcode.tools.logmachine.core;
 
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_because_debug_error_from_from$A_info_trace_warn;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_because_debug_error_info_to_trace_warn;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_because_from_from$A_to;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_debug_error_from_from$A_info_to_trace_warn;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2debug_2error_2from_2from_1A_2info_2trace_2warn;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2from_2from_1A_2to;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2debug_2error_2from_2from_1A_2info_2to_2trace_2warn;
 import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
 import unquietcode.tools.logmachine.core.topics.Topic;
 
@@ -27,16 +27,16 @@ public interface LogMachineBuilders<T> {
 	void trace(String message, Throwable exception);
 	void trace(String message, Object... data);
 
-	SpecificLogMachineBuilder.$<Void> error();
-	SpecificLogMachineBuilder.$<Void> warn();
-	SpecificLogMachineBuilder.$<Void> info();
-	SpecificLogMachineBuilder.$<Void> debug();
-	SpecificLogMachineBuilder.$<Void> trace();
+	SpecificLogMachineBuilder.Start<Void> error();
+	SpecificLogMachineBuilder.Start<Void> warn();
+	SpecificLogMachineBuilder.Start<Void> info();
+	SpecificLogMachineBuilder.Start<Void> debug();
+	SpecificLogMachineBuilder.Start<Void> trace();
 
-	GenericLogMachineBuilder_debug_error_from_from$A_info_to_trace_warn<Void> because(Throwable cause);
-	GenericLogMachineBuilder_because_debug_error_info_to_trace_warn<Void> from(String location);
-	GenericLogMachineBuilder_because_debug_error_info_to_trace_warn<Void> from();
-	GenericLogMachineBuilder_because_debug_error_from_from$A_info_trace_warn<Void> to(Topic...topics);
-	GenericLogMachineBuilder_because_from_from$A_to<Void> with(String key, String value);
-	GenericLogMachineBuilder_because_from_from$A_to<Void> with(String key, Number value);
+	GenericLogMachineBuilder_2debug_2error_2from_2from_1A_2info_2to_2trace_2warn<Void> because(Throwable cause);
+	GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn<Void> from(String location);
+	GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn<Void> from();
+	GenericLogMachineBuilder_2because_2debug_2error_2from_2from_1A_2info_2trace_2warn<Void> to(Topic...topics);
+	GenericLogMachineBuilder_2because_2from_2from_1A_2to<Void> with(String key, String value);
+	GenericLogMachineBuilder_2because_2from_2from_1A_2to<Void> with(String key, Number value);
 }

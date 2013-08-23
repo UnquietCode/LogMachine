@@ -99,7 +99,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	// specific builders
 
 	@Override
-	public SpecificLogMachineBuilder.$<Void> error() {
+	public SpecificLogMachineBuilder.Start<Void> error() {
 		if (isError()) {
 			SpecificLogMachineHelper helper = new SpecificHelperImpl(this, Level.ERROR);
 			return SpecificLogMachineGenerator.start(helper);
@@ -109,7 +109,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificLogMachineBuilder.$<Void> warn() {
+	public SpecificLogMachineBuilder.Start<Void> warn() {
 		if (isWarn()) {
 			SpecificLogMachineHelper helper = new SpecificHelperImpl(this, Level.WARN);
 			return SpecificLogMachineGenerator.start(helper);
@@ -119,7 +119,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificLogMachineBuilder.$<Void> info() {
+	public SpecificLogMachineBuilder.Start<Void> info() {
 		if (isInfo()) {
 			SpecificLogMachineHelper helper = new SpecificHelperImpl(this, Level.INFO);
 			return SpecificLogMachineGenerator.start(helper);
@@ -129,7 +129,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificLogMachineBuilder.$<Void> debug() {
+	public SpecificLogMachineBuilder.Start<Void> debug() {
 		if (isDebug()) {
 			SpecificLogMachineHelper helper = new SpecificHelperImpl(this, Level.DEBUG);
 			return SpecificLogMachineGenerator.start(helper);
@@ -139,7 +139,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificLogMachineBuilder.$<Void> trace() {
+	public SpecificLogMachineBuilder.Start<Void> trace() {
 		if (isTrace()) {
 			SpecificLogMachineHelper helper = new SpecificHelperImpl(this, Level.TRACE);
 			return SpecificLogMachineGenerator.start(helper);
@@ -149,10 +149,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@SuppressWarnings("unchecked")
-	private static final SpecificLogMachineBuilder.$<Void> DEAD_PROXY
-		= (SpecificLogMachineBuilder.$<Void>) Proxy.newProxyInstance(
-			SpecificLogMachineBuilder.$.class.getClassLoader(),
-			new Class<?>[]{SpecificLogMachineBuilder.$.class},
+	private static final SpecificLogMachineBuilder.Start<Void> DEAD_PROXY
+		= (SpecificLogMachineBuilder.Start<Void>) Proxy.newProxyInstance(
+			SpecificLogMachineBuilder.Start.class.getClassLoader(),
+			new Class<?>[]{SpecificLogMachineBuilder.Start.class},
 			new ProxyHelper()
 		);
 
@@ -168,32 +168,32 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	// generic builders
 
 	@Override
-	public GenericLogMachineBuilder_debug_error_from_from$A_info_to_trace_warn<Void> because(Throwable cause) {
+	public GenericLogMachineBuilder_2debug_2error_2from_2from_1A_2info_2to_2trace_2warn<Void> because(Throwable cause) {
 		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).because(cause);
 	}
 
 	@Override
-	public GenericLogMachineBuilder_because_debug_error_info_to_trace_warn<Void> from(String location) {
+	public GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn<Void> from(String location) {
 		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).from(location);
 	}
 
 	@Override
-	public GenericLogMachineBuilder_because_debug_error_info_to_trace_warn<Void> from() {
+	public GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn<Void> from() {
 		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).from();
 	}
 
 	@Override
-	public GenericLogMachineBuilder_because_debug_error_from_from$A_info_trace_warn<Void> to(Topic...topics) {
+	public GenericLogMachineBuilder_2because_2debug_2error_2from_2from_1A_2info_2trace_2warn<Void> to(Topic...topics) {
 		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).to(topics);
 	}
 
 	@Override
-	public GenericLogMachineBuilder_because_from_from$A_to<Void> with(String key, String value) {
+	public GenericLogMachineBuilder_2because_2from_2from_1A_2to<Void> with(String key, String value) {
 		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).with(key, value);
 	}
 
 	@Override
-	public GenericLogMachineBuilder_because_from_from$A_to<Void> with(String key, Number value) {
+	public GenericLogMachineBuilder_2because_2from_2from_1A_2to<Void> with(String key, Number value) {
 		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).with(key, value);
 	}
 
@@ -206,5 +206,15 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		} else {
 			return DEAD_SELF_PROXY;
 		}
+	}
+
+	protected interface EventConfigurer {
+		EventConfigurer with(String name, String value);
+		EventConfigurer with(String name, Number value);
+
+	}
+
+	public void setEventConfigurer(EventConfigurer configurer) {
+
 	}
 }

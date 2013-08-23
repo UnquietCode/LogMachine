@@ -4,13 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>unquietcode.tools.flapi</groupId>
+		<artifactId>build-project</artifactId>
+		<version>0.5-SNAPSHOT</version>
+	</parent>
+
 	<groupId>unquietcode.tools.logmachine</groupId>
 	<artifactId>lm-builder</artifactId>
 	<version>0.1</version>
 
 	<properties>
-		<flapi.generated.sources>${project.build.directory}/generated-sources/flapi</flapi.generated.sources>
-		<flapi.version>0.4</flapi.version>
+		<!-- TODO  This shouldn't need to be redeclared here... -->
+		<flapi.version>0.5-SNAPSHOT</flapi.version>
 	</properties>
 
 	<repositories>
@@ -20,14 +26,6 @@
 			<url>http://www.unquietcode.com/maven/releases</url>
 		</repository>
 	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>uqc</id>
-			<name>UnquietCode Repository</name>
-			<url>http://www.unquietcode.com/maven/releases</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<build>
 		<plugins>
