@@ -1,10 +1,20 @@
 package unquietcode.tools.logmachine.core;
 
 
+import unquietcode.tools.logmachine.GenericHelperImpl;
+import unquietcode.tools.logmachine.SpecificHelperImpl;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineGenerator;
+import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
+import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineGenerator;
+import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineHelper;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -18,8 +28,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @see LogMachine
  */
 public abstract class BaseLogMachine<T> {
+	private final List<DataProvider> dataProviders = new ArrayList<DataProvider>();
 	private final LogHandler<T> handler;
 	private final T logger;
+
 
 	protected BaseLogMachine(T logger, LogHandler<T> handler) {
 		this.handler = checkNotNull(handler, "Handler cannot be null.");
@@ -27,8 +39,39 @@ public abstract class BaseLogMachine<T> {
 	}
 
 	public void _log(LogEvent event) {
+		// mix in extra data from the DataProviders list
+		for (DataProvider dataProvider : dataProviders) {
+			Map<String, Object> extraData = new HashMap<String, Object>();
+			dataProvider.addData(extraData);
+			event.getData().putAll(extraData);
+		}
+
 		handler.logEvent(logger, event);
 	}
+
+	// ----------- data providers -----------
+
+	public interface DataProvider {
+		void addData(Map<String, Object> data);
+	}
+
+	// Set the context to be queried and applied to every new event.
+	// Changes to the map will be reflected in events as they occur.
+	public void addDataProvider(DataProvider provider) {
+		dataProviders.add(checkNotNull(provider));
+	}
+
+	protected GenericLogMachineBuilder.Start<Void> genericBuilder() {
+		return GenericLogMachineGenerator.start(new GenericHelperImpl(this));
+	}
+
+	protected SpecificLogMachineBuilder.Start<Void> specificBuilder(Level level) {
+		SpecificLogMachineHelper helper = new SpecificHelperImpl(this, level);
+		return SpecificLogMachineGenerator.start(helper);
+	}
+
+	// --------------------------------------
+
 
 //	void _mark(String event, Enum[] categories) {
 //		throw new UnsupportedOperationException("not implemented");

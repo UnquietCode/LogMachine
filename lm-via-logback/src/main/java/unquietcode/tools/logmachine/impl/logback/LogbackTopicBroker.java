@@ -7,6 +7,7 @@ import ch.qos.logback.core.UnsynchronizedAppenderBase;
 import org.slf4j.LoggerFactory;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.Switchboard;
+import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.helpers.TopicBrokerHelper;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -37,7 +38,7 @@ public class LogbackTopicBroker extends UnsynchronizedAppenderBase<ILoggingEvent
 	private LogbackTopicBroker() { }
 
 
-	public static void subscribe(Appender<ILoggingEvent> appender, Enum...topics) {
+	public static void subscribe(Appender<ILoggingEvent> appender, Topic...topics) {
 		helper.subscribe(checkNotNull(appender), checkNotNull(topics));
 	}
 

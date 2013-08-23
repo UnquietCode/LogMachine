@@ -4,6 +4,7 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.BeforeClass;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogMachine;
+import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.impl.elasticsearch.ElasticSearchAppender;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
@@ -18,7 +19,7 @@ import java.util.Random;
 public class ElasticSearchTestGenerator {
 	private static LogMachine log;
 
-	enum Color {
+	enum Color implements Topic {
 		Blue, Red, Yellow, Green
 	}
 

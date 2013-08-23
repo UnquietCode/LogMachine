@@ -3,6 +3,7 @@ package unquietcode.tools.logmachine.impl.elasticsearch;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.topics.Topic;
 
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
@@ -64,18 +65,18 @@ public class LogstashFormatter_V1 implements ElasticSearchJSONFormatter {
 		}
 
 		// topics ('tags')
-		for (Enum anEnum : event.getGroups()) {
+		for (Topic topic : event.getGroups()) {
 			if (useShortTopicNames) {
-				_event.addTopic(anEnum.name());
+				_event.addTopic(topic.name());
 			} else {
 				StringBuilder sb = new StringBuilder();
-				String[] packageSegments = anEnum.getClass().getPackage().getName().split("\\.");
+				String[] packageSegments = topic.getClass().getPackage().getName().split("\\.");
 
 				for (String segment : packageSegments) {
 					sb.append(segment.charAt(0)).append(".");
 				}
 
-				sb.append(anEnum.getClass().getSimpleName()).append("#").append(anEnum.name());
+				sb.append(topic.getClass().getSimpleName()).append("#").append(topic.name());
 				_event.addTopic(sb.toString());
 			}
 		}

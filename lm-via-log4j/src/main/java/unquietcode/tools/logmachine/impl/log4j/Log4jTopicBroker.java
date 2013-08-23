@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.Switchboard;
+import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.helpers.TopicBrokerHelper;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -32,7 +33,7 @@ public class Log4jTopicBroker extends AppenderSkeleton {
 	private Log4jTopicBroker() { }
 
 
-	public static void subscribe(Appender appender, Enum...topics) {
+	public static void subscribe(Appender appender, Topic...topics) {
 		helper.subscribe(checkNotNull(appender), checkNotNull(topics));
 	}
 

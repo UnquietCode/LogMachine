@@ -2,6 +2,7 @@ package unquietcode.tools.logmachine.impl.jdk14;
 
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.Switchboard;
+import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.helpers.TopicBrokerHelper;
 
 import java.util.logging.Handler;
@@ -32,7 +33,7 @@ public class JDKTopicBroker extends Handler {
 	private JDKTopicBroker() { }
 
 
-	public static void subscribe(Handler appender, Enum...topics) {
+	public static void subscribe(Handler appender, Topic...topics) {
 		helper.subscribe(checkNotNull(appender), checkNotNull(topics));
 	}
 

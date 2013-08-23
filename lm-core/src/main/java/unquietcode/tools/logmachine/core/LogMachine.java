@@ -1,12 +1,11 @@
 package unquietcode.tools.logmachine.core;
 
 
-import unquietcode.tools.logmachine.GenericHelperImpl;
-import unquietcode.tools.logmachine.SpecificHelperImpl;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.*;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2debug_2error_2from_2from_1A_2info_2trace_2warn;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2from_2from_1A_2to;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2debug_2error_2from_2from_1A_2info_2to_2trace_2warn;
 import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
-import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineGenerator;
-import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineHelper;
 import unquietcode.tools.logmachine.core.topics.Topic;
 
 import java.lang.reflect.Proxy;
@@ -28,70 +27,70 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	@Override
 	public void error(String message, Throwable exception) {
 		if (isError()) {
-			GenericLogMachineGenerator.start(new GenericHelperImpl(this)).because(exception).error(message);
+			genericBuilder().because(exception).error(message);
 		}
 	}
 
 	@Override
 	public void error(String message, Object...data) {
 		if (isError()) {
-			GenericLogMachineGenerator.start(new GenericHelperImpl(this)).error(message, data);
+			genericBuilder().error(message, data);
 		}
 	}
 
 	@Override
 	public void warn(String message, Throwable exception) {
 		if (isWarn()) {
-			GenericLogMachineGenerator.start(new GenericHelperImpl(this)).because(exception).warn(message);
+			genericBuilder().because(exception).warn(message);
 		}
 	}
 
 	@Override
 	public void warn(String message, Object...data) {
 		if (isWarn()) {
-			GenericLogMachineGenerator.start(new GenericHelperImpl(this)).warn(message, data);
+			genericBuilder().warn(message, data);
 		}
 	}
 
 	@Override
 	public void info(String message, Throwable exception) {
 		if (isInfo()) {
-			GenericLogMachineGenerator.start(new GenericHelperImpl(this)).because(exception).info(message);
+			genericBuilder().because(exception).info(message);
 		}
 	}
 
 	@Override
 	public void info(String message, Object...data) {
 		if (isInfo()) {
-			GenericLogMachineGenerator.start(new GenericHelperImpl(this)).info(message, data);
+			genericBuilder().info(message, data);
 		}
 	}
 
 	@Override
 	public void debug(String message, Throwable exception) {
 		if (isDebug()) {
-			GenericLogMachineGenerator.start(new GenericHelperImpl(this)).because(exception).debug(message);
+			genericBuilder().because(exception).debug(message);
 		}
 	}
 
 	@Override
 	public void debug(String message, Object...data) {
 		if (isDebug()) {
-			GenericLogMachineGenerator.start(new GenericHelperImpl(this)).debug(message, data);
+			genericBuilder().debug(message, data);
 		}
 	}
 
 	@Override
 	public void trace(String message, Throwable exception) {
 		if (isTrace()) {
-			GenericLogMachineGenerator.start(new GenericHelperImpl(this)).because(exception).trace(message);
+			genericBuilder().because(exception).trace(message);
 		}
 	}
 
 	@Override
 	public void trace(String message, Object...data) {
 		if (isTrace()) {
-			GenericLogMachineGenerator.start(new GenericHelperImpl(this)).trace(message, data);
+			genericBuilder().trace(message, data);
 		}
 	}
 
@@ -101,8 +100,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	@Override
 	public SpecificLogMachineBuilder.Start<Void> error() {
 		if (isError()) {
-			SpecificLogMachineHelper helper = new SpecificHelperImpl(this, Level.ERROR);
-			return SpecificLogMachineGenerator.start(helper);
+			return specificBuilder(Level.ERROR);
 		} else {
 			return DEAD_PROXY;
 		}
@@ -111,8 +109,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	@Override
 	public SpecificLogMachineBuilder.Start<Void> warn() {
 		if (isWarn()) {
-			SpecificLogMachineHelper helper = new SpecificHelperImpl(this, Level.WARN);
-			return SpecificLogMachineGenerator.start(helper);
+			return specificBuilder(Level.WARN);
 		} else {
 			return DEAD_PROXY;
 		}
@@ -121,8 +118,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	@Override
 	public SpecificLogMachineBuilder.Start<Void> info() {
 		if (isInfo()) {
-			SpecificLogMachineHelper helper = new SpecificHelperImpl(this, Level.INFO);
-			return SpecificLogMachineGenerator.start(helper);
+			return specificBuilder(Level.INFO);
 		} else {
 			return DEAD_PROXY;
 		}
@@ -131,8 +127,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	@Override
 	public SpecificLogMachineBuilder.Start<Void> debug() {
 		if (isDebug()) {
-			SpecificLogMachineHelper helper = new SpecificHelperImpl(this, Level.DEBUG);
-			return SpecificLogMachineGenerator.start(helper);
+			return specificBuilder(Level.DEBUG);
 		} else {
 			return DEAD_PROXY;
 		}
@@ -141,8 +136,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	@Override
 	public SpecificLogMachineBuilder.Start<Void> trace() {
 		if (isTrace()) {
-			SpecificLogMachineHelper helper = new SpecificHelperImpl(this, Level.TRACE);
-			return SpecificLogMachineGenerator.start(helper);
+			return specificBuilder(Level.TRACE);
 		} else {
 			return DEAD_PROXY;
 		}
@@ -169,32 +163,32 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 
 	@Override
 	public GenericLogMachineBuilder_2debug_2error_2from_2from_1A_2info_2to_2trace_2warn<Void> because(Throwable cause) {
-		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).because(cause);
+		return genericBuilder().because(cause);
 	}
 
 	@Override
 	public GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn<Void> from(String location) {
-		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).from(location);
+		return genericBuilder().from(location);
 	}
 
 	@Override
 	public GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn<Void> from() {
-		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).from();
+		return genericBuilder().from();
 	}
 
 	@Override
 	public GenericLogMachineBuilder_2because_2debug_2error_2from_2from_1A_2info_2trace_2warn<Void> to(Topic...topics) {
-		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).to(topics);
+		return genericBuilder().to(topics);
 	}
 
 	@Override
 	public GenericLogMachineBuilder_2because_2from_2from_1A_2to<Void> with(String key, String value) {
-		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).with(key, value);
+		return genericBuilder().with(key, value);
 	}
 
 	@Override
 	public GenericLogMachineBuilder_2because_2from_2from_1A_2to<Void> with(String key, Number value) {
-		return GenericLogMachineGenerator.start(new GenericHelperImpl(this)).with(key, value);
+		return genericBuilder().with(key, value);
 	}
 
 	// conditional builders
@@ -206,15 +200,5 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		} else {
 			return DEAD_SELF_PROXY;
 		}
-	}
-
-	protected interface EventConfigurer {
-		EventConfigurer with(String name, String value);
-		EventConfigurer with(String name, Number value);
-
-	}
-
-	public void setEventConfigurer(EventConfigurer configurer) {
-
 	}
 }
