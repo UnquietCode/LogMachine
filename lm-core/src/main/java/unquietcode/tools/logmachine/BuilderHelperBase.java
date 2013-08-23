@@ -95,10 +95,7 @@ public abstract class BuilderHelperBase {
 	}
 
 	public void with(String key, Number value) {
-		if (key == null) {
-			throw new IllegalArgumentException("Key cannot be null.");
-		}
-
-		event.getData().put(key, value == null ? null : value.toString());
+		checkNotNull(key, "key cannot be null");
+		event.getData().put(key, value);
 	}
 }

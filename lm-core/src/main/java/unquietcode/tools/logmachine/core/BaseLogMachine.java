@@ -12,10 +12,10 @@ import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.Specific
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -28,7 +28,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @see LogMachine
  */
 public abstract class BaseLogMachine<T> {
-	private final List<DataProvider> dataProviders = new ArrayList<DataProvider>();
+	private final List<DataProvider> dataProviders = new CopyOnWriteArrayList<DataProvider>();
 	private final LogHandler<T> handler;
 	private final T logger;
 
@@ -43,17 +43,23 @@ public abstract class BaseLogMachine<T> {
 		for (DataProvider dataProvider : dataProviders) {
 			Map<String, Object> extraData = new HashMap<String, Object>();
 			dataProvider.addData(extraData);
-			event.getData().putAll(extraData);
+
+			Map<String, Object> data = event.getData();
+
+			// ignore any data already set in the event
+			for (Map.Entry<String, Object> entry : extraData.entrySet()) {
+				String key = entry.getKey();
+
+				if (!data.containsKey(key)) {
+					data.put(key, entry.getValue());
+				}
+			}
 		}
 
 		handler.logEvent(logger, event);
 	}
 
 	// ----------- data providers -----------
-
-	public interface DataProvider {
-		void addData(Map<String, Object> data);
-	}
 
 	// Set the context to be queried and applied to every new event.
 	// Changes to the map will be reflected in events as they occur.
