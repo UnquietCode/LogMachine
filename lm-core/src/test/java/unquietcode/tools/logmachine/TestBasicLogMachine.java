@@ -162,4 +162,16 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		assertEquals(1, getEventAppender().getAllEvents().size());
 	}
 
+	@Test
+	public void testThatObjectsArePreserved() {
+		lm.with("one", 1)
+		  .with("two", 2.0)
+		  .with("three", "3")
+		  .debug("");
+
+		LogEvent event = getSingleEvent();
+		assertEquals(1, event.getData().get("one"));
+		assertEquals(2.0, event.getData().get("two"));
+		assertEquals("3", event.getData().get("three"));
+	}
 }
