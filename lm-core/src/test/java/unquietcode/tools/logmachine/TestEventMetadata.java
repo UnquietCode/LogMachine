@@ -102,7 +102,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 	public void testAutomaticSource() {
 		lm.fromHere().info("Where you at dawg?");
 		LogEvent event = getSingleEvent();
-		assertEquals("testAutomaticSource", event.getLocation());
+		assertEquals("TestEventMetadata#testAutomaticSource:103", event.getLocation());
 	}
 
 	// TODO

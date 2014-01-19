@@ -28,7 +28,7 @@ public class TestFormatters extends AbstractLoggerTest {
 		lm.fromHere().debug("hi");
 		LogEvent event = getSingleEvent();
 		StringBuilder result = shortFMT.format(event);
-		assertEquals("[DEBUG] (testShortFormat_1) - hi", result.toString());
+		assertEquals("[DEBUG] (TestFormatters#testShortFormat_1:28) - hi", result.toString());
 	}
 
 	@Test
@@ -36,7 +36,7 @@ public class TestFormatters extends AbstractLoggerTest {
 		lm.fromHere().to(TestTopics.One, TestTopics.Three).debug("hi");
 		LogEvent event = getSingleEvent();
 		StringBuilder result = shortFMT.format(event);
-		assertEquals("[DEBUG] [One | Three] (testShortFormat_2) - hi", result.toString());
+		assertEquals("[DEBUG] [One | Three] (TestFormatters#testShortFormat_2:36) - hi", result.toString());
 	}
 
 	private enum TestTopics implements Topic {
