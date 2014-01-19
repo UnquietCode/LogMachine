@@ -1,6 +1,7 @@
 package unquietcode.tools.logmachine.core.appenders;
 
 import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.LoggingComponent;
 
 /**
  * An implementation of {@link unquietcode.tools.logmachine.core.appenders.Appender} which prints
@@ -10,25 +11,11 @@ import unquietcode.tools.logmachine.core.LogEvent;
  * @author Ben Fagin
  * @version 2-19-2013
  */
-public class BlackholeLogAppender implements Appender {
-	private boolean enabled = false;
+public class BlackholeLogAppender implements LoggingComponent {
 
 	@Override
-	public void append(LogEvent event) {
-		if (enabled) {
-			event.getFormattedMessage();
-			event.getCause();
-		}
+	public void handle(LogEvent event) {
+		event.getFormattedMessage();
+		event.getCause();
 	}
-
-	@Override
-	public void start() {
-		enabled = true;
-	}
-
-	@Override
-	public void stop() {
-		enabled = false;
-	}
-
 }

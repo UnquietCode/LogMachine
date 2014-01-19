@@ -16,16 +16,15 @@ public abstract class AbstractLoggerTest extends unquietcode.tools.logmachine.te
 	public void _setup() {
 		if (initialized) { return; }
 
-		JDKHandlerAdaptor handler = new JDKHandlerAdaptor();
+		JDKHandlerAdapter handler = new JDKHandlerAdapter();
 		PersistentLogAppender appender = getEventAppender();
-		handler.setAppender(appender);
+		handler.setComponent(appender);
 		handler.setLevel(java.util.logging.Level.FINEST);
 
 		Logger logger = Logger.getLogger(getLoggerName());
 		logger.addHandler(handler);
 		logger.setLevel(JDKLevelTranslator.$.fromLogMachine(Level.TRACE));
 
-		appender.start();
 		initialized = true;
 	}
 }

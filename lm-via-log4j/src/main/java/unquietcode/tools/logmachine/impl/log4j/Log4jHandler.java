@@ -59,7 +59,7 @@ public class Log4jHandler implements LogHandler<Logger> {
 			break;
 
 			default:
-			throw new LogMachineException("internal error");
+				throw new LogMachineException("internal error");
 
 		}} finally {
 			MDC.remove(Switchboard.MDC_KEY);

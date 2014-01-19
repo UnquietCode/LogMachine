@@ -8,13 +8,16 @@
 		<version>0.1</version>
 	</parent>
 
-	<artifactId>lm-via-slf4j</artifactId>
+	<artifactId>lm-to-sqs</artifactId>
 	<packaging>jar</packaging>
 
-	<name>lm-via-slf4j</name>
+	<name>lm-to-sqs</name>
+	<description>
+		Support for writing log events to an SQS queue.
+	</description>
 
 	<properties>
-		<slf4j.version>1.6.4</slf4j.version>
+		<aws.version>1.6.0</aws.version>
 	</properties>
 
 	<dependencies>
@@ -25,18 +28,11 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>provided</scope>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>${aws.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>unquietcode.tools.logmachine</groupId>
 			<artifactId>lm-core</artifactId>

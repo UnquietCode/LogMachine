@@ -15,13 +15,14 @@ import java.util.logging.Logger;
 public class JDKHandler implements LogHandler<Logger> {
 
 	@Override
-	public void logEvent(Logger logger, LogEvent e) {
-		Level level = JDKLevelTranslator.$.fromLogMachine(e.getLevel());
-		LogRecord lr = new LogRecord(level, e.getFormattedMessage());
-		lr.setThrown(e.getCause());
-		lr.setParameters(e.getReplacements());
+	public void logEvent(Logger logger, LogEvent event) {
+		Level level = JDKLevelTranslator.$.fromLogMachine(event.getLevel());
+		LogRecord lr = new LogRecord(level, event.getFormattedMessage());
+		lr.setThrown(event.getCause());
+		lr.setParameters(event.getReplacements());
+		lr.setLoggerName(event.getLoggerName());
 
-		Switchboard.put(e, "_"+lr.getSequenceNumber());
+		Switchboard.put(event, "_" + lr.getSequenceNumber());
 		logger.log(lr);
 	}
 

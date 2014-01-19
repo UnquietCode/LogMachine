@@ -1,9 +1,9 @@
 package unquietcode.tools.logmachine.core;
 
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2debug_2error_2from_2from_1A_2info_2trace_2warn;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2from_2from_1A_2to;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2debug_2error_2from_2from_1A_2info_2to_2trace_2warn;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
 import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
 import unquietcode.tools.logmachine.core.topics.Topic;
 
@@ -27,16 +27,18 @@ public interface LogMachineBuilders<T> {
 	void trace(String message, Throwable exception);
 	void trace(String message, Object... data);
 
-	SpecificLogMachineBuilder.Start<Void> error();
-	SpecificLogMachineBuilder.Start<Void> warn();
-	SpecificLogMachineBuilder.Start<Void> info();
-	SpecificLogMachineBuilder.Start<Void> debug();
-	SpecificLogMachineBuilder.Start<Void> trace();
+	SpecificLogMachineBuilder.Start error();
+	SpecificLogMachineBuilder.Start warn();
+	SpecificLogMachineBuilder.Start info();
+	SpecificLogMachineBuilder.Start debug();
+	SpecificLogMachineBuilder.Start trace();
 
-	GenericLogMachineBuilder_2debug_2error_2from_2from_1A_2info_2to_2trace_2warn<Void> because(Throwable cause);
-	GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn<Void> from(String location);
-	GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn<Void> from();
-	GenericLogMachineBuilder_2because_2debug_2error_2from_2from_1A_2info_2trace_2warn<Void> to(Topic...topics);
-	GenericLogMachineBuilder_2because_2from_2from_1A_2to<Void> with(String key, String value);
-	GenericLogMachineBuilder_2because_2from_2from_1A_2to<Void> with(String key, Number value);
+	T getNativeLogger();
+
+	GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void> because(Throwable cause);
+	GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void> from(String location);
+	GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void> fromHere();
+	GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void> to(Topic... topics);
+	GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f<Void> with(String key, String value);
+	GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f<Void> with(String key, Number value);
 }

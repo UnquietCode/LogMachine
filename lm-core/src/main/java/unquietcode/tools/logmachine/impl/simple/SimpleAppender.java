@@ -1,21 +1,21 @@
 package unquietcode.tools.logmachine.impl.simple;
 
 import unquietcode.tools.logmachine.core.LogEvent;
-import unquietcode.tools.logmachine.core.appenders.Appender;
-import unquietcode.tools.logmachine.core.formats.Format;
-import unquietcode.tools.logmachine.core.formats.PlaintextFormat;
+import unquietcode.tools.logmachine.core.LoggingComponent;
+import unquietcode.tools.logmachine.core.formats.Formatter;
+import unquietcode.tools.logmachine.core.formats.PlaintextFormatter;
 
 /**
  * @author Ben Fagin
  * @version 10-24-2012
  */
-public class SimpleAppender implements Appender {
-	private Format format = new PlaintextFormat();
+public class SimpleAppender implements LoggingComponent {
+	private Formatter formatter = new PlaintextFormatter();
 
 
 	@Override
-	public void append(LogEvent event) {
-		StringBuilder msg = format.format(event);
+	public void handle(LogEvent event) {
+		StringBuilder msg = formatter.format(event);
 
 		switch (event.getLevel()) {
 			case ERROR:
@@ -29,15 +29,5 @@ public class SimpleAppender implements Appender {
 				System.out.println(msg);
 			break;
 		}
-	}
-
-	@Override
-	public void start() {
-		// nothing
-	}
-
-	@Override
-	public void stop() {
-		// nothing
 	}
 }

@@ -94,10 +94,11 @@
 	<modules>
 		<module>lm-builder</module>
 		<module>lm-core</module>
+		<module>lm-via-jdk14</module>
+		<module>lm-via-log4j</module>
 		<module>lm-via-slf4j</module>
 		<module>lm-via-logback</module>
-		<module>lm-via-jdk14</module>
 		<module>lm-to-elasticsearch</module>
-		<module>lm-via-log4j</module>
+		<module>lm-to-sqs</module>
 	</modules>
 </project>

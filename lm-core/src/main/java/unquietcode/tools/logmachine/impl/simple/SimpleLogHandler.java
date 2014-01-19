@@ -3,7 +3,7 @@ package unquietcode.tools.logmachine.impl.simple;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogHandler;
-import unquietcode.tools.logmachine.core.appenders.Appender;
+import unquietcode.tools.logmachine.core.LoggingComponent;
 
 /**
  * @author Ben Fagin
@@ -14,8 +14,8 @@ public class SimpleLogHandler implements LogHandler<SimpleLogger> {
 	@Override
 	public void logEvent(SimpleLogger logger, LogEvent e) {
 		if (logger.getLevel().isFinerOrEqual(e.getLevel())) {
-			for (Appender appender : logger.getAppenders()) {
-				appender.append(e);
+			for (LoggingComponent components : logger.getComponents()) {
+				components.handle(e);
 			}
 		}
 	}

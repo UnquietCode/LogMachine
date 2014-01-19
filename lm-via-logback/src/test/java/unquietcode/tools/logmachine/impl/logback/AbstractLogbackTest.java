@@ -20,8 +20,8 @@ public abstract class AbstractLogbackTest extends AbstractLoggerTest {
 		StaticLoggerBinder loggerBinder = StaticLoggerBinder.getSingleton();
 		LoggerContext loggerContext = (LoggerContext) loggerBinder.getLoggerFactory();
 
-		LogbackAppender appender = new LogbackAppender();
-		appender.setAppender(getEventAppender());
+		LogbackAppenderAdapter appender = new LogbackAppenderAdapter();
+		appender.setComponent(getEventAppender());
 
 		Logger logger = loggerContext.getLogger(getLoggerName());
 		logger.addAppender(appender);

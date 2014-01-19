@@ -9,7 +9,7 @@ import unquietcode.tools.logmachine.core.topics.Topic;
  * @author Ben Fagin
  * @version 10-24-2012
  */
-public class ShorterPlaintextFormat implements Format {
+public class ShorterPlaintextFormatter implements Formatter {
 
 	@Override
 	public StringBuilder format(LogEvent event) {

@@ -15,7 +15,7 @@ import org.elasticsearch.common.xcontent.XContentType;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachineException;
-import unquietcode.tools.logmachine.core.appenders.Appender;
+import unquietcode.tools.logmachine.core.LoggingComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Ben Fagin
  * @version 10-24-2012
  */
-public class ElasticSearchAppender implements Appender {
+public class ElasticSearchAppender implements LoggingComponent {
 	private ElasticSearchJSONFormatter formatter = new LogstashFormatter_V1();
 	private Client client;
 
@@ -44,10 +44,10 @@ public class ElasticSearchAppender implements Appender {
 	private int batchSize = 10;                       // number of events to wait for (the trade-off is in lost events)
 	private Level batchThreshold = Level.ERROR;       // log level which permits skipping the batch (null := never)
 	private final Queue<LogEvent> queue = new ConcurrentLinkedQueue<LogEvent>();
-	private boolean enabled = true;
+	private boolean enabled = false;
 
 	@Override
-	public void append(LogEvent event) {
+	public void handle(LogEvent event) {
 		if (!enabled) { return; }
 
 		if (event.getLevel().isCoarserOrEqual(batchThreshold)) {
@@ -118,7 +118,6 @@ public class ElasticSearchAppender implements Appender {
 		;
 	}
 
-	@Override
 	public void start() {
 		if (servers == null || servers.isEmpty()) {
 			throw new LogMachineException("At least one server address is required.");
@@ -139,9 +138,10 @@ public class ElasticSearchAppender implements Appender {
 		Thread indexer = new Thread(new BatchIndexingJob());
 		indexer.setDaemon(false);
 		indexer.start();
+
+		enabled = true;
 	}
 
-	@Override
 	public void stop() {
 		enabled = false;
 	}

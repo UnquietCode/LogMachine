@@ -20,16 +20,14 @@ public abstract class AbstractLog4jTest extends AbstractLoggerTest {
 		logger.setLevel(Log4jLevelTranslator.$.fromLogMachine(Level.TRACE));
 
 		// persistent appender
-		Log4jAppender appender = new Log4jAppender();
-		appender.setAppender(getEventAppender());
+		Log4jAppenderAdapter appender = new Log4jAppenderAdapter();
+		appender.setComponent(getEventAppender());
 		logger.addAppender(appender);
-		appender.start();
 
 		// non-printing appender
-		appender = new Log4jAppender();
-		appender.setAppender(new BlackholeLogAppender());
+		appender = new Log4jAppenderAdapter();
+		appender.setComponent(new BlackholeLogAppender());
 		logger.addAppender(appender);
-		appender.start();
 
 		initialized = true;
 	}

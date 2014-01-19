@@ -12,7 +12,7 @@ import java.util.Map;
  * @author Ben Fagin
  * @version 10-21-2012
  */
-public class JSONFormat implements Format {
+public class JSONFormatter implements Formatter {
 
 	@Override
 	public StringBuilder format(LogEvent event) {
@@ -20,7 +20,7 @@ public class JSONFormat implements Format {
 
 		// start, and all non-string properties
 		sb.append("{\"time\": ").append(event.getTimestamp())
-		  .append(",\"class\": \"").append(event.getLoggerName()).append("\"");
+		  .append(",\"logger\": \"").append(event.getLoggerName()).append("\"");
 
 		appendNotNull("message", sb, event.getFormattedMessage());
 		appendNotNull("thread", sb, event.getThreadName());
@@ -68,7 +68,7 @@ public class JSONFormat implements Format {
 				if (!first) { sb.append(", "); }
 				else { first = false; }
 
-				sb.append("\"").append(topic.name()).append(".").append(topic).append("\"");
+				sb.append("\"").append(topic.name()).append("\"");
 			}
 
 			sb.append("]");

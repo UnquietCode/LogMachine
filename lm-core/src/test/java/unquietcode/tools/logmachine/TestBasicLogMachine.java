@@ -38,6 +38,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test
 	public void testBasicEvent() {
 		lm.info("Hello world.");
+
 		LogEvent event = getSingleEvent();
 		assertEquals("expected same log level", Level.INFO, event.getLevel());
 		assertEquals("expected same log level", "Hello world.", event.getMessage());
@@ -47,12 +48,16 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	public void testLevels() {
 		lm.info("info");
 		lm.info().send("info");
+
 		lm.debug("debug");
 		lm.debug().send("debug");
+
 		lm.trace("trace");
 		lm.trace().send("trace");
+
 		lm.warn("warn");
 		lm.warn().send("warn");
+
 		lm.error("error");
 		lm.error().send("error");
 
@@ -79,7 +84,9 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test
 	public void testWithInlineThrowable() {
 		ExceptionalException ex = new ExceptionalException("fail");
+
 		lm.warn("Oh %^&%!", ex);
+
 		LogEvent event = getSingleEvent();
 
 		assertEquals("expected same log level", Level.WARN, event.getLevel());
@@ -90,7 +97,9 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test
 	public void testBuilder() {
 		ExceptionalException ex = new ExceptionalException("fail");
+
 		lm.because(ex).from("testBuilder()").with("k", "v").debug("Oh %^&%!");
+
 		LogEvent event = getSingleEvent();
 
 		assertEquals("expected same log level", Level.DEBUG, event.getLevel());
@@ -103,6 +112,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test
 	public void testMessageReplacement() {
 		lm.info("hello {}", "world");
+
 		LogEvent event = getSingleEvent();
 		assertEquals("hello {}", event.getMessage());
 		assertEquals("hello world", event.getFormattedMessage());
@@ -111,6 +121,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test
 	public void testMessageReplacementWithNulls() {
 		lm.with("greeting", (String) null).info("{:greeting} {:notExists} {}", (Object) null);
+
 		LogEvent event = getSingleEvent();
 		assertEquals("null {:notExists} null", event.getFormattedMessage());
 	}
@@ -127,6 +138,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test
 	public void testMessageReplacementWithMissingGroupNumber() {
 		lm.to(TestGroups.One, TestGroups.Two).info("{~1} {~3} {~2}");
+
 		LogEvent event = getSingleEvent();
 		assertEquals("One {~3} Two", event.getFormattedMessage());
 	}
@@ -134,13 +146,23 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test
 	public void testMessageReplacementWithAssignment() {
 		lm.info("Hi {@name}!", "Bob");
+
 		LogEvent event = getSingleEvent();
 		assertEquals("Hi Bob!", event.getFormattedMessage());
 		assertEquals("Bob", event.getData().get("name"));
 	}
 
 	@Test(expected = IllegalStateException.class)
-	public void testMessageReplacementWithConflictingAssignment() {
+	public void test_Message_Replacement_With_Conflicting_Assignment() {
+		String name1 = new String("Bob");
+		String name2 = new String("Bob");
+		assertTrue("What did you do???", name1 != name2);
+
+		lm.with("name", name1).info("{@name}", name2);
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void test_Message_Replacement_With_Conflicting_Assignment__Same_Identity() {
 		String name = "Bob";
 		lm.with("name", name).info("{@name}", name);
 	}
@@ -164,14 +186,22 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testThatObjectsArePreserved() {
+		final String test = new String("test!");
+
 		lm.with("one", 1)
 		  .with("two", 2.0)
 		  .with("three", "3")
+		  .with("four", test)
 		  .debug("");
 
 		LogEvent event = getSingleEvent();
+
+		// these get boxed, so at least check that they're equal
 		assertEquals(1, event.getData().get("one"));
 		assertEquals(2.0, event.getData().get("two"));
-		assertEquals("3", event.getData().get("three"));
+
+		// but for these, make sure the same reference was returned
+		assertTrue("3" == event.getData().get("three"));
+		assertTrue(test == event.getData().get("four"));
 	}
 }

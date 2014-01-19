@@ -1,7 +1,7 @@
 package unquietcode.tools.logmachine.impl.simple;
 
 import unquietcode.tools.logmachine.core.Level;
-import unquietcode.tools.logmachine.core.appenders.Appender;
+import unquietcode.tools.logmachine.core.LoggingComponent;
 
 import java.lang.ref.WeakReference;
 import java.util.*;
@@ -19,7 +19,7 @@ public class SimpleLogger {
 	private static final SimpleAppender DEFAULT_APPENDER = new SimpleAppender();
 
 	private Level level;
-	private final List<Appender> appenders = new ArrayList<Appender>();
+	private final List<LoggingComponent> components = new ArrayList<LoggingComponent>();
 	private WeakReference<String> name;
 
 	private SimpleLogger() { }
@@ -30,7 +30,7 @@ public class SimpleLogger {
 		} else {
 			SimpleLogger logger = new SimpleLogger();
 			logger.level = Level.INFO;
-			logger.appenders.add(DEFAULT_APPENDER);
+			logger.components.add(DEFAULT_APPENDER);
 			logger.name = new WeakReference<String>(name);
 
 			LOGGERS.put(name, logger);
@@ -55,11 +55,11 @@ public class SimpleLogger {
 		this.level = level;
 	}
 
-	public void addAppender(Appender appender) {
-		appenders.add(checkNotNull(appender));
+	public void addComponent(LoggingComponent appender) {
+		components.add(checkNotNull(appender));
 	}
 
-	public List<Appender> getAppenders() {
-		return Collections.unmodifiableList(appenders);
+	public List<LoggingComponent> getComponents() {
+		return Collections.unmodifiableList(components);
 	}
 }

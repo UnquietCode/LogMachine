@@ -1,10 +1,10 @@
 package unquietcode.tools.logmachine.core;
 
 
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2debug_2error_2from_2from_1A_2info_2trace_2warn;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_2from_2from_1A_2to;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2debug_2error_2from_2from_1A_2info_2to_2trace_2warn;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
 import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
 import unquietcode.tools.logmachine.core.topics.Topic;
 
@@ -98,7 +98,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	// specific builders
 
 	@Override
-	public SpecificLogMachineBuilder.Start<Void> error() {
+	public SpecificLogMachineBuilder.Start error() {
 		if (isError()) {
 			return specificBuilder(Level.ERROR);
 		} else {
@@ -107,7 +107,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificLogMachineBuilder.Start<Void> warn() {
+	public SpecificLogMachineBuilder.Start warn() {
 		if (isWarn()) {
 			return specificBuilder(Level.WARN);
 		} else {
@@ -116,7 +116,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificLogMachineBuilder.Start<Void> info() {
+	public SpecificLogMachineBuilder.Start info() {
 		if (isInfo()) {
 			return specificBuilder(Level.INFO);
 		} else {
@@ -125,7 +125,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificLogMachineBuilder.Start<Void> debug() {
+	public SpecificLogMachineBuilder.Start debug() {
 		if (isDebug()) {
 			return specificBuilder(Level.DEBUG);
 		} else {
@@ -134,7 +134,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@Override
-	public SpecificLogMachineBuilder.Start<Void> trace() {
+	public SpecificLogMachineBuilder.Start trace() {
 		if (isTrace()) {
 			return specificBuilder(Level.TRACE);
 		} else {
@@ -143,8 +143,8 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	@SuppressWarnings("unchecked")
-	private static final SpecificLogMachineBuilder.Start<Void> DEAD_PROXY
-		= (SpecificLogMachineBuilder.Start<Void>) Proxy.newProxyInstance(
+	private static final SpecificLogMachineBuilder.Start DEAD_PROXY
+		= (SpecificLogMachineBuilder.Start) Proxy.newProxyInstance(
 			SpecificLogMachineBuilder.Start.class.getClassLoader(),
 			new Class<?>[]{SpecificLogMachineBuilder.Start.class},
 			new ProxyHelper()
@@ -162,32 +162,44 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	// generic builders
 
 	@Override
-	public GenericLogMachineBuilder_2debug_2error_2from_2from_1A_2info_2to_2trace_2warn<Void> because(Throwable cause) {
+	public GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
+		because(Throwable cause)
+	{
 		return genericBuilder().because(cause);
 	}
 
 	@Override
-	public GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn<Void> from(String location) {
+	public GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
+		from(String location)
+	{
 		return genericBuilder().from(location);
 	}
 
 	@Override
-	public GenericLogMachineBuilder_2because_2debug_2error_2info_2to_2trace_2warn<Void> from() {
-		return genericBuilder().from();
+	public GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
+		fromHere()
+	{
+		return genericBuilder().fromHere();
 	}
 
 	@Override
-	public GenericLogMachineBuilder_2because_2debug_2error_2from_2from_1A_2info_2trace_2warn<Void> to(Topic...topics) {
+	public GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
+		to(Topic... topics)
+	{
 		return genericBuilder().to(topics);
 	}
 
 	@Override
-	public GenericLogMachineBuilder_2because_2from_2from_1A_2to<Void> with(String key, String value) {
+	public GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f<Void>
+		with(String key, String value)
+	{
 		return genericBuilder().with(key, value);
 	}
 
 	@Override
-	public GenericLogMachineBuilder_2because_2from_2from_1A_2to<Void> with(String key, Number value) {
+	public GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f<Void>
+		with(String key, Number value)
+	{
 		return genericBuilder().with(key, value);
 	}
 

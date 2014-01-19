@@ -2,10 +2,9 @@ package unquietcode.tools.logmachine.impl.jdk14;
 
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.Switchboard;
-import unquietcode.tools.logmachine.core.formats.Format;
-import unquietcode.tools.logmachine.core.formats.PlaintextFormat;
+import unquietcode.tools.logmachine.core.formats.Formatter;
+import unquietcode.tools.logmachine.core.formats.PlaintextFormatter;
 
-import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -17,15 +16,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Ben Fagin
  * @version 10-24-2012
  */
-public class JDKFormatter extends Formatter {
-	private Format format = new PlaintextFormat();
-	private Formatter fallbackFormater;
+public class JDKFormatter extends java.util.logging.Formatter {
+	private Formatter formatter = new PlaintextFormatter();
+	private java.util.logging.Formatter fallbackFormater;
 
-	public void setFormat(Format format) {
-		this.format = checkNotNull(format, "format cannot be null");
+	public void setFormatter(Formatter formatter) {
+		this.formatter = checkNotNull(formatter, "formatter cannot be null");
 	}
 
-	public void setFallbackFormater(Formatter formatter) {
+	public void setFallbackFormater(java.util.logging.Formatter formatter) {
 		this.fallbackFormater = checkNotNull(formatter, "formatter cannot be null");
 	}
 
@@ -33,7 +32,7 @@ public class JDKFormatter extends Formatter {
 	public String format(LogRecord event) {
 		String lookupKey = "_"+event.getSequenceNumber();
 		LogEvent _event = Switchboard.get(lookupKey);
-		StringBuilder data = _event != null ? format.format(_event) : null;
+		StringBuilder data = _event != null ? formatter.format(_event) : null;
 
 		if (data != null) {
 			return data.append("\n").toString();

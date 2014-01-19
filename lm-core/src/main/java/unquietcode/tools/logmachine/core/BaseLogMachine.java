@@ -8,6 +8,8 @@ import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLog
 import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
 import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineGenerator;
 import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineHelper;
+import unquietcode.tools.logmachine.core.topics.Topic;
+import unquietcode.tools.logmachine.core.topics.TopicBroker;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -15,6 +17,7 @@ import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -27,15 +30,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @version 10-21-2012
  * @see LogMachine
  */
-public abstract class BaseLogMachine<T> {
+public abstract class BaseLogMachine<T> implements LoggingComponent, LogMachineBuilders_when<T> {
 	private final List<DataProvider> dataProviders = new CopyOnWriteArrayList<DataProvider>();
 	private final LogHandler<T> handler;
 	private final T logger;
 
-
 	protected BaseLogMachine(T logger, LogHandler<T> handler) {
 		this.handler = checkNotNull(handler, "Handler cannot be null.");
 		this.logger = checkNotNull(logger, "Logger cannot be null.");
+	}
+
+	@Override
+	public void handle(LogEvent event) {
+		_log(event);
 	}
 
 	public void _log(LogEvent event) {
@@ -57,6 +64,18 @@ public abstract class BaseLogMachine<T> {
 		}
 
 		handler.logEvent(logger, event);
+
+		// notify subscribers to the event topics
+		Set<LoggingComponent> components = TopicBroker.getComponents(event.getGroups());
+
+		for (LoggingComponent component : components) {
+			if (component == this) { continue; }
+			component.handle(event);
+		}
+	}
+
+	public void subscribe(Topic...topics) {
+		TopicBroker.subscribe(this, topics);
 	}
 
 	// ----------- data providers -----------
@@ -67,13 +86,18 @@ public abstract class BaseLogMachine<T> {
 		dataProviders.add(checkNotNull(provider));
 	}
 
-	protected GenericLogMachineBuilder.Start<Void> genericBuilder() {
+	protected GenericLogMachineBuilder.Start genericBuilder() {
 		return GenericLogMachineGenerator.start(new GenericHelperImpl(this));
 	}
 
-	protected SpecificLogMachineBuilder.Start<Void> specificBuilder(Level level) {
+	protected SpecificLogMachineBuilder.Start specificBuilder(Level level) {
 		SpecificLogMachineHelper helper = new SpecificHelperImpl(this, level);
 		return SpecificLogMachineGenerator.start(helper);
+	}
+
+	@Override
+	public T getNativeLogger() {
+		return logger;
 	}
 
 	// --------------------------------------

@@ -10,7 +10,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Ben Fagin
  * @version 10-21-2012
  */
-public class PlaintextFormat implements Format {
+public class PlaintextFormatter implements Formatter {
 	private Level thresholdForStackTrace = Level.WARN;
 
 	public void setThresholdForStackTrace(Level level) {
@@ -29,7 +29,7 @@ public class PlaintextFormat implements Format {
 		;
 
 		if (event.getLocation() != null) {
-			sb.append(" @").append(event.getLocation());
+			sb.append(" @ ").append(event.getLocation());
 		}
 
 		sb.append(" - ");

@@ -1,5 +1,8 @@
 package unquietcode.tools.logmachine.core.topics;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Creates a topic from an interned String.
  *
@@ -8,7 +11,7 @@ package unquietcode.tools.logmachine.core.topics;
  */
 public class StringTopic implements HierarchicalTopic {
 	private final String topic;
-	private final Topic parent;
+	private final List<Topic> parents;
 
 	public StringTopic(String topic) {
 		this(topic, null);
@@ -19,13 +22,13 @@ public class StringTopic implements HierarchicalTopic {
 			throw new IllegalArgumentException("A non-empty topic is required.");
 		}
 		this.topic = topic.intern();
-		this.parent = parent;
+		this.parents = Arrays.asList(parent);
 	}
 
 
 	@Override
-	public Topic getParent() {
-		return parent;
+	public List<Topic> getParents() {
+		return parents;
 	}
 
 	@Override

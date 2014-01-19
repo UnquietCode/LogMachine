@@ -6,8 +6,8 @@ import ch.qos.logback.core.encoder.Encoder;
 import ch.qos.logback.core.encoder.EncoderBase;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.Switchboard;
-import unquietcode.tools.logmachine.core.formats.Format;
-import unquietcode.tools.logmachine.core.formats.PlaintextFormat;
+import unquietcode.tools.logmachine.core.formats.Formatter;
+import unquietcode.tools.logmachine.core.formats.PlaintextFormatter;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,7 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @version 07-07-2012
  */
 public class LogbackEncoder extends EncoderBase<ILoggingEvent> {
-	private Format format = new PlaintextFormat();
+	private Formatter formatter = new PlaintextFormatter();
 	private Encoder<ILoggingEvent> fallbackEncoder;
 
 
@@ -31,15 +31,15 @@ public class LogbackEncoder extends EncoderBase<ILoggingEvent> {
 		this.fallbackEncoder = checkNotNull(fallbackEncoder, "encoder cannot be null");
 	}
 
-	public void setFormat(Format format) {
-		this.format = checkNotNull(format, "Format cannot be null.");
+	public void setFormatter(Formatter formatter) {
+		this.formatter = checkNotNull(formatter, "Formatter cannot be null.");
 	}
 
 	@Override
 	public void doEncode(ILoggingEvent event) throws IOException {
 		String lookupKey = event.getMDCPropertyMap().get(Switchboard.MDC_KEY);
 		LogEvent _event = Switchboard.get(lookupKey);
-		StringBuilder data = _event != null ? format.format(_event) : null;
+		StringBuilder data = _event != null ? formatter.format(_event) : null;
 
 		// (formatter could have still returned null)
 		if (data == null) {

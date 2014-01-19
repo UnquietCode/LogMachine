@@ -32,7 +32,7 @@ public abstract class BuilderHelperBase {
 	/**
 	 * Copied with modifications from {@link java.util.logging.LogRecord#inferCaller}.
 	 */
-	public void from() {
+	public void fromHere() {
 		JavaLangAccess access = SharedSecrets.getJavaLangAccess();
 		Throwable throwable = new Throwable();
 		int depth = access.getStackTraceDepth(throwable);
@@ -52,7 +52,15 @@ public abstract class BuilderHelperBase {
 			} else {
 				if (!cname.equals(logClassName)) {
 					// We've found the relevant frame.
-					String source = frame.getMethodName();
+
+					// get the class's simple name
+					String className = frame.getClassName();
+
+					if (className.contains(".")) {
+						className = className.substring(className.lastIndexOf('.')+1);
+					}
+
+					String source = className+"#"+frame.getMethodName()+":"+frame.getLineNumber();
 					from(source);
 					return;
 				}

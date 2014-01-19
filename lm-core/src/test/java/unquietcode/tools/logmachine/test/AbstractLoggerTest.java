@@ -26,9 +26,8 @@ public abstract class AbstractLoggerTest {
 		if (initialized) { return; }
 
 		SimpleLogger logger = SimpleLogger.getLogger(getLoggerName());
-		logger.addAppender(eventAppender);
+		logger.addComponent(eventAppender);
 		logger.setLevel(Level.TRACE);
-		eventAppender.start();
 
 		initialized = true;
 	}
@@ -57,7 +56,7 @@ public abstract class AbstractLoggerTest {
 	public abstract LogMachine getLogMachine();
 
 	/**
-	 * Provide the desired test level. defaults to {@link unquietcode.tools.logmachine.core.Level#DEBUG}
+	 * Provide the desired test level. defaults to {@link Level#DEBUG}
 	 */
 	protected Level getLevel() {
 		return Level.DEBUG;

@@ -1,5 +1,6 @@
 package unquietcode.tools.logmachine;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
@@ -7,6 +8,8 @@ import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -39,50 +42,38 @@ public class TestEventMetadata extends AbstractLoggerTest {
 	@Test
 	public void testEventCategories() {
 		class Mixer {
-			void orange() {
+			void assertColor(String name, PrimaryColor...colors) {
 				LogEvent event = getSingleEvent();
 				List<Topic> groups = event.getGroups();
-				assertEquals(2, groups.size());
-				assertTrue(groups.contains(PrimaryColor.Red));
-				assertTrue(groups.contains(PrimaryColor.Yellow));
-				assertEquals("Orange", event.getMessage());
-			}
+				assertEquals(colors.length, groups.size());
 
-			void green() {
-				LogEvent event = getSingleEvent();
-				List<Topic> groups = event.getGroups();
-				assertEquals(2, groups.size());
-				assertTrue(groups.contains(PrimaryColor.Blue));
-				assertTrue(groups.contains(PrimaryColor.Yellow));
-				assertEquals("Green", event.getMessage());
-			}
+				for (PrimaryColor color : colors) {
+					assertTrue(groups.contains(color));
+				}
 
-			void purple() {
-				LogEvent event = getSingleEvent();
-				List<Topic> groups = event.getGroups();
-				assertEquals(2, groups.size());
-				assertTrue(groups.contains(PrimaryColor.Red));
-				assertTrue(groups.contains(PrimaryColor.Blue));
-				assertEquals("Purple", event.getMessage());
+				assertEquals(name, event.getMessage());
 			}
 		}
 
-		Mixer mixer = new Mixer();
+		final Mixer mixer = new Mixer();
+
 		lm.warn().to(PrimaryColor.Red, PrimaryColor.Yellow).send("Orange");
-		mixer.orange();
+		mixer.assertColor("Orange", PrimaryColor.Yellow, PrimaryColor.Red);
 
 		lm.error().to(PrimaryColor.Blue, PrimaryColor.Yellow).send("Green");
-		mixer.green();
+		mixer.assertColor("Green", PrimaryColor.Yellow, PrimaryColor.Blue);
 
 		lm.to(PrimaryColor.Red, PrimaryColor.Blue).info("Purple");
-		mixer.purple();
+		mixer.assertColor("Purple", PrimaryColor.Blue, PrimaryColor.Red);
 	}
 
 	@Test
 	public void testHeterogeneousEnums() {
 		lm.to(PrimaryColor.Red, PrimaryColor.Yellow, SecondaryColor.Orange).info("Orange");
+
 		LogEvent event = getSingleEvent();
 		List<Topic> groups = event.getGroups();
+
 		assertEquals(3, groups.size());
 		assertTrue(groups.contains(PrimaryColor.Red));
 		assertTrue(groups.contains(PrimaryColor.Yellow));
@@ -91,12 +82,15 @@ public class TestEventMetadata extends AbstractLoggerTest {
 
 	@Test
 	public void testDataPoints() {
+		String s = "+";
+
 		lm.to(PrimaryColor.Red, PrimaryColor.Blue)
 		  .with("color", SecondaryColor.Purple.name())
-		  .debug("{~1} {} {~2} {=>} {:color}", "+");
+		  .debug("{~1} {} {~2} {=>} {:color}", s);
 
 		LogEvent event = getSingleEvent();
 		List<Topic> groups = event.getGroups();
+
 		assertEquals(2, groups.size());
 		assertTrue(groups.contains(PrimaryColor.Red));
 		assertTrue(groups.contains(PrimaryColor.Blue));
@@ -106,8 +100,26 @@ public class TestEventMetadata extends AbstractLoggerTest {
 
 	@Test
 	public void testAutomaticSource() {
-		lm.from().info("Where you at dawg?");
+		lm.fromHere().info("Where you at dawg?");
 		LogEvent event = getSingleEvent();
 		assertEquals("testAutomaticSource", event.getLocation());
+	}
+
+	// TODO
+	@Test @Ignore
+	public void ok() {
+		getURI("nope");
+	}
+
+	public URI getURI(String uri) {
+		try {
+			return new URI(uri);
+		} catch (URISyntaxException e) {
+			lm.because(e).fromHere()
+			  .with("uri", e.getInput())
+			  .warn("failed to create URI from string '{:uri}'");
+
+			return null;
+		}
 	}
 }

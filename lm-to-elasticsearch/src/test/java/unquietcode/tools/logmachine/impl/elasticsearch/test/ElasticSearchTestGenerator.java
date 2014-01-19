@@ -31,7 +31,7 @@ public class ElasticSearchTestGenerator {
 		appender.setBatchThreshold(Level.TRACE);
 		appender.setServers(Arrays.asList(new InetSocketTransportAddress("localhost", 9300)));
 
-		logger.addAppender(appender);
+		logger.addComponent(appender);
 		appender.start();
 		log = new SimpleLogMachine(logger);
 	}
