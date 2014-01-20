@@ -25,7 +25,8 @@ public class LogbackAppenderComponent implements LoggingComponent {
 
 		StaticLoggerBinder loggerBinder = StaticLoggerBinder.getSingleton();
 		LoggerContext loggerContext = (LoggerContext) loggerBinder.getLoggerFactory();
-		this.logger = loggerContext.getLogger(loggerName);
+		logger = loggerContext.getLogger(loggerName);
+		logger.setAdditive(false);
 
 		logger.addAppender(appender);
 	}
