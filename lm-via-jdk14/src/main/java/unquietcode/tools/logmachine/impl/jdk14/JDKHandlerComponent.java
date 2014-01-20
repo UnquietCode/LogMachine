@@ -4,7 +4,6 @@ import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LoggingComponent;
 
 import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -15,13 +14,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class JDKHandlerComponent implements LoggingComponent {
 	private final JDKHandler handler = new JDKHandler();
-	private final Logger logger;
+	private final Logger logger = JDKLogMachine.newAnonymousLogger();
 
 	public JDKHandlerComponent(Handler handler) {
-		logger = Logger.getAnonymousLogger();
-		logger.setUseParentHandlers(false);
 		logger.addHandler(checkNotNull(handler));
-		logger.setLevel(Level.ALL);
 	}
 
 	@Override
