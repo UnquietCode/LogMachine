@@ -3,6 +3,7 @@ package unquietcode.tools.logmachine.impl.log4j;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import unquietcode.tools.logmachine.core.LogMachine;
+import unquietcode.tools.logmachine.core.topics.Topic;
 
 import java.util.Random;
 
@@ -24,6 +25,15 @@ public class Log4jLogMachine extends LogMachine<Logger> {
 
 	public Log4jLogMachine(String name) {
 		this(Logger.getLogger(name));
+	}
+
+	public Log4jLogMachine(Topic topic) {
+		this(topic, new Topic[0]);
+	}
+
+	public Log4jLogMachine(Topic first, Topic...topics) {
+		this(makeLoggerName(combine(first, topics)));
+		subscribe(combine(first, topics));
 	}
 
 	public Log4jLogMachine() {

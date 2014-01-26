@@ -1,6 +1,7 @@
 package unquietcode.tools.logmachine.impl.jdk14;
 
 import unquietcode.tools.logmachine.core.LogMachine;
+import unquietcode.tools.logmachine.core.topics.Topic;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,15 @@ public class JDKLogMachine extends LogMachine<Logger> {
 
 	public JDKLogMachine(String name) {
 		this(Logger.getLogger(name));
+	}
+
+	public JDKLogMachine(Topic topic) {
+		this(topic, new Topic[0]);
+	}
+
+	public JDKLogMachine(Topic first, Topic...topics) {
+		this(makeLoggerName(combine(first, topics)));
+		subscribe(combine(first, topics));
 	}
 
 	// anonymous logger, useful as a standalone logging component

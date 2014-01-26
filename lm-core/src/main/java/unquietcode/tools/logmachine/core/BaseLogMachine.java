@@ -14,10 +14,7 @@ import unquietcode.tools.logmachine.core.topics.TopicBroker;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -32,6 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public abstract class BaseLogMachine<T> implements LoggingComponent, LogMachineBuilders_when<T> {
 	private final List<DataProvider> dataProviders = new CopyOnWriteArrayList<DataProvider>();
+	private final List<LoggingComponent> components = new CopyOnWriteArrayList<LoggingComponent>();
 	private final LogHandler<T> handler;
 	private final T logger;
 
@@ -63,11 +61,18 @@ public abstract class BaseLogMachine<T> implements LoggingComponent, LogMachineB
 			}
 		}
 
+		// use the handler, Luke
 		handler.logEvent(logger, event);
 
-		// notify subscribers to the event topics
-		Set<LoggingComponent> components = TopicBroker.getComponents(event.getGroups());
+		// run through our components list
+		handle(components, event);
 
+		// notify subscribers to the event topics
+		Set<LoggingComponent> topicComponents = TopicBroker.getComponents(event.getGroups());
+		handle(topicComponents, event);
+	}
+
+	private void handle(Collection<LoggingComponent> components, LogEvent event) {
 		for (LoggingComponent component : components) {
 			if (component == this) { continue; }
 			component.handle(event);
@@ -80,10 +85,12 @@ public abstract class BaseLogMachine<T> implements LoggingComponent, LogMachineB
 
 	// ----------- data providers -----------
 
-	// Set the context to be queried and applied to every new event.
-	// Changes to the map will be reflected in events as they occur.
 	public void addDataProvider(DataProvider provider) {
 		dataProviders.add(checkNotNull(provider));
+	}
+
+	public void addComponent(LoggingComponent component) {
+		components.add(checkNotNull(component));
 	}
 
 	protected GenericLogMachineBuilder.Start genericBuilder() {
@@ -187,5 +194,21 @@ public abstract class BaseLogMachine<T> implements LoggingComponent, LogMachineB
 			proxyMap.put(returnType, returnValue);
 			return returnValue;
 		}
+	}
+
+	protected static String makeLoggerName(Topic[] topics) {
+		StringBuilder sb = new StringBuilder();
+
+		for (Topic topic : topics) {
+			sb.append(topic.name()).append("_");
+		} sb.deleteCharAt(sb.length()-1);
+
+		return sb.toString();
+	}
+
+	protected static <T> T[] combine(T first, T[] rest) {
+		T[] retval = Arrays.copyOf(rest, rest.length+1);
+		retval[retval.length-1] = first;
+		return retval;
 	}
 }

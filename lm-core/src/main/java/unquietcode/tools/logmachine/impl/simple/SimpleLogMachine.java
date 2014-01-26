@@ -1,6 +1,7 @@
 package unquietcode.tools.logmachine.impl.simple;
 
 import unquietcode.tools.logmachine.core.LogMachine;
+import unquietcode.tools.logmachine.core.topics.Topic;
 
 /**
  * Primarily for testing. No hierarchies.
@@ -21,5 +22,14 @@ public class SimpleLogMachine extends LogMachine<SimpleLogger> {
 
 	public SimpleLogMachine(Class clazz) {
 		this(SimpleLogger.getLogger(clazz));
+	}
+
+	public SimpleLogMachine(Topic topic) {
+		this(topic, new Topic[0]);
+	}
+
+	public SimpleLogMachine(Topic first, Topic...topics) {
+		this(makeLoggerName(combine(first, topics)));
+		subscribe(combine(first, topics));
 	}
 }
