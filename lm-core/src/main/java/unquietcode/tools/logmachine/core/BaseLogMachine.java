@@ -7,7 +7,6 @@ import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLog
 import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineGenerator;
 import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
 import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineGenerator;
-import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineHelper;
 import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.core.topics.TopicBroker;
 
@@ -94,12 +93,13 @@ public abstract class BaseLogMachine<T> implements LoggingComponent, LogMachineB
 	}
 
 	protected GenericLogMachineBuilder.Start genericBuilder() {
-		return GenericLogMachineGenerator.start(new GenericHelperImpl(this));
+		GenericHelperImpl helper = new GenericHelperImpl(this);
+		return GenericLogMachineGenerator.start(helper, helper.methodListener);
 	}
 
 	protected SpecificLogMachineBuilder.Start specificBuilder(Level level) {
-		SpecificLogMachineHelper helper = new SpecificHelperImpl(this, level);
-		return SpecificLogMachineGenerator.start(helper);
+		SpecificHelperImpl helper = new SpecificHelperImpl(this, level);
+		return SpecificLogMachineGenerator.start(helper, helper.methodListener);
 	}
 
 	@Override
