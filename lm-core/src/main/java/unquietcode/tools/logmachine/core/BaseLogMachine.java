@@ -194,20 +194,4 @@ public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 			return returnValue;
 		}
 	}
-
-	protected static String makeLoggerName(Topic[] topics) {
-		StringBuilder sb = new StringBuilder();
-
-		for (Topic topic : topics) {
-			sb.append(topic.name()).append("_");
-		} sb.deleteCharAt(sb.length()-1);
-
-		return sb.toString();
-	}
-
-	protected static <T> T[] combine(T first, T[] rest) {
-		T[] retval = Arrays.copyOf(rest, rest.length+1);
-		retval[retval.length-1] = first;
-		return retval;
-	}
 }

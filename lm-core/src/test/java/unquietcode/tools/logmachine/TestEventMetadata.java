@@ -6,6 +6,7 @@ import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.appenders.PersistentLogAppender;
 import unquietcode.tools.logmachine.core.topics.Topic;
+import unquietcode.tools.logmachine.core.topics.TopicLogMachine;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
@@ -70,7 +71,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 
 	@Test
 	public void testDefaultTopics() {
-		LogMachine log = new SimpleLogMachine(PrimaryColor.Yellow, PrimaryColor.Blue);
+		LogMachine log = new TopicLogMachine(PrimaryColor.Yellow, PrimaryColor.Blue);
 		PersistentLogAppender appender = new PersistentLogAppender();
 		log.addComponent(appender);
 
@@ -112,13 +113,6 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		assertTrue(groups.contains(PrimaryColor.Blue));
 		assertEquals(SecondaryColor.Purple.name(), event.getData().get("color"));
 		assertEquals("Red + Blue {=>} Purple", event.getFormattedMessage());
-	}
-
-	@Test
-	public void testAutomaticSource() {
-		lm.fromHere().info("Where you at dawg?");
-		LogEvent event = getSingleEvent();
-		assertEquals("TestEventMetadata#testAutomaticSource:103", event.getLocation());
 	}
 
 	// TODO
