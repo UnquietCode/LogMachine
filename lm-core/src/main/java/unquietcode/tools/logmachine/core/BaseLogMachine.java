@@ -29,7 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 	private final List<DataProvider> dataProviders = new CopyOnWriteArrayList<DataProvider>();
 	private final List<LoggingComponent> components = new CopyOnWriteArrayList<LoggingComponent>();
-	private final List<Topic> defaultTopics = new CopyOnWriteArrayList<Topic>();
+	private final Set<Topic> defaultTopics = new HashSet<Topic>();
 	private final LogHandler<T> handler;
 	private final T logger;
 
