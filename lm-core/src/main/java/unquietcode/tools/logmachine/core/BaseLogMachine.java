@@ -26,9 +26,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @version 10-21-2012
  * @see LogMachine
  */
-public abstract class BaseLogMachine<T> implements LoggingComponent, LogMachineBuilders_when<T> {
+public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 	private final List<DataProvider> dataProviders = new CopyOnWriteArrayList<DataProvider>();
 	private final List<LoggingComponent> components = new CopyOnWriteArrayList<LoggingComponent>();
+	private final List<Topic> defaultTopics = new CopyOnWriteArrayList<Topic>();
 	private final LogHandler<T> handler;
 	private final T logger;
 
@@ -37,12 +38,11 @@ public abstract class BaseLogMachine<T> implements LoggingComponent, LogMachineB
 		this.logger = checkNotNull(logger, "Logger cannot be null.");
 	}
 
-	@Override
-	public void handle(LogEvent event) {
-		_log(event);
-	}
-
 	public void _log(LogEvent event) {
+
+		// add default topics, if any
+		event.getGroups().addAll(defaultTopics);
+
 		// mix in extra data from the DataProviders list
 		for (DataProvider dataProvider : dataProviders) {
 			Map<String, Object> extraData = new HashMap<String, Object>();
@@ -78,18 +78,17 @@ public abstract class BaseLogMachine<T> implements LoggingComponent, LogMachineB
 		}
 	}
 
-	public void subscribe(Topic...topics) {
-		TopicBroker.subscribe(this, topics);
-	}
-
-	// ----------- data providers -----------
-
 	public void addDataProvider(DataProvider provider) {
 		dataProviders.add(checkNotNull(provider));
 	}
 
 	public void addComponent(LoggingComponent component) {
 		components.add(checkNotNull(component));
+	}
+
+	public synchronized void setDefaultTopics(Topic...topics) {
+		defaultTopics.clear();
+		defaultTopics.addAll(Arrays.asList(topics));
 	}
 
 	protected GenericLogMachineBuilder.Start genericBuilder() {

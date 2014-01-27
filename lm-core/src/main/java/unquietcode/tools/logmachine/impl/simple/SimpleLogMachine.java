@@ -30,6 +30,6 @@ public class SimpleLogMachine extends LogMachine<SimpleLogger> {
 
 	public SimpleLogMachine(Topic first, Topic...topics) {
 		this(makeLoggerName(combine(first, topics)));
-		subscribe(combine(first, topics));
+		setDefaultTopics(combine(first, topics));
 	}
 }

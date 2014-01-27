@@ -33,7 +33,7 @@ public class Log4jLogMachine extends LogMachine<Logger> {
 
 	public Log4jLogMachine(Topic first, Topic...topics) {
 		this(makeLoggerName(combine(first, topics)));
-		subscribe(combine(first, topics));
+		setDefaultTopics(combine(first, topics));
 	}
 
 	public Log4jLogMachine() {

@@ -4,6 +4,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
+import unquietcode.tools.logmachine.core.appenders.PersistentLogAppender;
 import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
@@ -65,6 +66,21 @@ public class TestEventMetadata extends AbstractLoggerTest {
 
 		lm.to(PrimaryColor.Red, PrimaryColor.Blue).info("Purple");
 		mixer.assertColor("Purple", PrimaryColor.Blue, PrimaryColor.Red);
+	}
+
+	@Test
+	public void testDefaultTopics() {
+		LogMachine log = new SimpleLogMachine(PrimaryColor.Yellow, PrimaryColor.Blue);
+		PersistentLogAppender appender = new PersistentLogAppender();
+		log.addComponent(appender);
+
+		log.to(PrimaryColor.Red).info("sup");
+		final List<Topic> eventTopics = appender.getAllEvents().get(0).getGroups();
+
+		assertEquals(3, eventTopics.size());
+		assertTrue(eventTopics.contains(PrimaryColor.Yellow));
+		assertTrue(eventTopics.contains(PrimaryColor.Blue));
+		assertTrue(eventTopics.contains(PrimaryColor.Red));
 	}
 
 	@Test

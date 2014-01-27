@@ -6,6 +6,7 @@ import unquietcode.tools.logmachine.core.formats.Formatter;
 import unquietcode.tools.logmachine.core.formats.ShorterPlaintextFormatter;
 import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.core.topics.TopicBroker;
+import unquietcode.tools.logmachine.impl.simple.SimpleAppender;
 import unquietcode.tools.logmachine.test.AssertionStream;
 
 import java.io.PrintStream;
@@ -42,7 +43,7 @@ public class TestJDKTopicBroker {
 		handler.setFormatter(formatter);
 
 		// subscribe an appender to a topic
-		JDKLogMachine topicAppender = new JDKLogMachine();
+		SimpleAppender topicAppender = new SimpleAppender();
 		TopicBroker.subscribe(topicAppender, X.TWO);
 
 

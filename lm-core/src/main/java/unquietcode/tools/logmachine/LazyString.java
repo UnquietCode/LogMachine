@@ -1,6 +1,8 @@
 package unquietcode.tools.logmachine;
 
 /**
+ * TODO should this be made thread safe?
+ *
  * @author Ben Fagin
  * @version 02-18-2013
  */

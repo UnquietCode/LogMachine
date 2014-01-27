@@ -66,7 +66,7 @@ public abstract class BuilderHelperBase {
 			}
 		}
 
-		event.setGroups(Arrays.asList(topics));
+		event.getGroups().addAll(Arrays.asList(topics));
     }
 
 	public void because(Throwable cause) {

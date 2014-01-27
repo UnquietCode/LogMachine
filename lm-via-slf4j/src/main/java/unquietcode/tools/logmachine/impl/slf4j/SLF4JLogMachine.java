@@ -30,6 +30,6 @@ public class SLF4JLogMachine extends LogMachine<Logger> {
 
 	public SLF4JLogMachine(Topic first, Topic...topics) {
 		this(makeLoggerName(combine(first, topics)));
-		subscribe(combine(first, topics));
+		setDefaultTopics(combine(first, topics));
 	}
 }

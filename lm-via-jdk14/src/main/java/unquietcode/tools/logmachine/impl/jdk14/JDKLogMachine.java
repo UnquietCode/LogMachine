@@ -32,7 +32,7 @@ public class JDKLogMachine extends LogMachine<Logger> {
 
 	public JDKLogMachine(Topic first, Topic...topics) {
 		this(makeLoggerName(combine(first, topics)));
-		subscribe(combine(first, topics));
+		setDefaultTopics(combine(first, topics));
 	}
 
 	// anonymous logger, useful as a standalone logging component
