@@ -104,7 +104,7 @@ public class ElasticSearchAppender implements LoggingComponent {
 			if (!response.isFailed()) { continue; }
 			System.err.println(response.getFailure().getMessage());
 
-			retries.add(events.get(response.itemId()));
+			retries.add(events.get(response.getItemId()));
 		}
 
 		return retries;
@@ -144,6 +144,8 @@ public class ElasticSearchAppender implements LoggingComponent {
 
 	public void stop() {
 		enabled = false;
+
+		// TODO teardown servers, or otherwise disallow restarting
 	}
 
 	/**

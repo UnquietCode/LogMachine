@@ -1,11 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>unquietcode.tools.logmachine</groupId>
 		<version>0.1</version>
 	</parent>
-	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>lm-via-elasticsearch</artifactId>
 	<packaging>jar</packaging>
@@ -14,7 +15,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<es.version>0.90.10</es.version>
 	</properties>
 
 	<dependencies>
@@ -23,18 +24,22 @@
 			<artifactId>lm-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>
-			<version>0.19.12</version>
+			<version>${es.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>

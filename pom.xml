@@ -100,5 +100,6 @@
 		<module>lm-via-logback</module>
 		<module>lm-to-elasticsearch</module>
 		<module>lm-to-sqs</module>
+		<module>lm-elasticsearch-sqs-loader</module>
 	</modules>
 </project>

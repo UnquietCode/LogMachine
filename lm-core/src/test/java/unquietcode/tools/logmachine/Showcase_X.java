@@ -3,81 +3,126 @@ package unquietcode.tools.logmachine;
 import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.topics.Topic;
+import unquietcode.tools.logmachine.core.topics.TopicLogMachine;
 
 import static unquietcode.tools.logmachine.Showcase_X.Topics.*;
+import static unquietcode.tools.logmachine.core.topics.QuickTopics.CrudOperations.Create;
+import static unquietcode.tools.logmachine.core.topics.QuickTopics.Databases.Postgres;
 
 /**
  * @author Ben Fagin
  * @version 2013-08-22
  */
 public class Showcase_X {
-	LogMachine lm;
+	LogMachine log;
+
+	private void doSomethingCrazy() throws Exception {
+		// nfn
+	}
+
 
 	@Test
 	public void test() {
 
-			lm.info()
-				.to(REDIS, USER, NOTIFY)
-				.send("User {@id} disconnected.");
+		try {
+			doSomethingCrazy();
+		} catch (Exception ex) {
+
+			// normal form
+
+			log.to(REDIS, USER, CREATE)
+			   .because(ex)
+			   .info("User {@id} disconnected.", userID)
+			;
 
 
-			lm.because(ex)
-				.with("statusCode", response)
-				.error("The server returned code {statusCode}.");
+			// guarded form
+
+			log.info()
+			   .to(REDIS, USER, CREATE)
+			   .because(ex)
+			   .send("User {@id} disconnected.", userID)
+			;
+
+			// extra info
+
+			log.because(ex)
+			   .with("statusCode", response)
+			   .error("The server returned code {:statusCode}.")
+			;
 
 
+			if (log.isInfo()) {
+				log.because(ex).fromHere().info("Yo!", toString());
+			}
+
+
+			// fromHere is actually pretty expensive, relatively speaking,
+			// so it would be nice to keep the fluent api while not
+			// incurring that cost
+
+			log.fromHere().to(Postgres, Create, User)
+			   .error("Could not create user with id {@ id}.", userID)
+			;
+
+			// so we can use the guarded form, which in this case is
+			// a minimal cost since no getters, just existing variables
+
+			log.error()
+			   .fromHere().to(Postgres, Create, User)
+			   .send("Could not create user with id {@ id}.", userID)
+			;
+
+			// TODO multiple topics added is probably error if it's not a set
+
+			// you can skip traditional loggers in favor of simple topics
+			final TopicLogMachine dbLog = new TopicLogMachine(Postgres);
+
+			dbLog.because(ex).warn("Something is broken.");
+
+			// same as doing this
+			dbLog.to(Postgres).because(ex).warn("Something is broken.");
+
+			// this refines it further
+			dbLog.to(User, Create) // implicit Database.Postgres, User, CRUD.Create,
+				 .because(ex)
+				 .warn("Could not create user with id '{@ id}'.", userID)
+			;
 		}
-			// preconfigure your logging message even though the level
-			// is unknown, preloading it with data relevant in this context
-
-//		log().from("unit test").debug("Oh no, not again.");
-//		log().info("User {@userID} has reached their maximum quota.", userID);
 
 
 
+		// maximum savings come from deferred parameter usage
+		// but that's it, the cost of getting the param remains
 
-//	GenericLogMachineBuilder.$<Void> log() {
-//		return lm.with("one", 1)
-//		         .with("two", 2)
-//		;
-//	}
+		log.info()
 
-		// TODO precconfigure method, so that
-		// the above is not required
-		// change uses from 'lm' to 'log'
+		// saves on this
+		.because(ex)
 
+		// saves on these
+		.with("one", 1)
 
-		// set flapi to always make the X.$ for each block,
-		// if it's the only one, ok, if not, nbd it will just
-		// be another part of it.
+		// saves on this for sure
+		.fromHere()
 
-		// fix this and the build and should be good to go
+		// saves a little on this, but calls toString so not as much
+		.send("Yo!", toString());
+	}
 
-		// oh, also need to figure out why .error, .debug etc are
-		// in the interface name (guess is that it's ascending
-		// but not the top level, so it gets by. Probably any
-		// ascending method should qualify.
-		// oh right, but the interfaces have to be uniquely named.
-
-		// it would be nice if these went away entirely in favor
-		// of some generated names (or a small part generated, the
-		// rest english).
+	//
 
 
+	// TODO change uses from 'lm' to 'log'
 
-		int userID = 0;
-		int response = 404;
-		RuntimeException ex = new RuntimeException();
-
-
-
+	int userID = 0;
+	int response = 404;
+	RuntimeException ex = new RuntimeException();
 
 	public enum Topics implements Topic {
-		REDIS, USER, NOTIFY,
+		REDIS, USER, NOTIFY, CREATE, User
 
 
 	}
-
-
 }
 

@@ -1,9 +1,9 @@
 package unquietcode.tools.logmachine.impl.elasticsearch;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import unquietcode.tools.logmachine.core.Level;
 
 import java.text.DateFormat;
@@ -50,9 +50,7 @@ public class LogstashEvent_V1 {
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private String host;
 
-	@JsonProperty
-	@JsonInclude(JsonInclude.Include.NON_EMPTY) // TODO jackson does not honor this
-	private final ObjectNode fields = mapper.createObjectNode();
+	private final Map<String, Object> fields = new HashMap<String, Object>();
 
 	@JsonProperty
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -107,7 +105,8 @@ public class LogstashEvent_V1 {
 		return Collections.unmodifiableList(topics);
 	}
 
-	public ObjectNode getFields() {
+	@JsonAnyGetter
+	public Map<String, Object> getFields() {
 		return fields;
 	}
 
