@@ -1,9 +1,12 @@
 package unquietcode.tools.logmachine.elasticsearch;
 
-import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.internal.StaticCredentialsProvider;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClient;
+import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.services.sqs.model.ReceiveMessageResult;
@@ -21,6 +24,9 @@ import unquietcode.tools.logmachine.impl.elasticsearch.ElasticSearchAppender;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * load an ES process
@@ -29,27 +35,35 @@ import java.util.Map;
  *
  * @author Ben Fagin
  */
-public class SQSLoader {
+public class SQSLoader implements Runnable {
+	private final String queueURL;
+	private final String accessKey;
+	private final String secretKey;
 
-	public static void main(String[] args) throws Exception {
+	public SQSLoader(String queueURL, String accessKey, String secretKey) {
+		this.accessKey = accessKey;
+		this.queueURL = queueURL;
+		this.secretKey = secretKey;
+	}
 
-		// load aws stuff
-		final AWSCredentials credentials
-			= new BasicAWSCredentials("", "");
+	@Override
+	public void run() {
 
-		final String queueURL = "";
-		final AmazonSQS sqs = new AmazonSQSClient(credentials);
+		// load the sqs client
+		final AmazonSQS sqs = getClient();
 
-		// mapper
+		// json mapper/unmapper
 		final ObjectReader reader = new ObjectMapper().reader();
 
-		// create an ES appender
+		// ES appender
 		final InetSocketTransportAddress server = new InetSocketTransportAddress("localhost", 9300);
 		final ElasticSearchAppender appender = new ElasticSearchAppender();
 		appender.setBatchSize(3);
 		appender.setServers(Arrays.asList(server));
 		appender.start();
 
+
+		// loop through and receive messages
 		while (true) {
 			ReceiveMessageRequest request = new ReceiveMessageRequest(queueURL)
 				.withMaxNumberOfMessages(1)
@@ -65,18 +79,37 @@ public class SQSLoader {
 
 			for (Message message : response.getMessages()) {
 				String json = message.getBody();
-				JsonNode node = reader.readTree(json);
-				ObjectNode root = (ObjectNode) node;
 
+				final JsonNode node;
+				try {
+					node = reader.readTree(json);
+				} catch (Exception ex) {
+					throw new RuntimeException(ex);
+				}
+
+				ObjectNode root = (ObjectNode) node;
 				System.out.println(root.toString());
 
 				LogEvent event = convert(root);
 				appender.handle(event);
 
 				// done, kill it
-				//sqs.deleteMessage(new DeleteMessageRequest(queueURL, message.getReceiptHandle()));
+				sqs.deleteMessage(new DeleteMessageRequest(queueURL, message.getReceiptHandle()));
 			}
 		}
+	}
+
+	private AmazonSQS getClient() {
+		final AWSCredentialsProvider credentials;
+
+		if (accessKey != null && secretKey != null) {
+			BasicAWSCredentials _credentials = new BasicAWSCredentials(accessKey, secretKey);
+			credentials = new StaticCredentialsProvider(_credentials);
+		} else {
+			credentials = new InstanceProfileCredentialsProvider();
+		}
+
+		return new AmazonSQSClient(credentials);
 	}
 
 	private static LogEvent convert(ObjectNode node) {
@@ -114,5 +147,34 @@ public class SQSLoader {
 		}
 
 		return event;
+	}
+
+
+	/**
+	 * usage:  [queue url] [threads] (accessKey) (secretKey)
+	 *
+	 * When no access/secret keys are provided, then role-based
+	 * authentication is used instead.
+	 */
+	public static void main(String[] args) throws Exception {
+		int threadCount = Integer.parseInt(args[1]);
+		ScheduledExecutorService executor = Executors.newScheduledThreadPool(threadCount);
+
+		String aKey, sKey, queue;
+
+		if (args.length < 4) {
+			queue = args[0];
+			aKey = sKey = null;
+		} else {
+			queue = args[0];
+			aKey = args[2];
+			sKey = args[3];
+		}
+
+		for (int i=0; i < threadCount; ++i) {
+			executor.scheduleWithFixedDelay(new SQSLoader(queue, aKey, sKey), 0, 15, TimeUnit.SECONDS);
+		}
+
+//		Thread.yield();
 	}
 }
