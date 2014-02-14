@@ -59,13 +59,13 @@ public class TestEventMetadata extends AbstractLoggerTest {
 
 		final Mixer mixer = new Mixer();
 
-		lm.warn().to(PrimaryColor.Red, PrimaryColor.Yellow).send("Orange");
+		log.warn().to(PrimaryColor.Red, PrimaryColor.Yellow).send("Orange");
 		mixer.assertColor("Orange", PrimaryColor.Yellow, PrimaryColor.Red);
 
-		lm.error().to(PrimaryColor.Blue, PrimaryColor.Yellow).send("Green");
+		log.error().to(PrimaryColor.Blue, PrimaryColor.Yellow).send("Green");
 		mixer.assertColor("Green", PrimaryColor.Yellow, PrimaryColor.Blue);
 
-		lm.to(PrimaryColor.Red, PrimaryColor.Blue).info("Purple");
+		log.to(PrimaryColor.Red, PrimaryColor.Blue).info("Purple");
 		mixer.assertColor("Purple", PrimaryColor.Blue, PrimaryColor.Red);
 	}
 
@@ -86,7 +86,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 
 	@Test
 	public void testHeterogeneousEnums() {
-		lm.to(PrimaryColor.Red, PrimaryColor.Yellow, SecondaryColor.Orange).info("Orange");
+		log.to(PrimaryColor.Red, PrimaryColor.Yellow, SecondaryColor.Orange).info("Orange");
 
 		LogEvent event = getSingleEvent();
 		List<Topic> groups = event.getGroups();
@@ -101,9 +101,9 @@ public class TestEventMetadata extends AbstractLoggerTest {
 	public void testDataPoints() {
 		String s = "+";
 
-		lm.to(PrimaryColor.Red, PrimaryColor.Blue)
-		  .with("color", SecondaryColor.Purple.name())
-		  .debug("{~1} {} {~2} {=>} {:color}", s);
+		log.to(PrimaryColor.Red, PrimaryColor.Blue)
+		   .with("color", SecondaryColor.Purple.name())
+		   .debug("{~1} {} {~2} {=>} {:color}", s);
 
 		LogEvent event = getSingleEvent();
 		List<Topic> groups = event.getGroups();
@@ -125,9 +125,9 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		try {
 			return new URI(uri);
 		} catch (URISyntaxException e) {
-			lm.because(e).fromHere()
-			  .with("uri", e.getInput())
-			  .warn("failed to create URI from string '{:uri}'");
+			log.because(e).fromHere()
+			   .with("uri", e.getInput())
+			   .warn("failed to create URI from string '{:uri}'");
 
 			return null;
 		}

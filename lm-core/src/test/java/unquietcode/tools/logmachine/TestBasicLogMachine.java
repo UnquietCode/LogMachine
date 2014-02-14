@@ -16,8 +16,8 @@ import static org.junit.Assert.assertTrue;
 
 public class TestBasicLogMachine extends AbstractLoggerTest {
 
-	private enum TestGroups implements Topic {
-		One, Two, Three
+	enum TestGroups implements Topic {
+		One, Two, Three, User
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testBasicEvent() {
-		lm.info("Hello world.");
+		log.info("Hello world.");
 
 		LogEvent event = getSingleEvent();
 		assertEquals("expected same log level", Level.INFO, event.getLevel());
@@ -46,20 +46,20 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testLevels() {
-		lm.info("info");
-		lm.info().send("info");
+		log.info("info");
+		log.info().send("info");
 
-		lm.debug("debug");
-		lm.debug().send("debug");
+		log.debug("debug");
+		log.debug().send("debug");
 
-		lm.trace("trace");
-		lm.trace().send("trace");
+		log.trace("trace");
+		log.trace().send("trace");
 
-		lm.warn("warn");
-		lm.warn().send("warn");
+		log.warn("warn");
+		log.warn().send("warn");
 
-		lm.error("error");
-		lm.error().send("error");
+		log.error("error");
+		log.error().send("error");
 
 		Map<Level, Boolean> seenLevels = new HashMap<Level, Boolean>();
 		Map<String, Integer> seenStrings = new HashMap<String, Integer>();
@@ -85,7 +85,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	public void testWithInlineThrowable() {
 		ExceptionalException ex = new ExceptionalException("fail");
 
-		lm.warn("Oh %^&%!", ex);
+		log.warn("Oh %^&%!", ex);
 
 		LogEvent event = getSingleEvent();
 
@@ -98,7 +98,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	public void testBuilder() {
 		ExceptionalException ex = new ExceptionalException("fail");
 
-		lm.because(ex).from("testBuilder()").with("k", "v").debug("Oh %^&%!");
+		log.because(ex).from("testBuilder()").with("k", "v").debug("Oh %^&%!");
 
 		LogEvent event = getSingleEvent();
 
@@ -111,7 +111,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testMessageReplacement() {
-		lm.info("hello {}", "world");
+		log.info("hello {}", "world");
 
 		LogEvent event = getSingleEvent();
 		assertEquals("hello {}", event.getMessage());
@@ -120,7 +120,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testMessageReplacementWithNulls() {
-		lm.with("greeting", (String) null).info("{:greeting} {:notExists} {}", (Object) null);
+		log.with("greeting", (String) null).info("{:greeting} {:notExists} {}", (Object) null);
 
 		LogEvent event = getSingleEvent();
 		assertEquals("null {:notExists} null", event.getFormattedMessage());
@@ -128,8 +128,8 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testMessageReplacementWithGroupNumber() {
-		lm.to(TestGroups.One, TestGroups.Two, TestGroups.Three)
-		  .info("\"{~0}  { ~1 } { ~2} {~3 }\"");
+		log.to(TestGroups.One, TestGroups.Two, TestGroups.Three)
+		   .info("\"{~0}  { ~1 } { ~2} {~3 }\"");
 
 		LogEvent event = getSingleEvent();
 		assertEquals("\"{~0}  One Two Three\"", event.getFormattedMessage());
@@ -137,7 +137,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testMessageReplacementWithMissingGroupNumber() {
-		lm.to(TestGroups.One, TestGroups.Two).info("{~1} {~3} {~2}");
+		log.to(TestGroups.One, TestGroups.Two).info("{~1} {~3} {~2}");
 
 		LogEvent event = getSingleEvent();
 		assertEquals("One {~3} Two", event.getFormattedMessage());
@@ -145,7 +145,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testMessageReplacementWithAssignment() {
-		lm.info("Hi {@name}!", "Bob");
+		log.info("Hi {@name}!", "Bob");
 
 		LogEvent event = getSingleEvent();
 		assertEquals("Hi Bob!", event.getFormattedMessage());
@@ -158,29 +158,31 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		String name2 = new String("Bob");
 		assertTrue("What did you do???", name1 != name2);
 
-		lm.with("name", name1).info("{@name}", name2);
+		log.with("name", name1).info("{@name}", name2);
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void test_Message_Replacement_With_Conflicting_Assignment__Same_Identity() {
 		String name = "Bob";
-		lm.with("name", name).info("{@name}", name);
+		log.with("name", name).info("{@name}", name);
 	}
+
+
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testDuplicateTopics() {
-		lm.to(TestGroups.One, TestGroups.Two, TestGroups.One).info("oops");
+		log.to(TestGroups.One, TestGroups.Two, TestGroups.One).info("oops");
 	}
 
 	@Test
 	public void testConditionalBuilder() {
-		lm.when(false).info().send("hi");
+		log.when(false).info().send("hi");
 		assertEquals(0, getEventAppender().getAllEvents().size());
 
-		lm.when(null).info("yo");
+		log.when(null).info("yo");
 		assertEquals(0, getEventAppender().getAllEvents().size());
 
-		lm.when(true).info("sup");
+		log.when(true).info("sup");
 		assertEquals(1, getEventAppender().getAllEvents().size());
 	}
 
@@ -188,11 +190,11 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	public void testThatObjectsArePreserved() {
 		final String test = new String("test!");
 
-		lm.with("one", 1)
-		  .with("two", 2.0)
-		  .with("three", "3")
-		  .with("four", test)
-		  .debug("");
+		log.with("one", 1)
+		   .with("two", 2.0)
+		   .with("three", "3")
+		   .with("four", test)
+		   .debug("");
 
 		LogEvent event = getSingleEvent();
 

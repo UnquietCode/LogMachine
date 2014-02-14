@@ -14,11 +14,11 @@ import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
  * @version 10-24-2012
  */
 public abstract class AbstractLoggerTest {
-	protected final LogMachine lm;
+	protected final LogMachine log;
 	private boolean initialized = false;
 
 	protected AbstractLoggerTest() {
-		lm = getLogMachine();
+		log = getLogMachine();
 	}
 
 	@Before

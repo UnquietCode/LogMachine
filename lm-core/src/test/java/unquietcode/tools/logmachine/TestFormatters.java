@@ -25,7 +25,7 @@ public class TestFormatters extends AbstractLoggerTest {
 
 	@Test
 	public void testShortFormat_1() {
-		lm.fromHere().debug("hi");
+		log.fromHere().debug("hi");
 		LogEvent event = getSingleEvent();
 		StringBuilder result = shortFMT.format(event);
 		assertEquals("[DEBUG] (TestFormatters#testShortFormat_1:28) - hi", result.toString());
@@ -33,7 +33,7 @@ public class TestFormatters extends AbstractLoggerTest {
 
 	@Test
 	public void testShortFormat_2() {
-		lm.fromHere().to(TestTopics.One, TestTopics.Three).debug("hi");
+		log.fromHere().to(TestTopics.One, TestTopics.Three).debug("hi");
 		LogEvent event = getSingleEvent();
 		StringBuilder result = shortFMT.format(event);
 		assertEquals("[DEBUG] [One | Three] (TestFormatters#testShortFormat_2:36) - hi", result.toString());

@@ -34,10 +34,10 @@ public class TestAutomaticSourceDetection extends AbstractLoggerTest {
 
 	@Test
 	public void testAutomaticSource() {
-		lm.fromHere().info("Where you at dawg?"); // ---------- this line
-		LogEvent event = getSingleEvent();        // ----------   goes
+		log.fromHere().info("Where you at dawg?"); // ---------- this line
+		LogEvent event = getSingleEvent();        // -----------   goes
 		// -----------------------------------------------------
-		// ------------------------------------------------------ here:
+		// ------------------------------------------------------- here:
 		assertEquals("TestAutomaticSourceDetection#testAutomaticSource:37", event.getLocation());
 	}
 }

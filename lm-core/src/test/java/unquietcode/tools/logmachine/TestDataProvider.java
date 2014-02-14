@@ -41,8 +41,8 @@ public class TestDataProvider extends AbstractLoggerTest {
 			}
 		};
 
-		lm.addDataProvider(provider);
-		lm.with("two", 2).warn("test ({:two})");
+		log.addDataProvider(provider);
+		log.with("two", 2).warn("test ({:two})");
 
 		LogEvent event = getSingleEvent();
 		assertEquals(1, event.getData().get("one"));
