@@ -140,13 +140,19 @@ public class LogEvent {
 
 	public final LazyString formattedMessage = new LazyString() {
 		protected String _getString() {
-			Matcher matcher = REPLACEMENT_PATTERN.matcher(message);
+			String string = createString(message, true);
+			string = createString(string, false);
+			return string;
+		}
+
+		private String createString(final String inputString, final boolean assignmentOnly) {
+			Matcher matcher = REPLACEMENT_PATTERN.matcher(inputString);
 			StringBuilder builder = new StringBuilder();
 			int i = 0;
 			AtomicInteger idx = new AtomicInteger(0);
 
 			while (matcher.find()) {
-				builder.append(message.substring(i, matcher.start()));
+				builder.append(inputString.substring(i, matcher.start()));
 
 				String match = matcher.group(1);
 				if (match.isEmpty()) {
@@ -156,7 +162,7 @@ public class LogEvent {
 						builder.append(replacements[idx.getAndIncrement()]);
 					}
 				} else {
-					String string = processReplacement(match, idx);
+					String string = processReplacement(match, idx, assignmentOnly);
 
 					// if it's null, then give up and stitch it back together
 					if (string != null) {
@@ -169,20 +175,26 @@ public class LogEvent {
 				i = matcher.end();
 			}
 
-			builder.append(message.substring(i, message.length()));
+			builder.append(inputString.substring(i, inputString.length()));
 			return builder.toString();
 		}
 	};
 
-	private String processReplacement(String match, AtomicInteger idx) {
+	private String processReplacement(String match, AtomicInteger idx, boolean assignmentOnly) {
 		int length = match.length();
 
 		if (length == 1) {
 			return null;
 		}
 
-		char firstChar = match.charAt(0);
-		String key = match.substring(1, length).trim();
+		final char firstChar = match.charAt(0);
+
+		// if we're in assignment mode, bail on non-assignments
+		if (assignmentOnly  &&  firstChar != '@') {
+			return null;
+		}
+
+		final String key = match.substring(1, length).trim();
 
 		switch (firstChar) {
 

@@ -13,6 +13,9 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static unquietcode.tools.logmachine.TestBasicLogMachine.TestGroups.User;
+import static unquietcode.tools.logmachine.core.topics.QuickTopics.CrudOperations.Create;
+import static unquietcode.tools.logmachine.core.topics.QuickTopics.Databases.Postgres;
 
 public class TestBasicLogMachine extends AbstractLoggerTest {
 
@@ -167,7 +170,27 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		log.with("name", name).info("{@name}", name);
 	}
 
+	@Test
+	public void test_Message_Replacement_With_Multiple_References__Assignment_First() {
+		final int userID = 290;
 
+		log.fromHere().to(Postgres, User, Create)
+		   .warn("Could not create user with id {@ id} because a user with id {: id} already exists.", userID);
+
+		final String expected = "Could not create user with id "+userID+" because a user with id "+userID+" already exists.";
+		assertEquals(expected, getSingleEvent().getFormattedMessage());
+	}
+
+	@Test
+	public void test_Message_Replacement_With_Multiple_References__Assignment_Last() {
+		final int userID = 290;
+
+		log.fromHere().to(Postgres, User, Create)
+		   .warn("Could not create user with id {: id} because a user with id {@ id} already exists.", userID);
+
+		final String expected = "Could not create user with id "+userID+" because a user with id "+userID+" already exists.";
+		assertEquals(expected, getSingleEvent().getFormattedMessage());
+	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testDuplicateTopics() {

@@ -30,7 +30,7 @@ public class Showcase_X {
 
 			// normal form
 
-			log.to(REDIS, USER, CREATE)
+			log.to(REDIS, USER)
 			   .because(ex)
 			   .info("User {@id} disconnected.", userID)
 			;
@@ -39,18 +39,32 @@ public class Showcase_X {
 			// guarded form
 
 			log.info()
-			   .to(REDIS, USER, CREATE)
+			   .to(REDIS, USER)
 			   .because(ex)
 			   .send("User {@id} disconnected.", userID)
 			;
 
-			// extra info
+			// add extra data, and reference it by name
 
 			log.because(ex)
 			   .with("statusCode", response)
 			   .error("The server returned code {:statusCode}.")
 			;
 
+			// or use the shorter, inline form
+
+			log.fromHere().to(Postgres, Create)
+			   .warn("A user with the id {@ id} already exists.", userID);
+
+			// reference it as many times as you want!
+
+			log.fromHere().to(Postgres, User, Create)
+			   .warn("Could not create user with id {: id} because a user with id {@ id} already exists.", userID);
+
+
+
+
+			// guarded form...
 
 			if (log.isInfo()) {
 				log.because(ex).fromHere().info("Yo!", toString());
@@ -72,8 +86,6 @@ public class Showcase_X {
 			   .fromHere().to(Postgres, Create, User)
 			   .send("Could not create user with id {@ id}.", userID)
 			;
-
-			// TODO multiple topics added is probably error if it's not a set
 
 			// you can skip traditional loggers in favor of simple topics
 			final TopicLogMachine dbLog = new TopicLogMachine(Postgres);
@@ -115,7 +127,7 @@ public class Showcase_X {
 
 	// TODO change uses from 'lm' to 'log'
 
-	int userID = 0;
+	int userID = 290;
 	int response = 404;
 	RuntimeException ex = new RuntimeException();
 
