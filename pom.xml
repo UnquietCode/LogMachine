@@ -108,6 +108,6 @@
 		<module>lm-to-elasticsearch</module>
 		<module>lm-to-sqs</module>
 		<module>lm-elasticsearch-sqs-loader</module>
-		<!--<module>lm-to-kinesis</module>-->
+		<module>lm-to-kinesis</module>
 	</modules>
 </project>
