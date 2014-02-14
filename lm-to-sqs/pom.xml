@@ -12,13 +12,7 @@
 	<packaging>jar</packaging>
 
 	<name>lm-to-sqs</name>
-	<description>
-		Support for writing log events to an SQS queue.
-	</description>
-
-	<properties>
-		<aws.version>1.6.0</aws.version>
-	</properties>
+	<description>Support for writing log events to an SQS queue.</description>
 
 	<dependencies>
 		<dependency>
@@ -26,11 +20,9 @@
 			<artifactId>lm-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk</artifactId>
-			<version>${aws.version}</version>
 		</dependency>
 
 		<dependency>

@@ -12,10 +12,17 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<aws.version>1.7.0</aws.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk</artifactId>
+				<version>${aws.version}</version>
+			</dependency>
+
 			<!-- jackson annotations -->
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
@@ -101,5 +108,6 @@
 		<module>lm-to-elasticsearch</module>
 		<module>lm-to-sqs</module>
 		<module>lm-elasticsearch-sqs-loader</module>
+		<!--<module>lm-to-kinesis</module>-->
 	</modules>
 </project>

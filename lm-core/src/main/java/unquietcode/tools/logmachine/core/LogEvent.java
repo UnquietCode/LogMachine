@@ -46,8 +46,16 @@ public class LogEvent {
 		return threadName;
 	}
 
+	public void setThreadName(String threadName) {
+		this.threadName = threadName;
+	}
+
 	public long getTimestamp() {
 		return timestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public void setLevel(Level level) {
