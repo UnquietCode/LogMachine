@@ -36,6 +36,11 @@ public class Showcase_X {
 			;
 
 
+
+
+
+
+
 			// guarded form
 
 			log.info()
