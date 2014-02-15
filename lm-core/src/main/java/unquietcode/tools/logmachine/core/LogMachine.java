@@ -20,10 +20,24 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		super(logger, handler);
 	}
 
+
 	//==o==o==o==o==o==o==| logging methods |==o==o==o==o==o==o==//
 
-	// specific one-shots (SLF4J style)
+	// This is the implementation of all the basic logging methods,
+	// but it's a bit tedious.
+	//
+	// For a clearer picture, consider checking out the implemented
+	// interfaces instead.
 
+
+
+	// --- specific one-shots (SLF4J style) ---
+
+
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#error(String, Throwable)
+	 */
 	@Override
 	public void error(String message, Throwable exception) {
 		if (isError()) {
@@ -31,6 +45,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#error(String, Object[] data)
+	 */
 	@Override
 	public void error(String message, Object...data) {
 		if (isError()) {
@@ -38,6 +56,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#warn(String, Throwable)
+	 */
 	@Override
 	public void warn(String message, Throwable exception) {
 		if (isWarn()) {
@@ -45,6 +67,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#warn(String, Object[] data)
+	 */
 	@Override
 	public void warn(String message, Object...data) {
 		if (isWarn()) {
@@ -52,6 +78,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#info(String, Throwable)
+	 */
 	@Override
 	public void info(String message, Throwable exception) {
 		if (isInfo()) {
@@ -59,6 +89,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#info(String, Object[] data)
+	 */
 	@Override
 	public void info(String message, Object...data) {
 		if (isInfo()) {
@@ -66,6 +100,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#debug(String, Throwable)
+	 */
 	@Override
 	public void debug(String message, Throwable exception) {
 		if (isDebug()) {
@@ -73,6 +111,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#debug(String, Object[] data)
+	 */
 	@Override
 	public void debug(String message, Object...data) {
 		if (isDebug()) {
@@ -80,6 +122,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#trace(String, Throwable)
+	 */
 	@Override
 	public void trace(String message, Throwable exception) {
 		if (isTrace()) {
@@ -87,6 +133,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#trace(String, Object[] data)
+	 */
 	@Override
 	public void trace(String message, Object...data) {
 		if (isTrace()) {
@@ -95,8 +145,13 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 
-	// specific builders
+	//  --- specific builders ---
 
+
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#error()
+	 */
 	@Override
 	public SpecificLogMachineBuilder.Start error() {
 		if (isError()) {
@@ -106,6 +161,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#warn()
+	 */
 	@Override
 	public SpecificLogMachineBuilder.Start warn() {
 		if (isWarn()) {
@@ -115,6 +174,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#info()
+	 */
 	@Override
 	public SpecificLogMachineBuilder.Start info() {
 		if (isInfo()) {
@@ -124,6 +187,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#debug()
+	 */
 	@Override
 	public SpecificLogMachineBuilder.Start debug() {
 		if (isDebug()) {
@@ -133,6 +200,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#trace()
+	 */
 	@Override
 	public SpecificLogMachineBuilder.Start trace() {
 		if (isTrace()) {
@@ -159,8 +230,13 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		);
 
 
-	// generic builders
+	//  --- generic builders ---
 
+
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#because(Throwable)
+	 */
 	@Override
 	public GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
 		because(Throwable cause)
@@ -168,6 +244,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		return genericBuilder().because(cause);
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#from(String)
+	 */
 	@Override
 	public GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
 		from(String location)
@@ -175,6 +255,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		return genericBuilder().from(location);
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#fromHere()
+	 */
 	@Override
 	public GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
 		fromHere()
@@ -182,6 +266,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		return genericBuilder().fromHere();
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#to(Topic...)
+	 */
 	@Override
 	public GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
 		to(Topic... topics)
@@ -189,6 +277,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		return genericBuilder().to(topics);
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#with(String, String)
+	 */
 	@Override
 	public GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f<Void>
 		with(String key, String value)
@@ -196,6 +288,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		return genericBuilder().with(key, value);
 	}
 
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders#with(String, Number)
+	 */
 	@Override
 	public GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f<Void>
 		with(String key, Number value)
@@ -203,8 +299,14 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		return genericBuilder().with(key, value);
 	}
 
-	// conditional builders
 
+	// --- conditional builders ---
+
+
+	/**
+	 * @inheritDoc
+	 * @see LogMachineBuilders_when#when(Boolean)
+	 */
 	@Override
 	public LogMachineBuilders<T> when(Boolean flag) {
 		if (flag != null && flag) {
