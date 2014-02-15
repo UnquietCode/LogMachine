@@ -1,6 +1,5 @@
 package unquietcode.tools.logmachine;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
@@ -115,10 +114,18 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		assertEquals("Red + Blue {=>} Purple", event.getFormattedMessage());
 	}
 
-	// TODO
-	@Test @Ignore
-	public void ok() {
-		getURI("nope");
+	// keep this test at the bottom, it depends on line numbers
+
+	@Test
+	public void testLocationFormatting() {
+		final String uri = "nope\t";
+		getURI(uri);
+
+		LogEvent event = getSingleEvent();
+		assertEquals(uri, event.getData().get("uri"));
+
+		final String name = TestEventMetadata.class.getSimpleName()+"#getURI:"+136;
+		assertTrue(event.getLocation().contains(name));
 	}
 
 	public URI getURI(String uri) {

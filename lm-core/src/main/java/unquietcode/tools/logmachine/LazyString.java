@@ -1,21 +1,25 @@
 package unquietcode.tools.logmachine;
 
 /**
- * TODO should this be made thread safe?
- *
  * @author Ben Fagin
  * @version 02-18-2013
  */
 public abstract class LazyString {
-	private boolean loaded = false;
+	private boolean loaded = false;  // helps deal with null values
 	private String string;
 
 	protected abstract String _getString();
 
 	public final String getString() {
-		if (!loaded) {
-			string = _getString();
-			loaded = true;
+		if (loaded) {
+			return string;
+		}
+
+		synchronized (this) {
+			if (!loaded) {
+				string = _getString();
+				loaded = true;
+			}
 		}
 
 		return string;

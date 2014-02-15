@@ -31,6 +31,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * A thread eats from it, consuming X at a time, then sleeping for Y.
  * On interrupt, shut down everything and die gracefully.
  *
+ * Disabled by default. Call {@link #start()}} when ready.
  *
  * @author Ben Fagin
  * @version 10-24-2012
@@ -118,7 +119,9 @@ public class ElasticSearchAppender implements LoggingComponent {
 		;
 	}
 
-	public void start() {
+	public synchronized void start() {
+		if (enabled) { return; }
+
 		if (servers == null || servers.isEmpty()) {
 			throw new LogMachineException("At least one server address is required.");
 		}
@@ -142,10 +145,13 @@ public class ElasticSearchAppender implements LoggingComponent {
 		enabled = true;
 	}
 
-	public void stop() {
+	public synchronized void stop() throws InterruptedException {
 		enabled = false;
 
-		// TODO teardown servers, or otherwise disallow restarting
+		// wait for shutdown
+		while (client != null) {
+			Thread.sleep(100);
+		}
 	}
 
 	/**

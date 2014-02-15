@@ -125,8 +125,6 @@ public class Showcase_X {
 	//
 
 
-	// TODO change uses from 'lm' to 'log'
-
 	int userID = 290;
 	int response = 404;
 	RuntimeException ex = new RuntimeException();

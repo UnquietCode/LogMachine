@@ -65,7 +65,7 @@ public class JSONFormatter implements Unformatter {
 		}
 
 		// Event data
-		// TODO clean up
+		// TODO clean up in 0.2 with MDC work
 		// merge MDC with event data, choosing MDC first
 		Map<String, Object> eventData = new HashMap<String, Object>();
 		eventData.putAll(event.getData());
@@ -128,9 +128,8 @@ public class JSONFormatter implements Unformatter {
 
 			while (eventData.hasNext()) {
 				Map.Entry<String, JsonNode> next = eventData.next();
-
-				// TODO need to use raw json values (int decimal etc)
-				event.getData().put(next.getKey(), next.getValue().toString());
+				Object value = getNativeValue(next.getValue());
+				event.getData().put(next.getKey(), value);
 			}
 		}
 
@@ -193,7 +192,54 @@ public class JSONFormatter implements Unformatter {
 		return event;
 	}
 
-	// fakeout
+	public static Object getNativeValue(JsonNode node) {
+
+		if (!node.isValueNode()) {
+			throw new IllegalArgumentException("node is not a value node");
+		}
+
+		// Boolean
+		if (node.isBoolean()) {
+			return node.booleanValue();
+		}
+
+		// String
+		if (node.isTextual()) {
+			return node.textValue();
+		}
+
+		// Binary
+		if (node.isBinary()) {
+			try {
+				return node.binaryValue();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		// Null
+		if (node.isNull()) {
+			return null;
+		}
+
+		// Number types
+		switch (node.numberType()) {
+			case INT: return node.intValue();
+			case LONG: return node.longValue();
+			case BIG_INTEGER: return node.bigIntegerValue();
+
+			case FLOAT: return node.asDouble();
+			case DOUBLE: return node.asDouble();
+			case BIG_DECIMAL: return node.decimalValue();
+		}
+
+		// coerce to String
+		return node.asText();
+	}
+
+	/**
+	 * Fake exception class which is used to deserialize exceptions.
+	 */
 	public static class DeserializedException extends Throwable {
 		private final String originalClass;
 

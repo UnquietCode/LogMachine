@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
+import unquietcode.tools.logmachine.core.formats.JSONFormatter;
 import unquietcode.tools.logmachine.core.topics.StringTopic;
 import unquietcode.tools.logmachine.impl.elasticsearch.ElasticSearchAppender;
 
@@ -141,9 +142,8 @@ public class SQSLoader implements Runnable {
 
 		while (data.hasNext()) {
 			Map.Entry<String, JsonNode> next = data.next();
-
-			// TODO need to use raw json values (int decimal etc)
-			event.getData().put(next.getKey(), next.getValue().toString());
+			Object value = JSONFormatter.getNativeValue(next.getValue());
+			event.getData().put(next.getKey(), value);
 		}
 
 		return event;

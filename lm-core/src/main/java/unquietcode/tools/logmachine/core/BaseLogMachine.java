@@ -171,8 +171,7 @@ public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 	 * Caches created proxies for each return type.
 	 */
 	protected static class ProxyHelper implements InvocationHandler {
-		// TODO Are there any classloader implications from not using a weak map?
-		private static final Map<Class, Object> proxyMap = new HashMap<Class, Object>();
+		private static final Map<Class, Object> proxyMap = new WeakHashMap<Class, Object>();
 
 		@Override
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
