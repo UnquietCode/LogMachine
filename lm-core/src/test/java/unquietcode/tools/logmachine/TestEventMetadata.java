@@ -124,7 +124,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		LogEvent event = getSingleEvent();
 		assertEquals(uri, event.getData().get("uri"));
 
-		final String name = TestEventMetadata.class.getSimpleName()+"#getURI:"+136;
+		final String name = TestEventMetadata.class.getSimpleName()+"#getURI:"+135;
 		assertTrue(event.getLocation().contains(name));
 	}
 
