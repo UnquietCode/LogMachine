@@ -35,7 +35,8 @@ public class BasicLogMachineTest {
 		}
 
 		@Before
-		public @Override void _setup() {
+		@Override
+		public void _setup() {
 			proxy._setup();
 		}
 

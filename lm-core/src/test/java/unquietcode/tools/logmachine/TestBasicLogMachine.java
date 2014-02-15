@@ -6,6 +6,7 @@ import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
+import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
 import java.util.HashMap;
@@ -30,7 +31,10 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Override
 	public LogMachine getLogMachine() {
-		return new SimpleLogMachine(TestBasicLogMachine.class);
+		SimpleLogger logger = SimpleLogger.getLogger(TestBasicLogMachine.class);
+		logger.setLevel(Level.TRACE);
+
+		return new SimpleLogMachine(logger);
 	}
 
 	@Override

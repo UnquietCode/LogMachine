@@ -20,6 +20,7 @@ public class SLF4JHandler implements LogHandler<Logger> {
 		Object[] data;
 		Object[] replacements = e.getReplacements();
 
+		// copy the exception to the end of the arguments
 		if (e.getCause() != null) {
 			data = Arrays.copyOf(replacements, replacements.length+1);
 			data[data.length-1] = e.getCause();

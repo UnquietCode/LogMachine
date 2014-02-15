@@ -7,51 +7,48 @@ import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.appenders.PersistentLogAppender;
-import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
 
 /**
  * @author Ben Fagin
  * @version 10-24-2012
  */
 public abstract class AbstractLoggerTest {
-	protected final LogMachine log;
+	protected final LogMachine log = getLogMachine();
 	private boolean initialized = false;
-
-	protected AbstractLoggerTest() {
-		log = getLogMachine();
-	}
 
 	@Before
 	public void _setup() {
 		if (initialized) { return; }
 
-		SimpleLogger logger = SimpleLogger.getLogger(getLoggerName());
-		logger.addComponent(eventAppender);
-		logger.setLevel(Level.TRACE);
+		log.addComponent(eventAppender);
 
 		initialized = true;
 	}
 
 	@After
 	public void cleanup() {
-		getEventAppender().getAllEvents().clear();
+		eventAppender.getAllEvents().clear();
 	}
 
 	protected final LogEvent getSingleEvent() {
-		PersistentLogAppender appender = getEventAppender();
-		Assert.assertEquals("expected one event", 1, appender.getAllEvents().size());
-		LogEvent event = appender.getAllEvents().get(0);
-		appender.getAllEvents().clear();
+		Assert.assertEquals("expected one event", 1, eventAppender.getAllEvents().size());
+		LogEvent event = eventAppender.getAllEvents().get(0);
+		eventAppender.getAllEvents().clear();
+
 		return event;
 	}
 
-	private final PersistentLogAppender eventAppender = new PersistentLogAppender();
+	private final PersistentLogAppender _defaultAppender = new PersistentLogAppender();
+	private final PersistentLogAppender eventAppender = getEventAppender();
 
+	// can override this still
 	public PersistentLogAppender getEventAppender() {
-		return eventAppender;
+		return _defaultAppender;
 	}
 
-	protected abstract String getLoggerName();
+	protected String getLoggerName() {
+		return getClass().getName();
+	}
 
 	public abstract LogMachine getLogMachine();
 

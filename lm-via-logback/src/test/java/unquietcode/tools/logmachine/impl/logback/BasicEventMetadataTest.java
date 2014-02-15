@@ -6,7 +6,6 @@ import org.junit.runners.Suite;
 import unquietcode.tools.logmachine.TestEventMetadata;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.appenders.PersistentLogAppender;
-import unquietcode.tools.logmachine.impl.slf4j.SLF4JLogMachine;
 
 /**
  * @author Ben Fagin
@@ -17,18 +16,7 @@ import unquietcode.tools.logmachine.impl.slf4j.SLF4JLogMachine;
 public class BasicEventMetadataTest {
 
 	public static class TestEventMetadata_Proxy extends TestEventMetadata {
-		private static final AbstractLogbackTest proxy = new AbstractLogbackTest() {
-
-			@Override
-			protected String getLoggerName() {
-				return TestEventMetadata.class.getName();
-			}
-
-			@Override
-			public LogMachine getLogMachine() {
-				return new SLF4JLogMachine(TestEventMetadata.class);
-			}
-		};
+		private static final AbstractLogbackTest proxy = new AbstractLogbackTest() {};
 
 		@Override
 		public LogMachine getLogMachine() {

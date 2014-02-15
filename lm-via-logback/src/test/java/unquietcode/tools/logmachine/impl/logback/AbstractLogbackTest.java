@@ -1,9 +1,11 @@
 package unquietcode.tools.logmachine.impl.logback;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import org.slf4j.impl.StaticLoggerBinder;
-import unquietcode.tools.logmachine.core.Level;
+import unquietcode.tools.logmachine.core.LogMachine;
+import unquietcode.tools.logmachine.impl.slf4j.SLF4JLogMachine;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
 /**
@@ -14,20 +16,28 @@ public abstract class AbstractLogbackTest extends AbstractLoggerTest {
 	private boolean initialized = false;
 
 	@Override
+	public LogMachine getLogMachine() {
+		return new SLF4JLogMachine(getLogger());
+	}
+
+	@Override
 	public void _setup() {
 		if (initialized) { return; }
-
-		StaticLoggerBinder loggerBinder = StaticLoggerBinder.getSingleton();
-		LoggerContext loggerContext = (LoggerContext) loggerBinder.getLoggerFactory();
 
 		LogbackAppenderAdapter appender = new LogbackAppenderAdapter();
 		appender.setComponent(getEventAppender());
 
-		Logger logger = loggerContext.getLogger(getLoggerName());
+		Logger logger = getLogger();
 		logger.addAppender(appender);
-		logger.setLevel(LogbackLevelTranslator.$.fromLogMachine(Level.TRACE));
-		appender.start();
+		logger.setLevel(Level.TRACE);
 
+		appender.start();
 		initialized = true;
+	}
+
+	private Logger getLogger() {
+		StaticLoggerBinder loggerBinder = StaticLoggerBinder.getSingleton();
+		LoggerContext loggerContext = (LoggerContext) loggerBinder.getLoggerFactory();
+		return loggerContext.getLogger(getLoggerName());
 	}
 }

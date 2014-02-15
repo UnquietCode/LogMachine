@@ -6,7 +6,6 @@ import org.junit.runners.Suite;
 import unquietcode.tools.logmachine.TestBasicLogMachine;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.appenders.PersistentLogAppender;
-import unquietcode.tools.logmachine.impl.slf4j.SLF4JLogMachine;
 
 /**
  * @author Ben Fagin
@@ -17,18 +16,7 @@ import unquietcode.tools.logmachine.impl.slf4j.SLF4JLogMachine;
 public class BasicLogMachineTest {
 
 	public static class TestBasicLogMachine_Proxy extends TestBasicLogMachine {
-		private static final AbstractLogbackTest proxy = new AbstractLogbackTest() {
-
-			@Override
-			protected String getLoggerName() {
-				return TestBasicLogMachine.class.getName();
-			}
-
-			@Override
-			public LogMachine getLogMachine() {
-				return new SLF4JLogMachine(TestBasicLogMachine.class);
-			}
-		};
+		private static final AbstractLogbackTest proxy = new AbstractLogbackTest() {};
 
 		@Override
 		public LogMachine getLogMachine() {

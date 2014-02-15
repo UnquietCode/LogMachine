@@ -3,10 +3,7 @@ package unquietcode.tools.logmachine.core;
 import unquietcode.tools.logmachine.LazyString;
 import unquietcode.tools.logmachine.core.topics.Topic;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -99,6 +96,20 @@ public class LogEvent {
 	}
 
 	public void setReplacements(Object[] replacements) {
+
+		// modify the replacements as needed
+		if (cause == null && replacements.length > 0) {
+			Object last = replacements[replacements.length-1];
+
+			// if the last arg is an exception, we'll consider it
+			// to be an implicit kind of thing
+			if (last instanceof Throwable) {
+				setCause((Throwable) last);
+				this.replacements = Arrays.copyOf(replacements, replacements.length-1);
+				return;
+			}
+		}
+
 		this.replacements = replacements;
 	}
 
