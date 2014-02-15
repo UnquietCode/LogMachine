@@ -22,7 +22,7 @@ public class LogEvent {
 	private String message = "";
 	private String location;
 	private Throwable cause;
-	private List<Topic> groups;
+	private List<Topic> topics;
 	private Object[] replacements;
 	private Map<String, Object> data;
 	private long timestamp = System.currentTimeMillis();
@@ -86,12 +86,12 @@ public class LogEvent {
 		this.cause = cause;
 	}
 
-	public List<Topic> getGroups() {
-		return groups != null ? groups : (groups = new ArrayList<Topic>());
+	public List<Topic> getTopics() {
+		return topics != null ? topics : (topics = new ArrayList<Topic>());
 	}
 
-	public void setGroups(List<Topic> groups) {
-		this.groups = groups;
+	public void setTopics(List<Topic> topics) {
+		this.topics = topics;
 	}
 
 	public Object[] getReplacements() {
@@ -108,9 +108,13 @@ public class LogEvent {
 
 	//==o==o==o==o==o==o==| Topics |==o==o==o==o==o==o==//
 
-	public final LazyString topics = new LazyString() {
+	public String getTopicString() {
+		return topicString.getString();
+	}
+
+	private final LazyString topicString = new LazyString() {
 		protected String _getString() {
-			List<Topic> topics = getGroups();
+			List<Topic> topics = getTopics();
 			if (topics == null || topics.isEmpty()) { return ""; }
 
 			StringBuilder sb = new StringBuilder().append("[");
@@ -138,7 +142,7 @@ public class LogEvent {
 
 	private static final Pattern REPLACEMENT_PATTERN = Pattern.compile("\\{\\s*(.*?)\\s*\\}");
 
-	public final LazyString formattedMessage = new LazyString() {
+	private final LazyString formattedMessage = new LazyString() {
 		protected String _getString() {
 			String string = createString(message, true);
 			string = createString(string, false);
@@ -203,8 +207,8 @@ public class LogEvent {
 				try {
 					int index = Integer.parseInt(key);
 
-					if (index > 0 && index <= groups.size()) {
-						return groups.get(index-1).toString();
+					if (index > 0 && index <= topics.size()) {
+						return topics.get(index-1).toString();
 					} else {
 						return null;
 					}

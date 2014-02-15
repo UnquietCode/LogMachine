@@ -58,11 +58,11 @@ public class TestSLF4JTopics {
 		assertEquals("could not create user with id "+userID, event.getFormattedMessage());
 		assertTrue(exception == event.getCause());
 
-		// check groups
-		assertEquals(3, event.getGroups().size());
-		assertTrue(event.getGroups().contains(Postgres));
-		assertTrue(event.getGroups().contains(User));
-		assertTrue(event.getGroups().contains(Delete));
+		// check topics
+		assertEquals(3, event.getTopics().size());
+		assertTrue(event.getTopics().contains(Postgres));
+		assertTrue(event.getTopics().contains(User));
+		assertTrue(event.getTopics().contains(Delete));
 	}
 
 	private void doSomethingCrazy() throws Exception {

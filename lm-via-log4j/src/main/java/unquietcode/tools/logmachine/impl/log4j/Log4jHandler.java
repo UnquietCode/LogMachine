@@ -13,48 +13,48 @@ public class Log4jHandler implements LogHandler<Logger> {
 	@Override
 	public void logEvent(Logger log, LogEvent e) {
 		MDC.put(Switchboard.MDC_KEY, Switchboard.put(e));
-		MDC.put(LogEvent.TOPICS_KEY, e.topics);
+		MDC.put(LogEvent.TOPICS_KEY, e.getTopicString());
 		Throwable cause = e.getCause();
 
 		try {
 		switch (e.getLevel()) {
 			case ERROR:
 				if (cause == null) {
-					log.error(e.formattedMessage);
+					log.error(e.getFormattedMessage());
 				} else {
-					log.error(e.formattedMessage, cause);
+					log.error(e.getFormattedMessage(), cause);
 				}
 			break;
 
 			case WARN:
 				if (cause == null) {
-					log.warn(e.formattedMessage);
+					log.warn(e.getFormattedMessage());
 				} else {
-					log.warn(e.formattedMessage, cause);
+					log.warn(e.getFormattedMessage(), cause);
 				}
 			break;
 
 			case INFO:
 				if (cause == null) {
-					log.info(e.formattedMessage);
+					log.info(e.getFormattedMessage());
 				} else {
-					log.info(e.formattedMessage, cause);
+					log.info(e.getFormattedMessage(), cause);
 				}
 			break;
 
 			case DEBUG:
 				if (cause == null) {
-					log.debug(e.formattedMessage);
+					log.debug(e.getFormattedMessage());
 				} else {
-					log.debug(e.formattedMessage, cause);
+					log.debug(e.getFormattedMessage(), cause);
 				}
 			break;
 
 			case TRACE:
 				if (cause == null) {
-					log.trace(e.formattedMessage);
+					log.trace(e.getFormattedMessage());
 				} else {
-					log.trace(e.formattedMessage, cause);
+					log.trace(e.getFormattedMessage(), cause);
 				}
 			break;
 

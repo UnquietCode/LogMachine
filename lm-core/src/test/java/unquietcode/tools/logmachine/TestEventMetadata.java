@@ -46,11 +46,11 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		class Mixer {
 			void assertColor(String name, PrimaryColor...colors) {
 				LogEvent event = getSingleEvent();
-				List<Topic> groups = event.getGroups();
-				assertEquals(colors.length, groups.size());
+				List<Topic> topics = event.getTopics();
+				assertEquals(colors.length, topics.size());
 
 				for (PrimaryColor color : colors) {
-					assertTrue(groups.contains(color));
+					assertTrue(topics.contains(color));
 				}
 
 				assertEquals(name, event.getMessage());
@@ -76,7 +76,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		log.addComponent(appender);
 
 		log.to(PrimaryColor.Red).info("sup");
-		final List<Topic> eventTopics = appender.getAllEvents().get(0).getGroups();
+		final List<Topic> eventTopics = appender.getAllEvents().get(0).getTopics();
 
 		assertEquals(3, eventTopics.size());
 		assertTrue(eventTopics.contains(PrimaryColor.Yellow));
@@ -89,12 +89,12 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		log.to(PrimaryColor.Red, PrimaryColor.Yellow, SecondaryColor.Orange).info("Orange");
 
 		LogEvent event = getSingleEvent();
-		List<Topic> groups = event.getGroups();
+		List<Topic> topics = event.getTopics();
 
-		assertEquals(3, groups.size());
-		assertTrue(groups.contains(PrimaryColor.Red));
-		assertTrue(groups.contains(PrimaryColor.Yellow));
-		assertTrue(groups.contains(SecondaryColor.Orange));
+		assertEquals(3, topics.size());
+		assertTrue(topics.contains(PrimaryColor.Red));
+		assertTrue(topics.contains(PrimaryColor.Yellow));
+		assertTrue(topics.contains(SecondaryColor.Orange));
 	}
 
 	@Test
@@ -106,11 +106,11 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		   .debug("{~1} {} {~2} {=>} {:color}", s);
 
 		LogEvent event = getSingleEvent();
-		List<Topic> groups = event.getGroups();
+		List<Topic> topics = event.getTopics();
 
-		assertEquals(2, groups.size());
-		assertTrue(groups.contains(PrimaryColor.Red));
-		assertTrue(groups.contains(PrimaryColor.Blue));
+		assertEquals(2, topics.size());
+		assertTrue(topics.contains(PrimaryColor.Red));
+		assertTrue(topics.contains(PrimaryColor.Blue));
 		assertEquals(SecondaryColor.Purple.name(), event.getData().get("color"));
 		assertEquals("Red + Blue {=>} Purple", event.getFormattedMessage());
 	}

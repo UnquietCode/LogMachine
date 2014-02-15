@@ -15,7 +15,7 @@ public class SLF4JHandler implements LogHandler<Logger> {
 	@Override
 	public void logEvent(Logger log, LogEvent e) {
 		MDC.put(Switchboard.MDC_KEY, Switchboard.put(e));
-		MDC.put(LogEvent.TOPICS_KEY, e.topics.toString());
+		MDC.put(LogEvent.TOPICS_KEY, e.getTopicString());
 
 		Object[] data;
 		Object[] replacements = e.getReplacements();

@@ -13,13 +13,13 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static unquietcode.tools.logmachine.TestBasicLogMachine.TestGroups.User;
+import static unquietcode.tools.logmachine.TestBasicLogMachine.TestTopics.User;
 import static unquietcode.tools.logmachine.core.topics.QuickTopics.CrudOperations.Create;
 import static unquietcode.tools.logmachine.core.topics.QuickTopics.Databases.Postgres;
 
 public class TestBasicLogMachine extends AbstractLoggerTest {
 
-	enum TestGroups implements Topic {
+	enum TestTopics implements Topic {
 		One, Two, Three, User
 	}
 
@@ -131,7 +131,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testMessageReplacementWithGroupNumber() {
-		log.to(TestGroups.One, TestGroups.Two, TestGroups.Three)
+		log.to(TestTopics.One, TestTopics.Two, TestTopics.Three)
 		   .info("\"{~0}  { ~1 } { ~2} {~3 }\"");
 
 		LogEvent event = getSingleEvent();
@@ -140,7 +140,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test
 	public void testMessageReplacementWithMissingGroupNumber() {
-		log.to(TestGroups.One, TestGroups.Two).info("{~1} {~3} {~2}");
+		log.to(TestTopics.One, TestTopics.Two).info("{~1} {~3} {~2}");
 
 		LogEvent event = getSingleEvent();
 		assertEquals("One {~3} Two", event.getFormattedMessage());
@@ -194,7 +194,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testDuplicateTopics() {
-		log.to(TestGroups.One, TestGroups.Two, TestGroups.One).info("oops");
+		log.to(TestTopics.One, TestTopics.Two, TestTopics.One).info("oops");
 	}
 
 	@Test

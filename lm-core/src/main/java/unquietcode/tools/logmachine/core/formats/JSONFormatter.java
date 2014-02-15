@@ -54,11 +54,12 @@ public class JSONFormatter implements Unformatter {
 			}
 		}
 
-		List<Topic> groups = event.getGroups();
-		if (!groups.isEmpty()) {
+		List<Topic> _topics = event.getTopics();
+
+		if (!_topics.isEmpty()) {
 			ArrayNode topics = data.putArray(DICTIONARY_TOPICS);
 
-			for (Topic topic : groups) {
+			for (Topic topic : _topics) {
 				topics.add(topic.name());
 			}
 		}
@@ -117,7 +118,7 @@ public class JSONFormatter implements Unformatter {
 			ArrayNode topics = (ArrayNode) data.get(DICTIONARY_TOPICS);
 
 			for (JsonNode topic : topics) {
-				event.getGroups().add(new StringTopic(topic.asText()));
+				event.getTopics().add(new StringTopic(topic.asText()));
 			}
 		}
 

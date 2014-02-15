@@ -19,11 +19,11 @@ public class ShorterPlaintextFormatter implements Formatter {
 		sb.append("[").append(event.getLevel()).append("] ");
 
 		// topics
-		if (!event.getGroups().isEmpty()) {
+		if (!event.getTopics().isEmpty()) {
 			boolean first = true;
 			sb.append("[");
 
-			for (Topic topic : event.getGroups()) {
+			for (Topic topic : event.getTopics()) {
 				if (!first) {
 					sb.append(" | ");
 				} else {

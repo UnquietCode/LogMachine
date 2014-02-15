@@ -65,7 +65,7 @@ public class LogstashFormatter_V1 implements ElasticSearchJSONFormatter {
 		}
 
 		// topics ('tags')
-		for (Topic topic : event.getGroups()) {
+		for (Topic topic : event.getTopics()) {
 			if (useShortTopicNames) {
 				_event.addTopic(topic.name());
 			} else {

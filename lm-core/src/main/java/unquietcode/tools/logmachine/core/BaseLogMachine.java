@@ -41,7 +41,7 @@ public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 	public void _log(LogEvent event) {
 
 		// add default topics, if any
-		event.getGroups().addAll(defaultTopics);
+		event.getTopics().addAll(defaultTopics);
 
 		// mix in extra data from the DataProviders list
 		for (DataProvider dataProvider : dataProviders) {
@@ -67,7 +67,7 @@ public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 		handle(components, event);
 
 		// notify subscribers to the event topics
-		Set<LoggingComponent> topicComponents = TopicBroker.getComponents(event.getGroups());
+		Set<LoggingComponent> topicComponents = TopicBroker.getComponents(event.getTopics());
 		handle(topicComponents, event);
 	}
 

@@ -35,11 +35,11 @@ public class PlaintextFormatter implements Formatter {
 		sb.append(" - ");
 		boolean extraDivider = false;
 
-		if (!event.getGroups().isEmpty()) {
+		if (!event.getTopics().isEmpty()) {
 			boolean first = true;
 			sb.append("[");
 
-			for (Topic topic : event.getGroups()) {
+			for (Topic topic : event.getTopics()) {
 				if (!first) { sb.append(" | ");	}
 				else { first = false; }
 

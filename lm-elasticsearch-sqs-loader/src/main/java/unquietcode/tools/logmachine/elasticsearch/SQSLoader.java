@@ -133,7 +133,7 @@ public class SQSLoader implements Runnable {
 
 		for (JsonNode _topic : topics) {
 			StringTopic topic = new StringTopic(_topic.textValue());
-			event.getGroups().add(topic);
+			event.getTopics().add(topic);
 		}
 
 		// data
