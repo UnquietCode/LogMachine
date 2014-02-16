@@ -2,7 +2,8 @@ package unquietcode.tools.logmachine;
 
 import unquietcode.tools.flapi.DescriptorMaker;
 import unquietcode.tools.flapi.Flapi;
-import unquietcode.tools.flapi.builder.Descriptor.DescriptorBuilder_2m1_4f_2m2_4f_2m3_4f_2m4_4f_2m5_4f_2m6_4f_2m7_4f_2m8_4f_2m9_4f_2m10_4f_2m11_4f;
+import unquietcode.tools.flapi.builder.Descriptor.DescriptorBuilder_m1_m2_m3_m4_m5_m6;
+
 
 /**
  * @author Ben Fagin
@@ -10,9 +11,8 @@ import unquietcode.tools.flapi.builder.Descriptor.DescriptorBuilder_2m1_4f_2m2_4
  */
 public abstract class BaseLogMachineDescriptor implements DescriptorMaker {
 
-	protected static DescriptorBuilder_2m1_4f_2m2_4f_2m3_4f_2m4_4f_2m5_4f_2m6_4f_2m7_4f_2m8_4f_2m9_4f_2m10_4f_2m11_4f<Void> getStandardDescriptor() {
+	protected static DescriptorBuilder_m1_m2_m3_m4_m5_m6<Void> getStandardDescriptor() {
 		return Flapi.builder()
-
 			.addMethod("with(String key, Number value)")
 				.withDocumentation("add new numeral data")
 			.any()
