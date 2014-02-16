@@ -20,6 +20,11 @@ public class Showcase_X {
 		// nfn
 	}
 
+	@Test
+	public void pleaseNoticeMeTravis() {
+		// pleeeease
+	}
+
 
 	@Test
 	public void test() {
@@ -34,11 +39,6 @@ public class Showcase_X {
 			   .because(ex)
 			   .info("User {@id} disconnected.", userID)
 			;
-
-
-
-
-
 
 
 			// guarded form
