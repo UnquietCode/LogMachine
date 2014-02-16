@@ -109,6 +109,8 @@ public interface LogMachineBuilders<T> {
 	 * This call and all chained calls will effectively be
 	 * no-op if the underlying logger is not accepting
 	 * events at this level.
+	 *
+	 * @return builder, or a no-op equivalent
 	 */
 	SpecificLogMachineBuilder.Start error();
 
@@ -118,6 +120,8 @@ public interface LogMachineBuilders<T> {
 	 * This call and all chained calls will effectively be
 	 * no-op if the underlying logger is not accepting
 	 * events at this level.
+	 *
+	 * @return builder, or a no-op equivalent
 	 */
 	SpecificLogMachineBuilder.Start warn();
 
@@ -127,6 +131,8 @@ public interface LogMachineBuilders<T> {
 	 * This call and all chained calls will effectively be
 	 * no-op if the underlying logger is not accepting
 	 * events at this level.
+	 *
+	 * @return builder, or a no-op equivalent
 	 */
 	SpecificLogMachineBuilder.Start info();
 
@@ -136,6 +142,8 @@ public interface LogMachineBuilders<T> {
 	 * This call and all chained calls will effectively be
 	 * no-op if the underlying logger is not accepting
 	 * events at this level.
+	 *
+	 * @return builder, or a no-op equivalent
 	 */
 	SpecificLogMachineBuilder.Start debug();
 
@@ -145,6 +153,8 @@ public interface LogMachineBuilders<T> {
 	 * This call and all chained calls will effectively be
 	 * no-op if the underlying logger is not accepting
 	 * events at this level.
+	 *
+	 * @return builder, or a no-op equivalent
 	 */
 	SpecificLogMachineBuilder.Start trace();
 

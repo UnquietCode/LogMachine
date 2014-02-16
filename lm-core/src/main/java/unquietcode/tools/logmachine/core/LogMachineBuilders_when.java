@@ -12,6 +12,9 @@ public interface LogMachineBuilders_when<T> extends LogMachineBuilders<T> {
 	 *
 	 * This call and all chained calls will effectively be
 	 * no-op if the condition is not expressly true.
+	 *
+	 * @param flag condition to test
+	 * @return builder
 	 */
 	LogMachineBuilders when(Boolean flag);
 }
