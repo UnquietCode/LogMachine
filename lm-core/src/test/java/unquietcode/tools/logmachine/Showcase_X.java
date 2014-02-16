@@ -21,12 +21,6 @@ public class Showcase_X {
 	}
 
 	@Test
-	public void pleaseNoticeMeTravis() {
-		// pleeeease
-	}
-
-
-	@Test
 	public void test() {
 
 		try {
