@@ -35,7 +35,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#error(String, Throwable)
 	 */
 	@Override
@@ -46,7 +46,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#error(String, Object[] data)
 	 */
 	@Override
@@ -57,7 +57,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#warn(String, Throwable)
 	 */
 	@Override
@@ -68,7 +68,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#warn(String, Object[] data)
 	 */
 	@Override
@@ -79,7 +79,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#info(String, Throwable)
 	 */
 	@Override
@@ -90,7 +90,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#info(String, Object[] data)
 	 */
 	@Override
@@ -101,7 +101,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#debug(String, Throwable)
 	 */
 	@Override
@@ -112,7 +112,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#debug(String, Object[] data)
 	 */
 	@Override
@@ -123,7 +123,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#trace(String, Throwable)
 	 */
 	@Override
@@ -134,7 +134,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#trace(String, Object[] data)
 	 */
 	@Override
@@ -149,7 +149,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#error()
 	 */
 	@Override
@@ -162,7 +162,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#warn()
 	 */
 	@Override
@@ -175,7 +175,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#info()
 	 */
 	@Override
@@ -188,7 +188,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#debug()
 	 */
 	@Override
@@ -201,7 +201,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#trace()
 	 */
 	@Override
@@ -234,7 +234,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#because(Throwable)
 	 */
 	@Override
@@ -245,7 +245,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#from(String)
 	 */
 	@Override
@@ -256,7 +256,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#fromHere()
 	 */
 	@Override
@@ -267,7 +267,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#to(Topic...)
 	 */
 	@Override
@@ -278,7 +278,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#with(String, String)
 	 */
 	@Override
@@ -289,7 +289,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders#with(String, Number)
 	 */
 	@Override
@@ -304,7 +304,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 * @see LogMachineBuilders_when#when(Boolean)
 	 */
 	@Override
