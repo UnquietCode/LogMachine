@@ -4,8 +4,8 @@ import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LoggingComponent;
 
 /**
- * An implementation of {@link unquietcode.tools.logmachine.core.appenders.Appender} which prints
- * the formatted message to nowhere. The point is that it attempts to print the message, which can
+ * An implementation of {@link LoggingComponent} which prints the formatted message
+ * to nowhere. The point is that it attempts to print the message, which can
  * trigger exceptions which are deferred due to lazy initialization of event data.
  *
  * @author Ben Fagin
