@@ -142,6 +142,15 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		assertEquals("\"{~0}  One Two Three\"", event.getFormattedMessage());
 	}
 
+
+	@Test
+	public void testMessageReplacemtnWithArgumentNumber() {
+		log.debug("1 : {1}, 2 : { 2 }, 3 : {  3}, 4 : {4 }, 5 : { 5}", 1, 2, 3, 4, new RuntimeException());
+
+		LogEvent event = getSingleEvent();
+		assertEquals("1 : 1, 2 : 2, 3 : 3, 4 : 4, 5 : {5}", event.getFormattedMessage());
+	}
+
 	@Test
 	public void testMessageReplacementWithMissingGroupNumber() {
 		log.to(TestTopics.One, TestTopics.Two).info("{~1} {~3} {~2}");

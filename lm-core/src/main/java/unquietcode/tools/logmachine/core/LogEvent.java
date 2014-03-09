@@ -196,6 +196,19 @@ public class LogEvent {
 	};
 
 	private String processReplacement(String match, AtomicInteger idx, boolean assignmentOnly) {
+
+		// argument number
+		if (!assignmentOnly) try {
+			int index = Integer.parseInt(match.trim()) - 1;
+
+			if (index >= 0  &&  index < replacements.length) {
+				return String.valueOf(replacements[index]);
+			}
+		} catch (NumberFormatException ex) {
+			// keep going
+		}
+
+		// by here we expect at least one special character
 		int length = match.length();
 
 		if (length == 1) {
@@ -213,13 +226,13 @@ public class LogEvent {
 
 		switch (firstChar) {
 
-			// group name
+			// group number
 			case '~': {
 				try {
-					int index = Integer.parseInt(key);
+					int index = Integer.parseInt(key) - 1;
 
-					if (index > 0 && index <= topics.size()) {
-						return topics.get(index-1).toString();
+					if (index >= 0  &&  index < topics.size()) {
+						return topics.get(index).toString();
 					} else {
 						return null;
 					}

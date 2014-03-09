@@ -31,7 +31,7 @@ public class Showcase_X {
 
 			log.to(REDIS, USER)
 			   .because(ex)
-			   .info("User {@id} disconnected.", userID)
+			   .info("User {@ id} disconnected.", userID)
 			;
 
 
@@ -40,7 +40,7 @@ public class Showcase_X {
 			log.info()
 			   .to(REDIS, USER)
 			   .because(ex)
-			   .send("User {@id} disconnected.", userID)
+			   .send("User {@ id} disconnected.", userID)
 			;
 
 			// add extra data, and reference it by name
