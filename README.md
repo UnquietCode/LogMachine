@@ -1,7 +1,7 @@
 # LogMachine (v0.0)
 #### *I'm just a log machine!*
 
-[![Build Status](https://travis-ci.org/UnquietCode/LogMachine.png)](https://travis-ci.org/UnquietCode/LogMachine)
+[![Build Status](https://travis-ci.org/UnquietCode/LogMachine.png?branch=master)](https://travis-ci.org/UnquietCode/LogMachine)
 
 Semantic logging in Java. Not a framework!
 Wraps around existing tools like SLF4J, Logback, Log4J, JDK1.4, and more.
