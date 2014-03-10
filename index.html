@@ -1,79 +1,902 @@
 <!DOCTYPE html>
 <html>
-
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Logmachine : Semantic logging in Java." />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Logmachine</title>
-  </head>
-
-  <body>
-
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/UnquietCode/LogMachine">View on GitHub</a>
-
-          <h1 id="project_title">Logmachine</h1>
-          <h2 id="project_tagline">Semantic logging in Java.</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/UnquietCode/LogMachine/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/UnquietCode/LogMachine/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
+<head>
+  <title>Documentation.java</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "", thisFile = "Users/bfagin/Documents/Code Projects/log machine//Documentation.java", defaultSidebar = false;
+  </script>
+  <script src="doc-script.js"></script>
+</head>
+<body class="no-sidebar">
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
     </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#log%20machine">Log Machine</a>
+      </div>
+      <div class="heading h3">
+        <a href="#i'm%20just%20a%20log%20machine!">I'm just a log machine!</a>
+      </div>
+      <div class="heading h2">
+        <a href="#api">API</a>
+      </div>
+      <div class="heading h3">
+        <a href="#basic%20methods">Basic Methods</a>
+      </div>
+      <div class="heading h3">
+        <a href="#additional%20methods">Additional Methods</a>
+      </div>
+      <div class="heading h2">
+        <a href="#conditional%20logging">Conditional Logging</a>
+      </div>
+      <div class="heading h3">
+        <a href="#methods">Methods</a>
+      </div>
+      <div class="heading h2">
+        <a href="#event%20data">Event Data</a>
+      </div>
+      <div class="heading h3">
+        <a href="#methods">Methods</a>
+      </div>
+      <div class="heading h2">
+        <a href="#message%20formatting">Message Formatting</a>
+      </div>
+      <div class="heading h3">
+        <a href="#syntax">Syntax</a>
+      </div>
+      <div class="heading h2">
+        <a href="#topic-based%20logging">Topic-Based Logging</a>
+      </div>
+      <div class="heading h3">
+        <a href="#methods">Methods</a>
+      </div>
+      <div class="heading h2">
+        <a href="#implementations">Implementations</a>
+      </div>
+      <div class="heading h3">
+        <a href="#logstash%20%2F%20elasticsearch%20%2F%20kibana">Logstash / ElasticSearch / Kibana</a>
+      </div>
+      <div class="heading h4">
+        <a href="#components">Components</a>
+      </div>
+      <div class="heading h3">
+        <a href="#amazon%20sqs">Amazon SQS</a>
+      </div>
+      <div class="heading h4">
+        <a href="#components">Components</a>
+      </div>
+      <div class="heading h2">
+        <a href="#thanks!">Thanks!</a>
+      </div>
     </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="log%20machine">
+  <h1>
+    <a href="#log%20machine" name="log%20machine" class="pilcrow">&#182;</a>
+    Log Machine
+  </h1>
+</div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Logmachine maintained by <a href="https://github.com/UnquietCode">UnquietCode</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
 
-    
 
-  </body>
+<div class="pilwrap" id="i'm%20just%20a%20log%20machine!">
+  <h3>
+    <a href="#i'm%20just%20a%20log%20machine!" name="i'm%20just%20a%20log%20machine!" class="pilcrow">&#182;</a>
+    <em>I'm just a log machine!</em>
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Log Machine is <strong>not</strong> a logging framework, it is a wrapper or 'façade'
+around existing frameworks, such as Log4j, Commons Logging, Logback, etc.
+It will also wrap around the existing SLF4J logging façade.</p>
+  </div>
+  <div class="body"><p>LM provides a clean, simple way to log events in your
+Java applications. The status quo is robust under the hood, but somewhat
+klunky and hard to maintain on the surface. Logging is code, and code is
+data, so by enhancing the logging statements we can generate better
+quality data.</p>
+
+<p>Another goal is to attempt to blur the lines between logging and analytics. They
+tend to occupy the same space, doing the same thing but for different masters
+(diagnostics versus metrics). By providing finer targeting of events, with
+richer metadata, logging becomes a more useful tool for capturing application
+metrics.</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="api">
+  <h2>
+    <a href="#api" name="api" class="pilcrow">&#182;</a>
+    API
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>The LogMachine fluent API provides the standard level-based <code>trace</code> &#8594; <code>error</code>
+style of logging, while supporting several other features such as topic-based logging.
+The API has been made compatible with SLF4J, so migration is a snap. All that must be
+done is to replace the <code>Logger</code> declaration with the <code>LogMachine</code> implementation to start
+enhancing your logging statements.</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+<span class="n">log</span><span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">REDIS</span><span class="o">,</span> <span class="n">USER</span><span class="o">)</span>
+   <span class="o">.</span><span class="na">because</span><span class="o">(</span><span class="n">ex</span><span class="o">)</span>
+   <span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&quot;User {@ id} disconnected.&quot;</span><span class="o">,</span> <span class="n">userID</span><span class="o">);</span>
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="basic%20methods">
+  <h3>
+    <a href="#basic%20methods" name="basic%20methods" class="pilcrow">&#182;</a>
+    Basic Methods
+  </h3>
+</div>
+
+  </div>
+  <div class="body"><p>The basic log methods are what you would expect to find in the existing
+frameworks, namely the level-based logging.</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>Log an event.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span>
+<span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span>
+<span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span>
+<span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span>
+<span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>Log an event with an included exception.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Throwable</span> <span class="n">exception</span><span class="o">)</span>
+<span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Throwable</span> <span class="n">exception</span><span class="o">)</span>
+<span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Throwable</span> <span class="n">exception</span><span class="o">)</span>
+<span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Throwable</span> <span class="n">exception</span><span class="o">)</span>
+<span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Throwable</span> <span class="n">exception</span><span class="o">)</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>Log an event, with extra data. The data can be accessed in order by
+using '{}' notation in your log message. This is similar to what the
+SLF4J/Logback API provides. If the last object in the varargs list is
+a <code>Throwable</code>, then it is used as the exception for the log event.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Object</span><span class="o">...</span><span class="na">data</span><span class="o">)</span>
+<span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Object</span><span class="o">...</span><span class="na">data</span><span class="o">)</span>
+<span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Object</span><span class="o">...</span><span class="na">data</span><span class="o">)</span>
+<span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Object</span><span class="o">...</span><span class="na">data</span><span class="o">)</span>
+<span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Object</span><span class="o">...</span><span class="na">data</span><span class="o">)</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>Check the log level. These are compatible with SLF4J.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">isErrorEnabled</span><span class="o">()</span>
+<span class="o">.</span><span class="na">isWarnEnabled</span><span class="o">()</span>
+<span class="o">.</span><span class="na">isInfoEnabled</span><span class="o">()</span>
+<span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">()</span>
+<span class="o">.</span><span class="na">isTraceEnabled</span><span class="o">()</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+</div>
+<p>Check the log level. These are the more concise LogMachine versions
+of the above statements.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">isError</span><span class="o">()</span>
+<span class="o">.</span><span class="na">isWarn</span><span class="o">()</span>
+<span class="o">.</span><span class="na">isInfo</span><span class="o">()</span>
+<span class="o">.</span><span class="na">isDebug</span><span class="o">()</span>
+<span class="o">.</span><span class="na">isTrace</span><span class="o">()</span>
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="additional%20methods">
+  <h3>
+    <a href="#additional%20methods" name="additional%20methods" class="pilcrow">&#182;</a>
+    Additional Methods
+  </h3>
+</div>
+
+  </div>
+  <div class="body"><p>LogMachine adds a few tricks to the basic repertoire of logging
+abilities. The methods form a fluent chain, ending with the
+actual logging statement.</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
+</div>
+<p>Sets the exception for the event.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">because</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">cause</span><span class="o">)</span>
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
+</div>
+<p>Sets the location for the log event, which could be a method name,
+class name, or some other logical identifier.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">String</span> <span class="n">location</span><span class="o">)</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+</div>
+<p>Sets the location to the current method/class/line as one would
+find in a stack trace.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">fromHere</span><span class="o">()</span>
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="conditional%20logging">
+  <h2>
+    <a href="#conditional%20logging" name="conditional%20logging" class="pilcrow">&#182;</a>
+    Conditional Logging
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>Sometimes you don't want messages to be processed if the
+log level is too low or some other condition is not met.
+This is pretty easy to do by using an <code>if</code> block, like so:</p>
+
+
+<div class="highlight"><pre><code><span class="k">if</span> <span class="o">(</span><span class="n">log</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;this is a debug message&quot;</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div>
+
+
+
+<p>Mainly this technique suffers from verbosity. Most log
+frameworks now allow you to pass in a template message and
+will generate the actual string value of arguments later
+only if the log level is appropriate.</p>
+
+<p>Log Machine goes one step further. When a condition is not met,
+the returned object will be a dummy proxy instance. This means
+that every command you execute will be ignored. This has the
+convenience of being clean, and fast.</p>
+
+<p>These calls have to be made up front, and so a <code>$Level()</code>
+method is available for each level in order to support
+conditional logging. At the end of the chain you call
+<code>send()</code> to complete the logging.</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">().</span><span class="na">with</span><span class="o">(</span><span class="s">&quot;action&quot;</span><span class="o">,</span> <span class="s">&quot;send_email&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&quot;User &#39;{@ user}&#39; was not found.&quot;</span><span class="o">,</span> <span class="n">currentUser</span><span class="o">());</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="methods">
+  <h3>
+    <a href="#methods" name="methods" class="pilcrow">&#182;</a>
+    Methods
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
+</div>
+<p>Checks the boolean first, and if it is <code>null</code> or <code>false</code> then
+the logging will not proceed.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">when</span><span class="o">(</span><span class="n">Boolean</span> <span class="n">test</span><span class="o">)</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
+</div>
+<p>Conditionally log if the level is right. Must be completed with
+a call to <code>send()</code>.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">error</span><span class="o">()</span> <span class="o">...</span> <span class="n">send</span><span class="o">(...)</span>
+<span class="o">.</span><span class="na">warn</span><span class="o">()</span> <span class="o">...</span> <span class="n">send</span><span class="o">(...)</span>
+<span class="o">.</span><span class="na">info</span><span class="o">()</span> <span class="o">...</span> <span class="n">send</span><span class="o">(...)</span>
+<span class="o">.</span><span class="na">debug</span><span class="o">()</span> <span class="o">...</span> <span class="n">send</span><span class="o">(...)</span>
+<span class="o">.</span><span class="na">trace</span><span class="o">()</span> <span class="o">...</span> <span class="n">send</span><span class="o">(...)</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+</div>
+<p>Note that these two can also be combined.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="n">log</span><span class="o">.</span><span class="na">when</span><span class="o">(</span><span class="kc">true</span><span class="o">).</span><span class="na">trace</span><span class="o">()</span>
+   <span class="o">.</span><span class="na">because</span><span class="o">(</span><span class="n">exception</span><span class="o">)</span>
+   <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">DATABASE</span><span class="o">,</span> <span class="n">UPDATE</span><span class="o">)</span>
+   <span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&quot;Oh no, not again.&quot;</span><span class="o">);</span>
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="event%20data">
+  <h2>
+    <a href="#event%20data" name="event%20data" class="pilcrow">&#182;</a>
+    Event Data
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>A log event is often rich with data, but we usually settle for
+turning all of this data into a flattened string. Log Machine
+stores metadata along with the log messge, so that a detailed
+data structure can be assembled later which describes the event.</p>
+
+<p>Data can be assigned using the <code>with(...)</code> method, or though
+an inline assignment in the message string (more on that soon).</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="methods">
+  <h3>
+    <a href="#methods" name="methods" class="pilcrow">&#182;</a>
+    Methods
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
+</div>
+<p>Adds a data point to the log event.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">Number</span> <span class="n">value</span><span class="o">)</span>
+<span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">value</span><span class="o">)</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="message%20formatting">
+  <h2>
+    <a href="#message%20formatting" name="message%20formatting" class="pilcrow">&#182;</a>
+    Message Formatting
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>A special formatting syntax allows data to be both read and
+written via the message string associated with each log event.
+When a pair of unescaped brackets <code>{}</code> is detected, the
+contents are evaluated using the formatting rules.</p>
+
+<p>For users of SLF4J, this syntax should be at least partially
+familiar. That style of replacement where <code>{}</code> is a shortcut
+to the arguments array is still supported, with the addition
+of a few new features.</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="syntax">
+  <h3>
+    <a href="#syntax" name="syntax" class="pilcrow">&#182;</a>
+    Syntax
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-24" id="section-24">&#182;</a>
+</div>
+<p>Access the event arguments array, where the
+first instance of <code>{}</code> is the 0th element, the
+second instance of <code>{}</code> is the 1st element, etc.
+(When the last argument is an instance of Throwable,
+it is assumed to be the cause of the event
+and is not included in the argument array.)</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&quot;failed to process chunk {} of {}&quot;</span><span class="o">,</span> <span class="n">currentChunk</span><span class="o">,</span> <span class="n">totalChunks</span><span class="o">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-25" id="section-25">&#182;</a>
+</div>
+<p>Access event data by name.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="n">log</span><span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">&quot;id&quot;</span><span class="o">,</span> <span class="n">userID</span><span class="o">).</span><span class="na">to</span><span class="o">(</span><span class="n">User</span><span class="o">,</span> <span class="n">Postgres</span><span class="o">,</span> <span class="n">Create</span><span class="o">)</span>
+   <span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&quot;created a new user with id {: id}&quot;</span><span class="o">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-26" id="section-26">&#182;</a>
+</div>
+<p>Set new event data under the given name,
+where the first <code>@</code>ssignment maps to the first
+event argument, the second <code>@</code> to the second
+argument, etc., and printing them  in the process.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&quot;created a new user with id {@ id}&quot;</span><span class="o">,</span> <span class="n">userID</span><span class="o">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-27" id="section-27">&#182;</a>
+</div>
+<p>Access the event arguments array by the
+position number, where the first argument is <code>1</code>.
+(When the last argument is an instance of Throwable,
+it is assumed to be the cause of the event
+and is not included in the argument array.)</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&quot;created a new user with id {2}&quot;</span><span class="o">,</span> <span class="n">userName</span><span class="o">,</span> <span class="n">userID</span><span class="o">);</span>
+
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="topic-based%20logging">
+  <h2>
+    <a href="#topic-based%20logging" name="topic-based%20logging" class="pilcrow">&#182;</a>
+    Topic-Based Logging
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>Topics provide an alternative way to organize and filter your logging
+statements, instead of the usual package hierachy. In a sense, it
+decouples your package naming from your logging configuration, allowing
+you to configure appenders and levels for a set of topics instead packages.</p>
+
+<p>Here's an example: Let's say I'm creating a
+new user in my database, which is PostgreSQL. When I'm going through
+the log data sometime later, maybe to troubleshoot a bug, I want to
+query for when the user with id <code>50</code> was created. I could search for
+words like 'user', 'created', '50', and so on. </p>
+
+<p>That tends to make for noisy, imprecise results. Instead, using topics
+I can query for only those events whose topics include <code>Postgres</code>,
+<code>Users</code>, and <code>Create</code>, three predefined constants in my appliction.
+I could even set up a log file dedicated to tracking only events
+in these categories.</p>
+
+<p>Topics can be conveniently created from Strings and Enums in your
+application. The <code>Topic</code> interface is designed to be drop-in for
+any enum class. As well, a special <code>QuickTopics</code> class is
+included in the core Log Machine module, containing some common
+appliation concepts, like CRUD operations, <code>User</code>, <code>File</code>,
+<code>Database</code>, etc.</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+<span class="n">log</span><span class="o">.</span><span class="na">fromHere</span><span class="o">()</span>
+   <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">Postgres</span><span class="o">,</span> <span class="n">Users</span><span class="o">,</span> <span class="n">Create</span><span class="o">)</span>
+   <span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&quot;Created a new user with id &#39;{@ id}&#39;.&quot;</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="methods">
+  <h3>
+    <a href="#methods" name="methods" class="pilcrow">&#182;</a>
+    Methods
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-30" id="section-30">&#182;</a>
+</div>
+<p>Sets the topics for the log event, which can be any thing you like. Strings,
+and Enums are the most likely sources of topics, stored within your
+application.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">Topic</span><span class="o">...</span><span class="na">topics</span><span class="o">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-31" id="section-31">&#182;</a>
+</div>
+<p>Access the event topics by the position number,
+where the first argument is <code>{~ 1}</code>.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="n">log</span><span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">User</span><span class="o">,</span> <span class="n">Postgres</span><span class="o">,</span> <span class="n">Create</span><span class="o">)</span>
+   <span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&quot;new user with id {@ id} stored to {~ 2}&quot;</span><span class="o">,</span> <span class="n">userID</span><span class="o">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-32" id="section-32">&#182;</a>
+</div>
+<p>Subscribe a <code>LoggingComponent</code> to one or more <code>Topic</code>'s by using the
+<code>TopicBroker</code> singleton class.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="n">TopicBroker</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">component</span><span class="o">,</span> <span class="n">TopicOne</span><span class="o">,</span> <span class="n">TopicTwo</span><span class="o">);</span>
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="implementations">
+  <h2>
+    <a href="#implementations" name="implementations" class="pilcrow">&#182;</a>
+    Implementations
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>Several modules are available to connect the Log Machine API to
+an underlying logging implementation. (And adding new connectors
+for your favorite library is easy!)</p>
+
+<ul>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-log4j">Log4j</a></li>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-logback">Logback</a></li>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-slf4j">SLF4J</a></li>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-jdk14">JDK-1.4</a></li>
+</ul>
+
+
+<div class="pilwrap" id="logstash%20%2F%20elasticsearch%20%2F%20kibana">
+  <h3>
+    <a href="#logstash%20%2F%20elasticsearch%20%2F%20kibana" name="logstash%20%2F%20elasticsearch%20%2F%20kibana" class="pilcrow">&#182;</a>
+    Logstash / ElasticSearch / Kibana
+  </h3>
+</div>
+
+
+<p>One great way to interact with your log data is to index it with
+a search index, like ElasticSearch. A common workflow might be:</p>
+
+<ol>
+<li>write log events in plaintext to a file</li>
+<li>use a logstash process to parse the file and index it to ElasticSearch</li>
+<li>use Kibana to visualize and query the search index</li>
+</ol>
+
+<p>This seems a bit roundabout. We just spent all that time decorating
+our log event with lots of good data, just to have it turned into
+a string, and then (to add insult to injury) parsed back in a
+haphazard, coupled way, before finally being indexed?</p>
+
+<p>Instead, LogMachine proposes this alternative:</p>
+
+<ol>
+<li>log directly to ElasticSearch in LogStash format</li>
+<li>use Kibana to visualize and query the search index</li>
+</ol>
+
+<p>Most applications can do this, as the volume to be indexed won't
+overwhelm the ES cluster. However in scaled out architectures you
+could still log to a file, just use the formatter which prints
+JSON in the proper format, and then reads it back in later.</p>
+
+
+<div class="pilwrap" id="components">
+  <h4>
+    <a href="#components" name="components" class="pilcrow">&#182;</a>
+    Components
+  </h4>
+</div>
+
+
+<ul>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-to-elasticsearch">lm-to-elasticsearch</a> &ndash; appender for writing to ElasticSearch in Logstash format</li>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-elasticsearch-sqs-loader">lm-elasticsearch-sqs-loader</a> &ndash; reads from SQS and indexes to ElasticSearch</li>
+</ul>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="amazon%20sqs">
+  <h3>
+    <a href="#amazon%20sqs" name="amazon%20sqs" class="pilcrow">&#182;</a>
+    Amazon SQS
+  </h3>
+</div>
+
+  </div>
+  <div class="body"><p>The SQS component provides an appender which writes log events to
+an Amazon SQS queue. SQS is cheap, high throughput, and can be
+useful when you need a buffer between your application and your
+log visualizer.</p>
+
+<p>In combination with the ElasticSearch components, it is possible to
+write log events to an SQS queue in Logstash JSON format and then
+later read and index them into your search cluster.</p>
+
+
+<div class="pilwrap" id="components">
+  <h4>
+    <a href="#components" name="components" class="pilcrow">&#182;</a>
+    Components
+  </h4>
+</div>
+
+
+<ul>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-to-sqs">lm-to-sqs</a> &ndash; appender for writing to SQS</li>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-elasticsearch-sqs-loader">lm-elasticsearch-sqs-loader</a> &ndash; reads from SQS and indexes to ElasticSearch</li>
+</ul>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="thanks!">
+  <h2>
+    <a href="#thanks!" name="thanks!" class="pilcrow">&#182;</a>
+    Thanks!
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>Visit the project page <a href="https://github.com/UnquietCode/LogMachine">on GitHub</a>
+for more information.</p>
+
+<p><a href="https://github.com/UnquietCode/LogMachine"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a></p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
 </html>
