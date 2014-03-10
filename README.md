@@ -11,9 +11,9 @@ Check out some of [the tests](https://github.com/UnquietCode/LogMachine/blob/mas
 ### Implementations
 The following connectors are available for integrating with existing logging frameworks.
 
-	* [Log4j](#link)
-	* [Logback](#link)
-	* [SLF4J](#link)
-	* [JDK-1.4](#link)
+	* [Log4j](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-log4j)
+	* [Logback](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-logback)
+	* [SLF4J](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-slf4j)
+	* [JDK-1.4](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-jdk14)
 
 More to come...

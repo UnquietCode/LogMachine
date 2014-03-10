@@ -267,19 +267,11 @@ TopicBroker.subscribe(component, TopicOne, TopicTwo);
  * ## Implementations
  * Available.
  *
- * ### Log4j
- * Yep.
- * 
- * ### Logstash
- * Yep.
- * 
- * ### SLF4J
- * Yep.
+ * + [Log4j](#what)
+ * + [Logstash](#what)
+ * + [SLF4J](#what)
+ * + [JDK-1.4](#what)
  *
- * ### JDK-1.4
- * Yep.
- * 
- * 
  *
  * ### LogStash / ElasticSearch / Kibana
  *
