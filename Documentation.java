@@ -19,7 +19,6 @@
  * metrics.
  */
 
-
 /**
  * ## API
  *
@@ -137,7 +136,7 @@ log.to(REDIS, USER)
 log.info().with("action", "send_email")
    .send("User '{@ user}' was not found.", currentUser());
 
-
+// ### Methods
 
 // Checks the boolean first, and if it is `null` or `false` then
 // the logging will not proceed.
@@ -170,6 +169,8 @@ log.when(true).trace()
  * an inline assignment in the message string (more on that soon).
  */
 
+// ### Methods
+
 // Adds a data point to the log event.
 .with(String name, Number value)
 .with(String name, String value)
@@ -187,6 +188,8 @@ log.when(true).trace()
  * to the arguments array is still supported, with the addition
  * of a few new features.
  */
+
+// ### Syntax
 
 // Access the event arguments array, where the
 // first instance of `{}` is the 0th element, the
@@ -218,35 +221,37 @@ log.info("created a new user with id {2}", userName, userID);
 /**
  * ## Topic-Based Logging
  *
- * Topics provide an alternative way to organize your logging statements,
- * instead of the usual package hierachy. In a sense, it decouples your
- * package naming from your logging configuration, allowing you to
- * configure appenders and levels for a set of topics instead packages.
+ * Topics provide an alternative way to organize and filter your logging
+ * statements, instead of the usual package hierachy. In a sense, it
+ * decouples your package naming from your logging configuration, allowing
+ * you to configure appenders and levels for a set of topics instead packages.
  *
- * If that was a mouthful, here's an example: Let's say I'm creating a
+ * Here's an example: Let's say I'm creating a
  * new user in my database, which is PostgreSQL. When I'm going through
  * the log data sometime later, maybe to troubleshoot a bug, I want to
- * query for when some user with id `50` was created. I could search for
- * words like 'user' 'created' '50', and on. That tends to make for
- * noisy, imprecise results.
+ * query for when the user with id `50` was created. I could search for
+ * words like 'user', 'created', '50', and so on. 
  *
- * Instead, using topics I can query for only those events whose
- * topics include `Postgres`, `Users`, and `Create`, three predefined
- * constants in my appliction.
+ * That tends to make for noisy, imprecise results. Instead, using topics
+ * I can query for only those events whose topics include `Postgres`,
+ * `Users`, and `Create`, three predefined constants in my appliction.
+ * I could even set up a log file dedicated to tracking only events
+ * in these categories.
  *
  * Topics can be conveniently created from Strings and Enums in your
  * application. The `Topic` interface is designed to be drop-in for
- * any enum class.
- *
- * A special `QuickTopics` class is included with LogMachine, containing
- * some common concepts, like CRUD operations, `User`, `File`, `Database`,
- * etc.
+ * any enum class. As well, a special `QuickTopics` class is
+ * included in the core Log Machine module, containing some common
+ * appliation concepts, like CRUD operations, `User`, `File`,
+ * `Database`, etc.
  */
 
 log.fromHere()
    .to(Postgres, Users, Create)
    .info("Created a new user with id '{@ id}'.", user.getId());
 
+
+// ### Methods
 
 // Sets the topics for the log event, which can be any thing you like. Strings,
 // and Enums are the most likely sources of topics, stored within your
@@ -265,15 +270,18 @@ TopicBroker.subscribe(component, TopicOne, TopicTwo);
 
 /**
  * ## Implementations
- * Available.
  *
- * + [Log4j](#what)
- * + [Logstash](#what)
- * + [SLF4J](#what)
- * + [JDK-1.4](#what)
+ * Several modules are available to connect the Log Machine API to
+ * an underlying logging implementation. (And adding new connectors
+ * for your favorite library is easy!)
+ *
+ * + [Log4j](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-log4j)
+ * + [Logback](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-logback)
+ * + [SLF4J](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-slf4j)
+ * + [JDK-1.4](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-jdk14)
  *
  *
- * ### LogStash / ElasticSearch / Kibana
+ * ### Logstash / ElasticSearch / Kibana
  *
  * One great way to interact with your log data is to index it with
  * a search index, like ElasticSearch. A common workflow might be:
@@ -298,8 +306,8 @@ TopicBroker.subscribe(component, TopicOne, TopicTwo);
  * JSON in the proper format, and then reads it back in later.
  *
  * #### Components
- * + [lm-to-elasticsearch](#url) &ndash; appender for writing to ElasticSearch in Logstash format
- * + [lm-elasticsearch-sqs-loader](#url) &ndash; reads from SQS and indexes to ElasticSearch
+ * + [lm-to-elasticsearch](https://github.com/UnquietCode/LogMachine/tree/master/lm-to-elasticsearch) &ndash; appender for writing to ElasticSearch in Logstash format
+ * + [lm-elasticsearch-sqs-loader](https://github.com/UnquietCode/LogMachine/tree/master/lm-elasticsearch-sqs-loader) &ndash; reads from SQS and indexes to ElasticSearch
  */
 
 /*
@@ -315,12 +323,15 @@ TopicBroker.subscribe(component, TopicOne, TopicTwo);
  * later read and index them into your search cluster.
  *
  * #### Components
- * + [lm-to-sqs](#url) &ndash; appender for writing to SQS
- * + [lm-elasticsearch-sqs-loader](#url) &ndash; reads from SQS and indexes to ElasticSearch
+ * + [lm-to-sqs](https://github.com/UnquietCode/LogMachine/tree/master/lm-to-sqs) &ndash; appender for writing to SQS
+ * + [lm-elasticsearch-sqs-loader](https://github.com/UnquietCode/LogMachine/tree/master/lm-elasticsearch-sqs-loader) &ndash; reads from SQS and indexes to ElasticSearch
  */
 
 /**
  * ## Thanks!
+ *
  * Visit the project page [on GitHub](https://github.com/UnquietCode/LogMachine)
  * for more information.
+ * 
+ * <a href="https://github.com/UnquietCode/LogMachine"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
  */
