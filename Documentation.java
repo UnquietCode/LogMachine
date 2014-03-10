@@ -2,17 +2,21 @@
 // ### _I'm just a log machine!_
 
 /**
- * Log Machine is **not** a logging framework. It is a wrapper or 'façade'
+ * Log Machine is **not** a logging framework, it is a wrapper or 'façade'
  * around existing frameworks, such as Log4j, Commons Logging, Logback, etc.
  * It will also wrap around the existing SLF4J logging façade.
  *
  * LM provides a clean, simple way to log events in your
  * Java applications. The status quo is robust under the hood, but somewhat
- * klunky and hard to maintain on the surface.
+ * klunky and hard to maintain on the surface. Logging is code, and code is
+ * data, so by enhancing the logging statements we can generate better
+ * quality data.
  *
- * Attempts to blur the lines between logging and analytics. They thend to
- * do the same thing but for different masters (diagnostics versus metrics).
- * By providing finer targeting of events
+ * Another goal is to attempt to blur the lines between logging and analytics. They
+ * tend to occupy the same space, doing the same thing but for different masters
+ * (diagnostics versus metrics). By providing finer targeting of events, with
+ * richer metadata, logging becomes a more useful tool for capturing application
+ * metrics.
  */
 
 
@@ -25,9 +29,10 @@
  * done is to replace the `Logger` declaration with the `LogMachine` implementation to start
  * enhancing your logging statements.
  */
+
 log.to(REDIS, USER)
-		.because(ex)
-		.info("User {@ id} disconnected.", userID);
+   .because(ex)
+   .info("User {@ id} disconnected.", userID);
 
 
 /**
@@ -99,19 +104,13 @@ log.to(REDIS, USER)
 // find in a stack trace.
 .fromHere()
 
-// Adds a data point to the log event. The value can be used in
-// log messagse via the '{:name}' notation.
-.with(String name, Number value)
-.with(String name, String value)
-
 
 /**
- * ### Conditional Logging
+ * ## Conditional Logging
  *
- * Sometimes you don't want messages to even be processed if the
- * log level is too low or some other condition is not met. In
- * most systems, you would wrap the log statement in an if block,
- * like so:
+ * Sometimes you don't want messages to be processed if the
+ * log level is too low or some other condition is not met.
+ * This is pretty easy to do by using an `if` block, like so:
  *
  * ```java
  * if (log.isDebugEnabled()) {
@@ -119,23 +118,20 @@ log.to(REDIS, USER)
  * }
  * ```
  *
- * Mainly this technique suffers from verbosity and ugliness. Most
- * log frameworks now allow you to pass in a template message and
- * will generate the actual string later only if the log level is
- * appropriate.
+ * Mainly this technique suffers from verbosity. Most log
+ * frameworks now allow you to pass in a template message and
+ * will generate the actual string value of arguments later
+ * only if the log level is appropriate.
  *
- * LogMachine goes one step further. When a condition is not met,
- * the returned object will be a NO-OP proxy instance. This means
+ * Log Machine goes one step further. When a condition is not met,
+ * the returned object will be a dummy proxy instance. This means
  * that every command you execute will be ignored. This has the
- * convenience of being clean, and fast. Your code can carry on
- * without caring about a thing! I also have good reason to suspect
- * that the JVM is optimizing these even further (more data is
- * needed to be certain).
+ * convenience of being clean, and fast.
  *
- * These calls have to be made up front, and so a special `$LEVEL$()`
+ * These calls have to be made up front, and so a `$Level()`
  * method is available for each level in order to support
- * conditional logging. At the end of the chain you would call `send()`
- * to complete the logging.
+ * conditional logging. At the end of the chain you call
+ * `send()` to complete the logging.
  */
 
 log.info().with("action", "send_email")
@@ -165,13 +161,31 @@ log.when(true).trace()
 /**
  * ## Event Data
  *
- * Every log even has data.
+ * A log event is often rich with data, but we usually settle for
+ * turning all of this data into a flattened string. Log Machine
+ * stores metadata along with the log messge, so that a detailed
+ * data structure can be assembled later which describes the event.
+ * 
+ * Data can be assigned using the `with(...)` method, or though
+ * an inline assignment in the message string (more on that soon).
  */
+
+// Adds a data point to the log event.
+.with(String name, Number value)
+.with(String name, String value)
 
 /**
  * ## Message Formatting
  *
- * Access event data, topics, ordered list of inputs, assignments, etc.
+ * A special formatting syntax allows data to be both read and
+ * written via the message string associated with each log event.
+ * When a pair of unescaped brackets `{}` is detected, the
+ * contents are evaluated using the formatting rules.
+ * 
+ * For users of SLF4J, this syntax should be at least partially
+ * familiar. That style of replacement where `{}` is a shortcut
+ * to the arguments array is still supported, with the addition
+ * of a few new features.
  */
 
 // Access the event arguments array, where the
@@ -219,6 +233,14 @@ log.info("created a new user with id {2}", userName, userID);
  * Instead, using topics I can query for only those events whose
  * topics include `Postgres`, `Users`, and `Create`, three predefined
  * constants in my appliction.
+ *
+ * Topics can be conveniently created from Strings and Enums in your
+ * application. The `Topic` interface is designed to be drop-in for
+ * any enum class.
+ *
+ * A special `QuickTopics` class is included with LogMachine, containing
+ * some common concepts, like CRUD operations, `User`, `File`, `Database`,
+ * etc.
  */
 
 log.fromHere()
@@ -236,12 +258,30 @@ log.fromHere()
 log.to(User, Postgres, Create)
    .info("new user with id {@ id} stored to {~ 2}", userID);
 
-// Subscribe a `LoggingComponent` to one or more `Topic`'s.
+// Subscribe a `LoggingComponent` to one or more `Topic`'s by using the
+// `TopicBroker` singleton class.
 TopicBroker.subscribe(component, TopicOne, TopicTwo);
 
 
 /**
- * ## LogStash / ElasticSearch / Kibana
+ * ## Implementations
+ * Available.
+ *
+ * ### Log4j
+ * Yep.
+ * 
+ * ### Logstash
+ * Yep.
+ * 
+ * ### SLF4J
+ * Yep.
+ *
+ * ### JDK-1.4
+ * Yep.
+ * 
+ * 
+ *
+ * ### LogStash / ElasticSearch / Kibana
  *
  * One great way to interact with your log data is to index it with
  * a search index, like ElasticSearch. A common workflow might be:
@@ -257,25 +297,38 @@ TopicBroker.subscribe(component, TopicOne, TopicTwo);
  *
  * Instead, LogMachine proposes this alternative:
  *
- * 0. add lots of metadata to the log event
- * 0. log it directly to ElasticSearch in LogStash format
+ * 0. log directly to ElasticSearch in LogStash format
+ * 0. use Kibana to visualize and query the search index
  *
  * Most applications can do this, as the volume to be indexed won't
  * overwhelm the ES cluster. However in scaled out architectures you
  * could still log to a file, just use the formatter which prints
  * JSON in the proper format, and then reads it back in later.
  *
- *
+ * #### Components
+ * + [lm-to-elasticsearch](#url) &ndash; appender for writing to ElasticSearch in Logstash format
+ * + [lm-elasticsearch-sqs-loader](#url) &ndash; reads from SQS and indexes to ElasticSearch
  */
 
 /*
- * ## Amazon SQS Queue
+ * ### Amazon SQS
  *
- * Yep.
+ * The SQS component provides an appender which writes log events to
+ * an Amazon SQS queue. SQS is cheap, high throughput, and can be
+ * useful when you need a buffer between your application and your
+ * log visualizer.
+ * 
+ * In combination with the ElasticSearch components, it is possible to
+ * write log events to an SQS queue in Logstash JSON format and then
+ * later read and index them into your search cluster.
+ *
+ * #### Components
+ * + [lm-to-sqs](#url) &ndash; appender for writing to SQS
+ * + [lm-elasticsearch-sqs-loader](#url) &ndash; reads from SQS and indexes to ElasticSearch
  */
 
 /**
  * ## Thanks!
- * Visit the project [on GitHub](https://github.com/UnquietCode/Flapi)
+ * Visit the project page [on GitHub](https://github.com/UnquietCode/LogMachine)
  * for more information.
  */
