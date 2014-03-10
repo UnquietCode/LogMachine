@@ -807,7 +807,8 @@ haphazard, coupled way, before finally being indexed?</p>
 <p>Most applications can do this, as the volume to be indexed won't
 overwhelm the ES cluster. However in scaled out architectures you
 could still log to a file, just use the formatter which prints
-JSON in the proper format, and then reads it back in later.</p>
+JSON in the proper format, and then reads it back in later. Or,
+the SQS component (below) can be used to store messages in a queue.</p>
 
 
 <div class="pilwrap" id="components">
