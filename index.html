@@ -113,7 +113,7 @@
 around existing frameworks, such as Log4j, Commons Logging, Logback, etc.
 It will also wrap around the existing SLF4J logging façade.</p>
   </div>
-  <div class="body"><p>LM provides a clean, simple way to log events in your
+  <div class="body"><p>LM provides a clean and simple way to log events in your
 Java applications. The status quo is robust under the hood, but somewhat
 klunky and hard to maintain on the surface. Logging is code, and code is
 data, so by enhancing the logging statements we can generate better
@@ -147,14 +147,14 @@ metrics.</p>
   <div class="body"><p>The LogMachine fluent API provides the standard level-based <code>trace</code> &#8594; <code>error</code>
 style of logging, while supporting several other features such as topic-based logging.
 The API has been made compatible with SLF4J, so migration is a snap. All that must be
-done is to replace the <code>Logger</code> declaration with the <code>LogMachine</code> implementation to start
+done is to replace the <code>Logger</code> declaration with a <code>LogMachine</code> implementation to start
 enhancing your logging statements.</p>
   </div>
 </div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 
-<span class="n">log</span><span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">REDIS</span><span class="o">,</span> <span class="n">USER</span><span class="o">)</span>
+<span class="n">log</span><span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">Redis</span><span class="o">,</span> <span class="n">User</span><span class="o">)</span>
    <span class="o">.</span><span class="na">because</span><span class="o">(</span><span class="n">ex</span><span class="o">)</span>
    <span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&quot;User {@ id} disconnected.&quot;</span><span class="o">,</span> <span class="n">userID</span><span class="o">);</span>
 
@@ -174,8 +174,8 @@ enhancing your logging statements.</p>
 </div>
 
   </div>
-  <div class="body"><p>The basic log methods are what you would expect to find in the existing
-frameworks, namely the level-based logging.</p>
+  <div class="body"><p>The basic logging methods are what you might expect to find in any
+of the existing frameworks, namely the level-based logging.</p>
   </div>
 </div>
         </td>
@@ -190,7 +190,8 @@ frameworks, namely the level-based logging.</p>
 <div class="pilwrap">
   <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
 </div>
-<p>Log an event.</p>
+<p>Log an event. If the current log level is too low, then no action
+will be taken.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span>
@@ -226,10 +227,14 @@ frameworks, namely the level-based logging.</p>
 <div class="pilwrap">
   <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
 </div>
-<p>Log an event, with extra data. The data can be accessed in order by
-using '{}' notation in your log message. This is similar to what the
-SLF4J/Logback API provides. If the last object in the varargs list is
-a <code>Throwable</code>, then it is used as the exception for the log event.</p>
+<p>Log an event, with a templated message. The arguments can be accessed
+in order by using '{}' notation in your log message. This is similar
+to what the SLF4J/Logback API provides. If the last object in the varargs list is
+a <code>Throwable</code>, then it is used as the exception for the log event
+instead of a message replacement.</p>
+
+<p>See the <a href="#message%20formatting">Message Formatting</a> section below for more
+information on that feature.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Object</span><span class="o">...</span><span class="na">data</span><span class="o">)</span>
@@ -292,8 +297,8 @@ of the above statements.</p>
 
   </div>
   <div class="body"><p>LogMachine adds a few tricks to the basic repertoire of logging
-abilities. The methods form a fluent chain, ending with the
-actual logging statement.</p>
+capabilities. These and the other methods form a fluent chain,
+decorating the final logging statemtent with additional information.</p>
   </div>
 </div>
         </td>
@@ -324,25 +329,13 @@ actual logging statement.</p>
   <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
 </div>
 <p>Sets the location for the log event, which could be a method name,
-class name, or some other logical identifier.</p>
+class name, or some other logical identifier. The event location
+is initialized to the current 'class#method:line'. Calling this
+method will replace that data. If <code>null</code> is used then the
+location information is removed.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">String</span> <span class="n">location</span><span class="o">)</span>
-
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
-</div>
-<p>Sets the location to the current method/class/line as one would
-find in a stack trace.</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="o">.</span><span class="na">fromHere</span><span class="o">()</span>
 
 
 
@@ -417,7 +410,7 @@ conditional logging. At the end of the chain you call
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
 </div>
 <p>Checks the boolean first, and if it is <code>null</code> or <code>false</code> then
 the logging will not proceed.</p>
@@ -432,7 +425,7 @@ the logging will not proceed.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
+  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
 </div>
 <p>Conditionally log if the level is right. Must be completed with
 a call to <code>send()</code>.</p>
@@ -451,7 +444,7 @@ a call to <code>send()</code>.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
 </div>
 <p>Note that these two can also be combined.</p>
         </td>
@@ -512,7 +505,7 @@ an inline assignment in the message string (more on that soon).</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
+  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
 </div>
 <p>Adds a data point to the log event.</p>
         </td>
@@ -572,7 +565,7 @@ of a few new features.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-24" id="section-24">&#182;</a>
+  <a class="pilcrow" href="#section-23" id="section-23">&#182;</a>
 </div>
 <p>Access the event arguments array, where the
 first instance of <code>{}</code> is the 0th element, the
@@ -591,7 +584,7 @@ and is not included in the argument array.)</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-25" id="section-25">&#182;</a>
+  <a class="pilcrow" href="#section-24" id="section-24">&#182;</a>
 </div>
 <p>Access event data by name.</p>
         </td>
@@ -606,7 +599,7 @@ and is not included in the argument array.)</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-26" id="section-26">&#182;</a>
+  <a class="pilcrow" href="#section-25" id="section-25">&#182;</a>
 </div>
 <p>Set new event data under the given name,
 where the first <code>@</code>ssignment maps to the first
@@ -623,7 +616,7 @@ argument, etc., and printing them  in the process.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-27" id="section-27">&#182;</a>
+  <a class="pilcrow" href="#section-26" id="section-26">&#182;</a>
 </div>
 <p>Access the event arguments array by the
 position number, where the first argument is <code>1</code>.
@@ -679,8 +672,7 @@ appliation concepts, like CRUD operations, <code>User</code>, <code>File</code>,
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 
-<span class="n">log</span><span class="o">.</span><span class="na">fromHere</span><span class="o">()</span>
-   <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">Postgres</span><span class="o">,</span> <span class="n">Users</span><span class="o">,</span> <span class="n">Create</span><span class="o">)</span>
+<span class="n">log</span><span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">Postgres</span><span class="o">,</span> <span class="n">Users</span><span class="o">,</span> <span class="n">Create</span><span class="o">)</span>
    <span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&quot;Created a new user with id &#39;{@ id}&#39;.&quot;</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
 
 
@@ -707,7 +699,7 @@ appliation concepts, like CRUD operations, <code>User</code>, <code>File</code>,
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-30" id="section-30">&#182;</a>
+  <a class="pilcrow" href="#section-29" id="section-29">&#182;</a>
 </div>
 <p>Sets the topics for the log event, which can be any thing you like. Strings,
 and Enums are the most likely sources of topics, stored within your
@@ -723,7 +715,7 @@ application.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-31" id="section-31">&#182;</a>
+  <a class="pilcrow" href="#section-30" id="section-30">&#182;</a>
 </div>
 <p>Access the event topics by the position number,
 where the first argument is <code>{~ 1}</code>.</p>
@@ -739,7 +731,7 @@ where the first argument is <code>{~ 1}</code>.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-32" id="section-32">&#182;</a>
+  <a class="pilcrow" href="#section-31" id="section-31">&#182;</a>
 </div>
 <p>Subscribe a <code>LoggingComponent</code> to one or more <code>Topic</code>'s by using the
 <code>TopicBroker</code> singleton class.</p>
