@@ -33,7 +33,27 @@ public class JDKHandler implements LogHandler<Logger> {
 
 	@Override
 	public unquietcode.tools.logmachine.core.Level getLevel(Logger logger) {
-		return JDKLevelTranslator.$.toLogMachine(logger.getLevel());
+		Logger effectiveLogger = logger;
+		Level effectiveLevel = null;
+
+		// check parent loggers
+		while (effectiveLogger != null) {
+			Level level = logger.getLevel();
+
+			if (level != null) {
+				effectiveLevel = level;
+				break;
+			}
+
+			effectiveLogger = effectiveLogger.getParent();
+		}
+
+		// meh, just set a default
+		if (effectiveLevel == null) {
+			effectiveLevel = Level.ALL;
+		}
+
+		return JDKLevelTranslator.$.toLogMachine(effectiveLevel);
 	}
 
 	@Override
