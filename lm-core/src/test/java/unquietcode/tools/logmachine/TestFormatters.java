@@ -33,7 +33,7 @@ public class TestFormatters extends AbstractLoggerTest {
 		log.debug("hi");
 		LogEvent event = getSingleEvent();
 		StringBuilder result = shortFMT.format(event);
-		assertEquals("[DEBUG] (TestFormatters#testShortFormat_1:34) - hi", result.toString());
+		assertEquals("[DEBUG] (TestFormatters#testShortFormat_1:33) - hi", result.toString());
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class TestFormatters extends AbstractLoggerTest {
 		log.to(TestTopics.One, TestTopics.Three).debug("hi");
 		LogEvent event = getSingleEvent();
 		StringBuilder result = shortFMT.format(event);
-		assertEquals("[DEBUG] [One | Three] (TestFormatters#testShortFormat_2:42) - hi", result.toString());
+		assertEquals("[DEBUG] [One | Three] (TestFormatters#testShortFormat_2:41) - hi", result.toString());
 	}
 
 	@Test
