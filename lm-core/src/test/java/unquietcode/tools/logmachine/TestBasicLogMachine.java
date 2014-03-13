@@ -237,4 +237,9 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		assertTrue("3" == event.getData().get("three"));
 		assertTrue(test == event.getData().get("four"));
 	}
+
+	@Test
+	public void testThatNullIsAllowedForLocationData() {
+		log.from(null).info("blah");
+	}
 }

@@ -6,7 +6,7 @@
  * around existing frameworks, such as Log4j, Commons Logging, Logback, etc.
  * It will also wrap around the existing SLF4J logging façade.
  *
- * LM provides a clean, simple way to log events in your
+ * LM provides a clean and simple way to log events in your
  * Java applications. The status quo is robust under the hood, but somewhat
  * klunky and hard to maintain on the surface. Logging is code, and code is
  * data, so by enhancing the logging statements we can generate better
@@ -25,11 +25,11 @@
  * The LogMachine fluent API provides the standard level-based `trace` &#8594; `error`
  * style of logging, while supporting several other features such as topic-based logging.
  * The API has been made compatible with SLF4J, so migration is a snap. All that must be
- * done is to replace the `Logger` declaration with the `LogMachine` implementation to start
+ * done is to replace the `Logger` declaration with a `LogMachine` implementation to start
  * enhancing your logging statements.
  */
 
-log.to(REDIS, USER)
+log.to(Redis, User)
    .because(ex)
    .info("User {@ id} disconnected.", userID);
 
@@ -37,11 +37,12 @@ log.to(REDIS, USER)
 /**
  * ### Basic Methods
  *
- * The basic log methods are what you would expect to find in the existing
- * frameworks, namely the level-based logging.
+ * The basic logging methods are what you might expect to find in any
+ * of the existing frameworks, namely the level-based logging.
  */
 
-// Log an event.
+// Log an event. If the current log level is too low, then no action
+// will be taken.
 .error(String message)
 .warn(String message)
 .info(String message)
@@ -55,10 +56,14 @@ log.to(REDIS, USER)
 .debug(String message, Throwable exception)
 .trace(String message, Throwable exception)
 
-// Log an event, with extra data. The data can be accessed in order by
-// using '{}' notation in your log message. This is similar to what the
-// SLF4J/Logback API provides. If the last object in the varargs list is
-// a `Throwable`, then it is used as the exception for the log event.
+// Log an event, with a templated message. The arguments can be accessed
+// in order by using '{}' notation in your log message. This is similar
+// to what the SLF4J/Logback API provides. If the last object in the varargs list is
+// a `Throwable`, then it is used as the exception for the log event
+// instead of a message replacement.
+//
+// See the [Message Formatting](#message%20formatting) section below for more
+// information on that feature.
 .error(String message, Object...data)
 .warn(String message, Object...data)
 .info(String message, Object...data)
@@ -85,10 +90,8 @@ log.to(REDIS, USER)
  * ### Additional Methods
  *
  * LogMachine adds a few tricks to the basic repertoire of logging
- * abilities. The methods form a fluent chain, ending with the
- * actual logging statement.
- *
- *
+ * capabilities. These and the other methods form a fluent chain,
+ * decorating the final logging statemtent with additional information.
  */
 
 // Sets the exception for the event.
@@ -96,12 +99,11 @@ log.to(REDIS, USER)
 
 
 // Sets the location for the log event, which could be a method name,
-// class name, or some other logical identifier.
+// class name, or some other logical identifier. The event location
+// is initialized to the current 'class#method:line'. Calling this
+// method will replace that data. If `null` is used then the
+// location information is removed.
 .from(String location)
-
-// Sets the location to the current method/class/line as one would
-// find in a stack trace.
-.fromHere()
 
 
 /**
@@ -246,8 +248,7 @@ log.info("created a new user with id {2}", userName, userID);
  * `Database`, etc.
  */
 
-log.fromHere()
-   .to(Postgres, Users, Create)
+log.to(Postgres, Users, Create)
    .info("Created a new user with id '{@ id}'.", user.getId());
 
 
@@ -303,7 +304,8 @@ TopicBroker.subscribe(component, TopicOne, TopicTwo);
  * Most applications can do this, as the volume to be indexed won't
  * overwhelm the ES cluster. However in scaled out architectures you
  * could still log to a file, just use the formatter which prints
- * JSON in the proper format, and then reads it back in later.
+ * JSON in the proper format, and then reads it back in later. Or,
+ * the SQS component (below) can be used to store messages in a queue.
  *
  * #### Components
  * + [lm-to-elasticsearch](https://github.com/UnquietCode/LogMachine/tree/master/lm-to-elasticsearch) &ndash; appender for writing to ElasticSearch in Logstash format

@@ -44,6 +44,13 @@ public class TestFormatters extends AbstractLoggerTest {
 		assertEquals("[DEBUG] [One | Three] (TestFormatters#testShortFormat_2:42) - hi", result.toString());
 	}
 
+	@Test
+	public void testShortFormat_without_location() {
+		log.from(null).info("blah");
+		StringBuilder result = shortFMT.format(getSingleEvent());
+		assertEquals("[INFO] - blah", result.toString());
+	}
+
 	private enum TestTopics implements Topic {
 		One, Two, Three
 	}
