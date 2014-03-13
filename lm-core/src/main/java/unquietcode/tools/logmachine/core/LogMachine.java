@@ -1,10 +1,10 @@
 package unquietcode.tools.logmachine.core;
 
 
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2from_4f_2info_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
 import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f;
-import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2from_4f_2to_4f_2with_4f_2with_1A_4f;
+import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
 import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
 import unquietcode.tools.logmachine.core.topics.Topic;
 
@@ -238,7 +238,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	 * @see LogMachineBuilders#because(Throwable)
 	 */
 	@Override
-	public GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
+	public GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
 		because(Throwable cause)
 	{
 		return genericBuilder().because(cause);
@@ -257,21 +257,10 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 
 	/**
 	 * {@inheritDoc}
-	 * @see LogMachineBuilders#fromHere()
-	 */
-	@Override
-	public GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
-		fromHere()
-	{
-		return genericBuilder().fromHere();
-	}
-
-	/**
-	 * {@inheritDoc}
 	 * @see LogMachineBuilders#to(Topic...)
 	 */
 	@Override
-	public GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2from_4f_2fromHere_4f_2info_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
+	public GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2from_4f_2info_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f<Void>
 		to(Topic... topics)
 	{
 		return genericBuilder().to(topics);
@@ -282,7 +271,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	 * @see LogMachineBuilders#with(String, String)
 	 */
 	@Override
-	public GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f<Void>
+	public GenericLogMachineBuilder_2because_4f_2from_4f_2to_4f_2with_4f_2with_1A_4f<Void>
 		with(String key, String value)
 	{
 		return genericBuilder().with(key, value);
@@ -293,7 +282,7 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 	 * @see LogMachineBuilders#with(String, Number)
 	 */
 	@Override
-	public GenericLogMachineBuilder_2because_4f_2from_4f_2fromHere_4f_2to_4f_2with_4f_2with_1A_4f<Void>
+	public GenericLogMachineBuilder_2because_4f_2from_4f_2to_4f_2with_4f_2with_1A_4f<Void>
 		with(String key, Number value)
 	{
 		return genericBuilder().with(key, value);

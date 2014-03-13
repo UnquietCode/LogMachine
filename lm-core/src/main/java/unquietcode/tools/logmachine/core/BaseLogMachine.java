@@ -39,6 +39,13 @@ public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 	}
 
 	public void _log(LogEvent event) {
+		final Level eventLevel = checkNotNull(event.getLevel());
+		final Level loggerLevel = checkNotNull(handler.getLevel(logger));
+
+		// skip if under level
+		if (loggerLevel.isCoarserThan(eventLevel)) {
+			return;
+		}
 
 		// add default topics, if any
 		event.getTopics().addAll(defaultTopics);
@@ -93,12 +100,12 @@ public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 
 	protected GenericLogMachineBuilder.Start genericBuilder() {
 		GenericHelperImpl helper = new GenericHelperImpl(this);
-		return GenericLogMachineGenerator.start(helper, helper.methodListener);
+		return GenericLogMachineGenerator.start(helper);
 	}
 
 	protected SpecificLogMachineBuilder.Start specificBuilder(Level level) {
 		SpecificHelperImpl helper = new SpecificHelperImpl(this, level);
-		return SpecificLogMachineGenerator.start(helper, helper.methodListener);
+		return SpecificLogMachineGenerator.start(helper);
 	}
 
 	@Override

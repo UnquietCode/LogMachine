@@ -1,12 +1,14 @@
 package unquietcode.tools.logmachine;
 
 import org.junit.Test;
+import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.appenders.PersistentLogAppender;
 import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.core.topics.TopicLogMachine;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
+import unquietcode.tools.logmachine.impl.simple.SimpleLogger;
 import unquietcode.tools.logmachine.test.AbstractLoggerTest;
 
 import java.net.URI;
@@ -37,7 +39,10 @@ public class TestEventMetadata extends AbstractLoggerTest {
 
 	@Override
 	public LogMachine getLogMachine() {
-		return new SimpleLogMachine(TestEventMetadata.class);
+		SimpleLogger logger = SimpleLogger.getLogger(TestEventMetadata.class);
+		logger.setLevel(Level.DEBUG);
+
+		return new SimpleLogMachine(logger);
 	}
 
 	@Test
@@ -124,7 +129,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		LogEvent event = getSingleEvent();
 		assertEquals(uri, event.getData().get("uri"));
 
-		final String name = TestEventMetadata.class.getSimpleName()+"#getURI:"+135;
+		final String name = TestEventMetadata.class.getSimpleName()+"#getURI:"+140;
 		assertTrue(event.getLocation().contains(name));
 	}
 
@@ -132,8 +137,7 @@ public class TestEventMetadata extends AbstractLoggerTest {
 		try {
 			return new URI(uri);
 		} catch (URISyntaxException e) {
-			log.because(e).fromHere()
-			   .with("uri", e.getInput())
+			log.because(e).with("uri", e.getInput())
 			   .warn("failed to create URI from string '{:uri}'");
 
 			return null;

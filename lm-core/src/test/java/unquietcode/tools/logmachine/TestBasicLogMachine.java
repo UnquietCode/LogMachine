@@ -37,11 +37,6 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		return new SimpleLogMachine(logger);
 	}
 
-	@Override
-	protected Level getLevel() {
-		return Level.TRACE;
-	}
-
 	@Test
 	public void testBasicEvent() {
 		log.info("Hello world.");
@@ -187,7 +182,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	public void test_Message_Replacement_With_Multiple_References__Assignment_First() {
 		final int userID = 290;
 
-		log.fromHere().to(Postgres, User, Create)
+		log.to(Postgres, User, Create)
 		   .warn("Could not create user with id {@ id} because a user with id {: id} already exists.", userID);
 
 		final String expected = "Could not create user with id "+userID+" because a user with id "+userID+" already exists.";
@@ -198,7 +193,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	public void test_Message_Replacement_With_Multiple_References__Assignment_Last() {
 		final int userID = 290;
 
-		log.fromHere().to(Postgres, User, Create)
+		log.to(Postgres, User, Create)
 		   .warn("Could not create user with id {: id} because a user with id {@ id} already exists.", userID);
 
 		final String expected = "Could not create user with id "+userID+" because a user with id "+userID+" already exists.";

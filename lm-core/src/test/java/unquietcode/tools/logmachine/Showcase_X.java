@@ -52,12 +52,12 @@ public class Showcase_X {
 
 			// or use the shorter, inline form
 
-			log.fromHere().to(Postgres, Create)
+			log.to(Postgres, Create)
 			   .warn("A user with the id {@ id} already exists.", userID);
 
 			// reference it as many times as you want!
 
-			log.fromHere().to(Postgres, User, Create)
+			log.to(Postgres, User, Create)
 			   .warn("Could not create user with id {: id} because a user with id {@ id} already exists.", userID);
 
 
@@ -66,15 +66,11 @@ public class Showcase_X {
 			// guarded form...
 
 			if (log.isInfo()) {
-				log.because(ex).fromHere().info("Yo!", toString());
+				log.because(ex).info("Yo!", toString());
 			}
 
 
-			// fromHere is actually pretty expensive, relatively speaking,
-			// so it would be nice to keep the fluent api while not
-			// incurring that cost
-
-			log.fromHere().to(Postgres, Create, User)
+			log.to(Postgres, Create, User)
 			   .error("Could not create user with id {@ id}.", userID)
 			;
 
@@ -82,7 +78,7 @@ public class Showcase_X {
 			// a minimal cost since no getters, just existing variables
 
 			log.error()
-			   .fromHere().to(Postgres, Create, User)
+			   .to(Postgres, Create, User)
 			   .send("Could not create user with id {@ id}.", userID)
 			;
 
@@ -113,9 +109,6 @@ public class Showcase_X {
 
 		// saves on these
 		.with("one", 1)
-
-		// saves on this for sure
-		.fromHere()
 
 		// saves a little on this, but calls toString so not as much
 		.send("Yo!", toString());

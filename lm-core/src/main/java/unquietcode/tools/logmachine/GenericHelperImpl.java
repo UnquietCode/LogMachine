@@ -8,7 +8,7 @@ import unquietcode.tools.logmachine.core.Level;
 public class GenericHelperImpl extends BuilderHelperBase implements GenericLogMachineHelper {
 
 	public GenericHelperImpl(BaseLogMachine lm) {
-		super(lm);
+		super(lm, new Throwable());
 	}
 
 	@Override

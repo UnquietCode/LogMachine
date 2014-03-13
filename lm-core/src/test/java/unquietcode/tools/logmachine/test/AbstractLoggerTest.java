@@ -3,7 +3,6 @@ package unquietcode.tools.logmachine.test;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.core.appenders.PersistentLogAppender;
@@ -51,13 +50,6 @@ public abstract class AbstractLoggerTest {
 	}
 
 	public abstract LogMachine getLogMachine();
-
-	/**
-	 * Provide the desired test level. defaults to {@link Level#DEBUG}
-	 */
-	protected Level getLevel() {
-		return Level.DEBUG;
-	}
 
 	protected static final class ExceptionalException extends RuntimeException {
 

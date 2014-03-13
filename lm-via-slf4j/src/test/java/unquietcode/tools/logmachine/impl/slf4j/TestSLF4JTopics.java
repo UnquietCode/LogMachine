@@ -43,7 +43,7 @@ public class TestSLF4JTopics {
 		} catch (Exception ex) {
 
 			log.to(Postgres, User, Delete)
-			   .fromHere().because(ex)
+			   .because(ex)
 			   .error("could not create user with id {@ id}", userID)
 			;
 		} finally {

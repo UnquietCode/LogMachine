@@ -34,7 +34,7 @@ public class TestAutomaticSourceDetection extends AbstractLoggerTest {
 
 	@Test
 	public void testAutomaticSource() {
-		log.fromHere().info("Where you at dawg?"); // ---------- this line
+		log.info("Where you at dawg?"); // ---------- this line
 		LogEvent event = getSingleEvent();        // -----------   goes
 		// -----------------------------------------------------
 		// ------------------------------------------------------- here:

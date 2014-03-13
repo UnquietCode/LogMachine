@@ -25,13 +25,6 @@ public abstract class BaseLogMachineDescriptor implements DescriptorMaker {
 				.withDocumentation("set the location of the event to a string")
 			.atMost(1, 1)
 
-			.addMethod("fromHere()")
-				.withDocumentation()
-					.addContent("Set the location of the event reflectively\n")
-					.addContent("The current line, method, and class are included.")
-				.finish()
-			.atMost(1, 1)
-
 			.addMethod("to(unquietcode.tools.logmachine.core.topics.Topic...topics)")
 				.withDocumentation("sets the topics for the log event")
 			.atMost(1)

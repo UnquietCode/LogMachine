@@ -2,7 +2,6 @@ package unquietcode.tools.logmachine;
 
 import org.junit.Test;
 import unquietcode.tools.logmachine.core.DataProvider;
-import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LogEvent;
 import unquietcode.tools.logmachine.core.LogMachine;
 import unquietcode.tools.logmachine.impl.simple.SimpleLogMachine;
@@ -22,11 +21,6 @@ public class TestDataProvider extends AbstractLoggerTest {
 	@Override
 	public LogMachine getLogMachine() {
 		return new SimpleLogMachine(TestDataProvider.class);
-	}
-
-	@Override
-	protected Level getLevel() {
-		return Level.TRACE;
 	}
 
 	@Test

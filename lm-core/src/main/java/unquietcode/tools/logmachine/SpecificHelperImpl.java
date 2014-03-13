@@ -8,7 +8,7 @@ import unquietcode.tools.logmachine.core.Level;
 public class SpecificHelperImpl extends BuilderHelperBase implements SpecificLogMachineHelper {
 
 	public SpecificHelperImpl(BaseLogMachine lm, Level level) {
-		super(lm);
+		super(lm, new Throwable());
 		event.setLevel(level);
 	}
 

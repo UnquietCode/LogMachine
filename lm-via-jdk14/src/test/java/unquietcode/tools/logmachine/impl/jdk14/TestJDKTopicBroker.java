@@ -47,15 +47,15 @@ public class TestJDKTopicBroker {
 		TopicBroker.subscribe(topicAppender, X.TWO);
 
 
-		lm.info("should always print");
+		lm.from(null).info("should always print");
 		stream.assertEquals("[INFO] - should always print\n", "expected exact message");
 		stream.clear();
 
-		lm.to(X.ONE, X.TWO).info("should print once");
+		lm.from(null).to(X.ONE, X.TWO).info("should print once");
 		stream.assertEquals("[INFO] [ONE | TWO] - should print once\n", "expected exact message");
 		stream.clear();
 
-		lm.to(X.TWO).info("should also print once");
+		lm.from(null).to(X.TWO).info("should also print once");
 		stream.assertEquals("[INFO] [TWO] - should also print once\n", "expected exact message");
 		stream.clear();
 
