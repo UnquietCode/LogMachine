@@ -120,19 +120,23 @@ log.to(Redis, User)
  * ```
  *
  * Mainly this technique suffers from verbosity. Most log
- * frameworks now allow you to pass in a template message and
- * will generate the actual string value of arguments later
- * only if the log level is appropriate.
+ * frameworks now allow you to pass in a template message, and it
+ * will be used to generate the actual string value from the
+ * arguments later, but only if the log level is appropriate.
  *
  * Log Machine goes one step further. When a condition is not met,
  * the returned object will be a dummy proxy instance. This means
- * that every command you execute will be ignored. This has the
- * convenience of being clean, and fast.
+ * that every command you execute will be ignored.
  *
- * These calls have to be made up front, and so a `$Level()`
+ * These calls have to be made up front, and so a _$level()_
  * method is available for each level in order to support
  * conditional logging. At the end of the chain you call
  * `send()` to complete the logging.
+ *
+ * (In practice, the overhead of logging is so trivial that
+ * optimizing at this level is somewhat of an antipattern
+ * at this point. However, if the cost of assembling the
+ * data required for logging or analytics )
  */
 
 log.info().with("action", "send_email")
@@ -276,10 +280,10 @@ TopicBroker.subscribe(component, TopicOne, TopicTwo);
  * an underlying logging implementation. (And adding new connectors
  * for your favorite library is easy!)
  *
- * + [Log4j](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-log4j)
- * + [Logback](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-logback)
- * + [SLF4J](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-slf4j)
- * + [JDK-1.4](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-jdk14)
+ * + [Log4j](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-log4j) &ndash; use the `Log4jLogMachine`
+ * + [Logback](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-logback) &ndash; use the `SLF4JLogMachine`
+ * + [SLF4J](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-slf4j) &ndash; use the `SLF4JLogMachine`
+ * + [JDK-1.4](https://github.com/UnquietCode/LogMachine/tree/master/lm-via-jdk14) &ndash; use the `JDKLogMachine`
  *
  *
  * ### Logstash / ElasticSearch / Kibana
