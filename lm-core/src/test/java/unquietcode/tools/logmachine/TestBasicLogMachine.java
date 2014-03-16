@@ -49,19 +49,10 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test
 	public void testLevels() {
 		log.info("info");
-		log.info().send("info");
-
 		log.debug("debug");
-		log.debug().send("debug");
-
 		log.trace("trace");
-		log.trace().send("trace");
-
 		log.warn("warn");
-		log.warn().send("warn");
-
 		log.error("error");
-		log.error().send("error");
 
 		Map<Level, Boolean> seenLevels = new HashMap<Level, Boolean>();
 		Map<String, Integer> seenStrings = new HashMap<String, Integer>();
@@ -79,7 +70,7 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 		assertEquals("5 levels", 5, seenLevels.size());
 
 		for (Map.Entry<String, Integer> entry : seenStrings.entrySet()) {
-			assertEquals("expected 2 of "+entry.getKey(), 2, (int) entry.getValue());
+			assertEquals("expected 1 of "+entry.getKey(), 1, (int) entry.getValue());
 		}
 	}
 
@@ -203,18 +194,6 @@ public class TestBasicLogMachine extends AbstractLoggerTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testDuplicateTopics() {
 		log.to(TestTopics.One, TestTopics.Two, TestTopics.One).info("oops");
-	}
-
-	@Test
-	public void testConditionalBuilder() {
-		log.when(false).info().send("hi");
-		assertEquals(0, getEventAppender().getAllEvents().size());
-
-		log.when(null).info("yo");
-		assertEquals(0, getEventAppender().getAllEvents().size());
-
-		log.when(true).info("sup");
-		assertEquals(1, getEventAppender().getAllEvents().size());
 	}
 
 	@Test

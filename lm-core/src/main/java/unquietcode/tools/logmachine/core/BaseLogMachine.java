@@ -2,17 +2,11 @@ package unquietcode.tools.logmachine.core;
 
 
 import unquietcode.tools.logmachine.GenericHelperImpl;
-import unquietcode.tools.logmachine.SpecificHelperImpl;
 import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder;
 import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineGenerator;
-import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
-import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineGenerator;
 import unquietcode.tools.logmachine.core.topics.Topic;
 import unquietcode.tools.logmachine.core.topics.TopicBroker;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -26,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @version 10-21-2012
  * @see LogMachine
  */
-public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
+public abstract class BaseLogMachine<T> implements LogMachineBuilders<T> {
 	private final List<DataProvider> dataProviders = new CopyOnWriteArrayList<DataProvider>();
 	private final List<LoggingComponent> components = new CopyOnWriteArrayList<LoggingComponent>();
 	private final Set<Topic> defaultTopics = new HashSet<Topic>();
@@ -103,11 +97,6 @@ public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 		return GenericLogMachineGenerator.start(helper);
 	}
 
-	protected SpecificLogMachineBuilder.Start specificBuilder(Level level) {
-		SpecificHelperImpl helper = new SpecificHelperImpl(this, level);
-		return SpecificLogMachineGenerator.start(helper);
-	}
-
 	@Override
 	public T getNativeLogger() {
 		return logger;
@@ -168,36 +157,5 @@ public abstract class BaseLogMachine<T> implements LogMachineBuilders_when<T> {
 
 	public String getLoggerName() {
 		return handler.getLoggerName(logger);
-	}
-
-	// ----------------------------------------------------------------- //
-
-	/**
-	 * Creates proxy classes as needed, each which simply returns an empty proxy matching the return
-	 * type. Assumes that all return types in the chain are interfaces (a requirement of JDK proxies).
-	 * Caches created proxies for each return type.
-	 */
-	protected static class ProxyHelper implements InvocationHandler {
-		private static final Map<Class, Object> proxyMap = new WeakHashMap<Class, Object>();
-
-		@Override
-		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-			Class<?> returnType = method.getReturnType();
-
-			if (proxyMap.containsKey(returnType)) {
-				return proxyMap.get(returnType);
-			}
-
-			Object returnValue;
-
-			if (returnType.equals(void.class) || returnType.equals(Void.class) || returnType.equals(Object.class)) {
-				returnValue = null;
-			} else {
-				returnValue = Proxy.newProxyInstance(returnType.getClassLoader(), new Class<?>[]{returnType}, this);
-			}
-
-			proxyMap.put(returnType, returnValue);
-			return returnValue;
-		}
 	}
 }

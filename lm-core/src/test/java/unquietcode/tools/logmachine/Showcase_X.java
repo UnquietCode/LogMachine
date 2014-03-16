@@ -35,14 +35,6 @@ public class Showcase_X {
 			;
 
 
-			// guarded form
-
-			log.info()
-			   .to(REDIS, USER)
-			   .because(ex)
-			   .send("User {@ id} disconnected.", userID)
-			;
-
 			// add extra data, and reference it by name
 
 			log.because(ex)
@@ -74,13 +66,6 @@ public class Showcase_X {
 			   .error("Could not create user with id {@ id}.", userID)
 			;
 
-			// so we can use the guarded form, which in this case is
-			// a minimal cost since no getters, just existing variables
-
-			log.error()
-			   .to(Postgres, Create, User)
-			   .send("Could not create user with id {@ id}.", userID)
-			;
 
 			// you can skip traditional loggers in favor of simple topics
 			final TopicLogMachine dbLog = new TopicLogMachine(Postgres);
@@ -96,22 +81,6 @@ public class Showcase_X {
 				 .warn("Could not create user with id '{@ id}'.", userID)
 			;
 		}
-
-
-
-		// maximum savings come from deferred parameter usage
-		// but that's it, the cost of getting the param remains
-
-		log.info()
-
-		// saves on this
-		.because(ex)
-
-		// saves on these
-		.with("one", 1)
-
-		// saves a little on this, but calls toString so not as much
-		.send("Yo!", toString());
 	}
 
 	//

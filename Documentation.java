@@ -107,63 +107,6 @@ log.to(Redis, User)
 
 
 /**
- * ## Conditional Logging
- *
- * Sometimes you don't want messages to be processed if the
- * log level is too low or some other condition is not met.
- * This is pretty easy to do by using an `if` block, like so:
- *
- * ```java
- * if (log.isDebugEnabled()) {
- *     log.debug("this is a debug message");
- * }
- * ```
- *
- * Mainly this technique suffers from verbosity. Most log
- * frameworks now allow you to pass in a template message, and it
- * will be used to generate the actual string value from the
- * arguments later, but only if the log level is appropriate.
- *
- * Log Machine goes one step further. When a condition is not met,
- * the returned object will be a dummy proxy instance. This means
- * that every command you execute will be ignored.
- *
- * These calls have to be made up front, and so a _$level()_
- * method is available for each level in order to support
- * conditional logging. At the end of the chain you call
- * `send()` to complete the logging.
- *
- * (In practice, the overhead of logging is so trivial that
- * optimizing at this level is somewhat of an antipattern
- * at this point. However, if the cost of assembling the
- * data required for logging or analytics )
- */
-
-log.info().with("action", "send_email")
-   .send("User '{@ user}' was not found.", currentUser());
-
-// ### Methods
-
-// Checks the boolean first, and if it is `null` or `false` then
-// the logging will not proceed.
-.when(Boolean test)
-
-// Conditionally log if the level is right. Must be completed with
-// a call to `send()`.
-.error() ... send(...)
-.warn() ... send(...)
-.info() ... send(...)
-.debug() ... send(...)
-.trace() ... send(...)
-
-// Note that these two can also be combined.
-log.when(true).trace()
-   .because(exception)
-   .to(DATABASE, UPDATE)
-   .send("Oh no, not again.");
-
-
-/**
  * ## Event Data
  *
  * A log event is often rich with data, but we usually settle for

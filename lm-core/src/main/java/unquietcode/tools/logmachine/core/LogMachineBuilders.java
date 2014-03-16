@@ -4,7 +4,6 @@ import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLog
 import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
 import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2from_4f_2to_4f_2with_4f_2with_1A_4f;
 import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
-import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
 import unquietcode.tools.logmachine.core.topics.Topic;
 
 /**
@@ -102,61 +101,6 @@ public interface LogMachineBuilders<T> {
 	 * @param data replacements, with or without an exception
 	 */
 	void trace(String message, Object...data);
-
-	/**
-	 * Begin logging a new error level event.
-	 *
-	 * This call and all chained calls will effectively be
-	 * no-op if the underlying logger is not accepting
-	 * events at this level.
-	 *
-	 * @return builder, or a no-op equivalent
-	 */
-	SpecificLogMachineBuilder.Start error();
-
-	/**
-	 * Begin logging a new warn level event.
-	 *
-	 * This call and all chained calls will effectively be
-	 * no-op if the underlying logger is not accepting
-	 * events at this level.
-	 *
-	 * @return builder, or a no-op equivalent
-	 */
-	SpecificLogMachineBuilder.Start warn();
-
-	/**
-	 * Begin logging a new info level event.
-	 *
-	 * This call and all chained calls will effectively be
-	 * no-op if the underlying logger is not accepting
-	 * events at this level.
-	 *
-	 * @return builder, or a no-op equivalent
-	 */
-	SpecificLogMachineBuilder.Start info();
-
-	/**
-	 * Begin logging a new debug level event.
-	 *
-	 * This call and all chained calls will effectively be
-	 * no-op if the underlying logger is not accepting
-	 * events at this level.
-	 *
-	 * @return builder, or a no-op equivalent
-	 */
-	SpecificLogMachineBuilder.Start debug();
-
-	/**
-	 * Begin logging a new trace level event.
-	 *
-	 * This call and all chained calls will effectively be
-	 * no-op if the underlying logger is not accepting
-	 * events at this level.
-	 *
-	 * @return builder, or a no-op equivalent
-	 */
-	SpecificLogMachineBuilder.Start trace();
 
 	/**
 	 * @return the underlying native logger

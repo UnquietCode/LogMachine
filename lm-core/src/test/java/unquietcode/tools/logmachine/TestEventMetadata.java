@@ -63,10 +63,10 @@ public class TestEventMetadata extends AbstractLoggerTest {
 
 		final Mixer mixer = new Mixer();
 
-		log.warn().to(PrimaryColor.Red, PrimaryColor.Yellow).send("Orange");
+		log.to(PrimaryColor.Red, PrimaryColor.Yellow).warn("Orange");
 		mixer.assertColor("Orange", PrimaryColor.Yellow, PrimaryColor.Red);
 
-		log.error().to(PrimaryColor.Blue, PrimaryColor.Yellow).send("Green");
+		log.to(PrimaryColor.Blue, PrimaryColor.Yellow).error("Green");
 		mixer.assertColor("Green", PrimaryColor.Yellow, PrimaryColor.Blue);
 
 		log.to(PrimaryColor.Red, PrimaryColor.Blue).info("Purple");

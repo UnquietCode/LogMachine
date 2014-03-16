@@ -5,16 +5,13 @@ import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLog
 import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2debug_4f_2error_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
 import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2because_4f_2from_4f_2to_4f_2with_4f_2with_1A_4f;
 import unquietcode.tools.logmachine.builder.generic.GenericLogMachine.GenericLogMachineBuilder_2debug_4f_2error_4f_2from_4f_2info_4f_2to_4f_2trace_4f_2warn_4f_2with_4f_2with_1A_4f;
-import unquietcode.tools.logmachine.builder.specific.SpecificLogMachine.SpecificLogMachineBuilder;
 import unquietcode.tools.logmachine.core.topics.Topic;
-
-import java.lang.reflect.Proxy;
 
 /**
  * @author Benjamin Fagin
  * @version 10-21-2012
  */
-public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMachineBuilders_when<T> {
+public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMachineBuilders<T> {
 
 	protected LogMachine(T logger, LogHandler<T> handler) {
 		super(logger, handler);
@@ -144,92 +141,6 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		}
 	}
 
-
-	//  --- specific builders ---
-
-
-	/**
-	 * {@inheritDoc}
-	 * @see LogMachineBuilders#error()
-	 */
-	@Override
-	public SpecificLogMachineBuilder.Start error() {
-		if (isError()) {
-			return specificBuilder(Level.ERROR);
-		} else {
-			return DEAD_PROXY;
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see LogMachineBuilders#warn()
-	 */
-	@Override
-	public SpecificLogMachineBuilder.Start warn() {
-		if (isWarn()) {
-			return specificBuilder(Level.WARN);
-		} else {
-			return DEAD_PROXY;
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see LogMachineBuilders#info()
-	 */
-	@Override
-	public SpecificLogMachineBuilder.Start info() {
-		if (isInfo()) {
-			return specificBuilder(Level.INFO);
-		} else {
-			return DEAD_PROXY;
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see LogMachineBuilders#debug()
-	 */
-	@Override
-	public SpecificLogMachineBuilder.Start debug() {
-		if (isDebug()) {
-			return specificBuilder(Level.DEBUG);
-		} else {
-			return DEAD_PROXY;
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see LogMachineBuilders#trace()
-	 */
-	@Override
-	public SpecificLogMachineBuilder.Start trace() {
-		if (isTrace()) {
-			return specificBuilder(Level.TRACE);
-		} else {
-			return DEAD_PROXY;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private static final SpecificLogMachineBuilder.Start DEAD_PROXY
-		= (SpecificLogMachineBuilder.Start) Proxy.newProxyInstance(
-			SpecificLogMachineBuilder.Start.class.getClassLoader(),
-			new Class<?>[]{SpecificLogMachineBuilder.Start.class},
-			new ProxyHelper()
-		);
-
-	@SuppressWarnings("unchecked")
-	private final LogMachineBuilders<T> DEAD_SELF_PROXY
-		= (LogMachineBuilders<T>) Proxy.newProxyInstance(
-			LogMachineBuilders.class.getClassLoader(),
-			new Class<?>[]{LogMachineBuilders.class},
-			new ProxyHelper()
-		);
-
-
 	//  --- generic builders ---
 
 
@@ -286,22 +197,5 @@ public abstract class LogMachine<T> extends BaseLogMachine<T> implements LogMach
 		with(String key, Number value)
 	{
 		return genericBuilder().with(key, value);
-	}
-
-
-	// --- conditional builders ---
-
-
-	/**
-	 * {@inheritDoc}
-	 * @see LogMachineBuilders_when#when(Boolean)
-	 */
-	@Override
-	public LogMachineBuilders<T> when(Boolean flag) {
-		if (flag != null && flag) {
-			return this;
-		} else {
-			return DEAD_SELF_PROXY;
-		}
 	}
 }
