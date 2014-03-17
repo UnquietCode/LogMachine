@@ -28,15 +28,6 @@
         <a href="#api">API</a>
       </div>
       <div class="heading h3">
-        <a href="#basic%20methods">Basic Methods</a>
-      </div>
-      <div class="heading h3">
-        <a href="#additional%20methods">Additional Methods</a>
-      </div>
-      <div class="heading h2">
-        <a href="#conditional%20logging">Conditional Logging</a>
-      </div>
-      <div class="heading h3">
         <a href="#methods">Methods</a>
       </div>
       <div class="heading h2">
@@ -166,16 +157,19 @@ enhancing your logging statements.</p>
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
-<div class="pilwrap" id="basic%20methods">
+<div class="pilwrap" id="methods">
   <h3>
-    <a href="#basic%20methods" name="basic%20methods" class="pilcrow">&#182;</a>
-    Basic Methods
+    <a href="#methods" name="methods" class="pilcrow">&#182;</a>
+    Methods
   </h3>
 </div>
 
   </div>
   <div class="body"><p>The basic logging methods are what you might expect to find in any
-of the existing frameworks, namely the level-based logging.</p>
+of the existing frameworks, namely the level-based logging.
+LogMachine adds a few tricks to the basic repertoire of logging
+capabilities. These and the other methods form a fluent chain,
+decorating the final logging statemtent with additional information.</p>
   </div>
 </div>
         </td>
@@ -281,28 +275,18 @@ of the above statements.</p>
 <span class="o">.</span><span class="na">isTrace</span><span class="o">()</span>
 
 
-
 </pre></div>
         </td>
       </tr>
       <tr>
-        <td class="docs"><div class="dox">
-  <div class="summary">
-<div class="pilwrap" id="additional%20methods">
-  <h3>
-    <a href="#additional%20methods" name="additional%20methods" class="pilcrow">&#182;</a>
-    Additional Methods
-  </h3>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
 </div>
-
-  </div>
-  <div class="body"><p>LogMachine adds a few tricks to the basic repertoire of logging
-capabilities. These and the other methods form a fluent chain,
-decorating the final logging statemtent with additional information.</p>
-  </div>
-</div>
+<p>Sets the exception for the event.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
+<span class="o">.</span><span class="na">because</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">cause</span><span class="o">)</span>
 
 
 </pre></div>
@@ -313,21 +297,6 @@ decorating the final logging statemtent with additional information.</p>
 <div class="pilwrap">
   <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
 </div>
-<p>Sets the exception for the event.</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="o">.</span><span class="na">because</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">cause</span><span class="o">)</span>
-
-
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
-</div>
 <p>Sets the location for the log event, which could be a method name,
 class name, or some other logical identifier. The event location
 is initialized to the current 'class#method:line'. Calling this
@@ -336,123 +305,6 @@ location information is removed.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">String</span> <span class="n">location</span><span class="o">)</span>
-
-
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs"><div class="dox">
-  <div class="summary">
-<div class="pilwrap" id="conditional%20logging">
-  <h2>
-    <a href="#conditional%20logging" name="conditional%20logging" class="pilcrow">&#182;</a>
-    Conditional Logging
-  </h2>
-</div>
-
-  </div>
-  <div class="body"><p>Sometimes you don't want messages to be processed if the
-log level is too low or some other condition is not met.
-This is pretty easy to do by using an <code>if</code> block, like so:</p>
-
-
-<div class="highlight"><pre><code><span class="k">if</span> <span class="o">(</span><span class="n">log</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;this is a debug message&quot;</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div>
-
-
-
-<p>Mainly this technique suffers from verbosity. Most log
-frameworks now allow you to pass in a template message and
-will generate the actual string value of arguments later
-only if the log level is appropriate.</p>
-
-<p>Log Machine goes one step further. When a condition is not met,
-the returned object will be a dummy proxy instance. This means
-that every command you execute will be ignored. This has the
-convenience of being clean, and fast.</p>
-
-<p>These calls have to be made up front, and so a <code>$Level()</code>
-method is available for each level in order to support
-conditional logging. At the end of the chain you call
-<code>send()</code> to complete the logging.</p>
-  </div>
-</div>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-
-<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">().</span><span class="na">with</span><span class="o">(</span><span class="s">&quot;action&quot;</span><span class="o">,</span> <span class="s">&quot;send_email&quot;</span><span class="o">)</span>
-   <span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&quot;User &#39;{@ user}&#39; was not found.&quot;</span><span class="o">,</span> <span class="n">currentUser</span><span class="o">());</span>
-
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap" id="methods">
-  <h3>
-    <a href="#methods" name="methods" class="pilcrow">&#182;</a>
-    Methods
-  </h3>
-</div>
-
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
-</div>
-<p>Checks the boolean first, and if it is <code>null</code> or <code>false</code> then
-the logging will not proceed.</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="o">.</span><span class="na">when</span><span class="o">(</span><span class="n">Boolean</span> <span class="n">test</span><span class="o">)</span>
-
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
-</div>
-<p>Conditionally log if the level is right. Must be completed with
-a call to <code>send()</code>.</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="o">.</span><span class="na">error</span><span class="o">()</span> <span class="o">...</span> <span class="n">send</span><span class="o">(...)</span>
-<span class="o">.</span><span class="na">warn</span><span class="o">()</span> <span class="o">...</span> <span class="n">send</span><span class="o">(...)</span>
-<span class="o">.</span><span class="na">info</span><span class="o">()</span> <span class="o">...</span> <span class="n">send</span><span class="o">(...)</span>
-<span class="o">.</span><span class="na">debug</span><span class="o">()</span> <span class="o">...</span> <span class="n">send</span><span class="o">(...)</span>
-<span class="o">.</span><span class="na">trace</span><span class="o">()</span> <span class="o">...</span> <span class="n">send</span><span class="o">(...)</span>
-
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
-</div>
-<p>Note that these two can also be combined.</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="n">log</span><span class="o">.</span><span class="na">when</span><span class="o">(</span><span class="kc">true</span><span class="o">).</span><span class="na">trace</span><span class="o">()</span>
-   <span class="o">.</span><span class="na">because</span><span class="o">(</span><span class="n">exception</span><span class="o">)</span>
-   <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">DATABASE</span><span class="o">,</span> <span class="n">UPDATE</span><span class="o">)</span>
-   <span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&quot;Oh no, not again.&quot;</span><span class="o">);</span>
 
 
 
@@ -505,7 +357,7 @@ an inline assignment in the message string (more on that soon).</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
 </div>
 <p>Adds a data point to the log event.</p>
         </td>
@@ -565,7 +417,7 @@ of a few new features.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-23" id="section-23">&#182;</a>
+  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
 </div>
 <p>Access the event arguments array, where the
 first instance of <code>{}</code> is the 0th element, the
@@ -584,7 +436,7 @@ and is not included in the argument array.)</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-24" id="section-24">&#182;</a>
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
 </div>
 <p>Access event data by name.</p>
         </td>
@@ -599,7 +451,7 @@ and is not included in the argument array.)</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-25" id="section-25">&#182;</a>
+  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
 </div>
 <p>Set new event data under the given name,
 where the first <code>@</code>ssignment maps to the first
@@ -616,7 +468,7 @@ argument, etc., and printing them  in the process.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-26" id="section-26">&#182;</a>
+  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
 </div>
 <p>Access the event arguments array by the
 position number, where the first argument is <code>1</code>.
@@ -699,7 +551,7 @@ appliation concepts, like CRUD operations, <code>User</code>, <code>File</code>,
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-29" id="section-29">&#182;</a>
+  <a class="pilcrow" href="#section-23" id="section-23">&#182;</a>
 </div>
 <p>Sets the topics for the log event, which can be any thing you like. Strings,
 and Enums are the most likely sources of topics, stored within your
@@ -715,7 +567,7 @@ application.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-30" id="section-30">&#182;</a>
+  <a class="pilcrow" href="#section-24" id="section-24">&#182;</a>
 </div>
 <p>Access the event topics by the position number,
 where the first argument is <code>{~ 1}</code>.</p>
@@ -731,7 +583,7 @@ where the first argument is <code>{~ 1}</code>.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-31" id="section-31">&#182;</a>
+  <a class="pilcrow" href="#section-25" id="section-25">&#182;</a>
 </div>
 <p>Subscribe a <code>LoggingComponent</code> to one or more <code>Topic</code>'s by using the
 <code>TopicBroker</code> singleton class.</p>
@@ -760,10 +612,10 @@ an underlying logging implementation. (And adding new connectors
 for your favorite library is easy!)</p>
 
 <ul>
-<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-log4j">Log4j</a></li>
-<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-logback">Logback</a></li>
-<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-slf4j">SLF4J</a></li>
-<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-jdk14">JDK-1.4</a></li>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-log4j">Log4j</a> &ndash; use the <code>Log4jLogMachine</code></li>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-logback">Logback</a> &ndash; use the <code>SLF4JLogMachine</code></li>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-slf4j">SLF4J</a> &ndash; use the <code>SLF4JLogMachine</code></li>
+<li><a href="https://github.com/UnquietCode/LogMachine/tree/master/lm-via-jdk14">JDK-1.4</a> &ndash; use the <code>JDKLogMachine</code></li>
 </ul>
 
 
