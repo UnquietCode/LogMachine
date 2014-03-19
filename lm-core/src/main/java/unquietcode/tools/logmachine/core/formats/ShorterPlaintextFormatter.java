@@ -15,13 +15,26 @@ public class ShorterPlaintextFormatter implements Formatter {
 	public StringBuilder format(LogEvent event) {
 		StringBuilder sb = new StringBuilder();
 
+		// thread
+		sb.append("[").append(event.getThreadName()).append("] ");
+
 		// log level
-		sb.append("[").append(event.getLevel()).append("] ");
+		sb.append(event.getLevel());
+
+		// print source
+		if (event.getLocation() != null) {
+			sb.append(" ").append(event.getLocation());
+		}
 
 		// topics
 		if (!event.getTopics().isEmpty()) {
 			boolean first = true;
-			sb.append("[");
+
+			if (event.getLocation() != null) {
+				sb.append(" -->");
+			}
+
+			sb.append(" [");
 
 			for (Topic topic : event.getTopics()) {
 				if (!first) {
@@ -33,16 +46,11 @@ public class ShorterPlaintextFormatter implements Formatter {
 				sb.append(topic.name());
 			}
 
-			sb.append("] ");
-		}
-
-		// print source
-		if (event.getLocation() != null) {
-			sb.append("(").append(event.getLocation()).append(") ");
+			sb.append("]");
 		}
 
 		// print data
-		sb.append("- ").append(event.getFormattedMessage());
+		sb.append("\n").append(event.getFormattedMessage());
 
 		return sb;
 	}

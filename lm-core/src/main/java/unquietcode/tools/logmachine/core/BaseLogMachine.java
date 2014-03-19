@@ -68,7 +68,7 @@ public abstract class BaseLogMachine<T> implements LogMachineBuilders<T> {
 		handle(components, event);
 
 		// notify subscribers to the event topics
-		Set<LoggingComponent> topicComponents = TopicBroker.getComponents(event.getTopics());
+		Set<LoggingComponent> topicComponents = TopicBroker.getComponents(event.getTopics(), eventLevel);
 		handle(topicComponents, event);
 	}
 

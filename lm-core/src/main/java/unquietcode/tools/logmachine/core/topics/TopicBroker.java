@@ -1,5 +1,6 @@
 package unquietcode.tools.logmachine.core.topics;
 
+import unquietcode.tools.logmachine.core.Level;
 import unquietcode.tools.logmachine.core.LoggingComponent;
 
 import java.lang.ref.WeakReference;
@@ -15,19 +16,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @version 2014-01-15
  */
 public class TopicBroker {
-	private static final Map<Topic, Set<WeakReference<LoggingComponent>>> subscriptions
+	private static Map<Topic, Set<WeakReference<LoggingComponent>>> subscriptions
 		= new WeakHashMap<Topic, Set<WeakReference<LoggingComponent>>>();
 
-	public static final TopicBroker INSTANCE = new TopicBroker();
+	private static final Map<Topic, Level> levels = new WeakHashMap<Topic, Level>();
 
-	/**
-	 * Use INSTANCE field instead.
-	 */
 	private TopicBroker() { }
 
 
 	public static synchronized void subscribe(LoggingComponent appender, Topic...topics) {
 		checkNotNull(appender);
+		subscriptions = new WeakHashMap<Topic, Set<WeakReference<LoggingComponent>>>(subscriptions);
 
 		for (Topic topic : topics) {
 			Set<WeakReference<LoggingComponent>> appenders = subscriptions.get(topic);
@@ -41,11 +40,21 @@ public class TopicBroker {
 		}
 	}
 
-	public static synchronized Set<LoggingComponent> getComponents(Collection<Topic> eventTopics) {
-		return getComponents(new HashSet<Topic>(), eventTopics);
+	public static Set<LoggingComponent> getComponents(Collection<Topic> eventTopics, Level level) {
+		List<Topic> topics = new ArrayList<Topic>();
+
+		// filter topics by level
+		for (Topic topic : eventTopics) {
+			Level topicLevel = levels.get(topic);
+
+			if (topicLevel == null || topicLevel.isFinerOrEqual(level)) {
+				topics.add(topic);
+			}
+		}
+
+		return getComponents(new HashSet<Topic>(), topics);
 	}
 
-	// @DefaultValues({HashSet.class})
 	private static Set<LoggingComponent> getComponents(Set<Topic> seen, Collection<Topic> eventTopics) {
 		Set<LoggingComponent> components = new HashSet<LoggingComponent>();
 		if (eventTopics == null) { eventTopics = Collections.emptyList(); }
@@ -59,7 +68,7 @@ public class TopicBroker {
 
 			if (topic instanceof HierarchicalTopic) {
 				List<Topic> parents = ((HierarchicalTopic) topic).getParents();
-				components.addAll(getComponents(parents));
+				components.addAll(getComponents(seen, parents));
 			}
 
 			Set<WeakReference<LoggingComponent>> candidates = subscriptions.get(topic);
@@ -77,5 +86,15 @@ public class TopicBroker {
 		}
 
 		return components;
+	}
+
+	public static void setLevel(Level level, Topic...topics) {
+		for (Topic topic : topics) {
+			if (level != null) {
+				levels.put(topic, level);
+			} else {
+				levels.remove(topic);
+			}
+		}
 	}
 }

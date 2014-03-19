@@ -35,10 +35,13 @@ log.to(Redis, User)
 
 
 /**
- * ### Basic Methods
+ * ### Methods
  *
  * The basic logging methods are what you might expect to find in any
  * of the existing frameworks, namely the level-based logging.
+ * LogMachine adds a few tricks to the basic repertoire of logging
+ * capabilities. These and the other methods form a fluent chain,
+ * decorating the final logging statemtent with additional information.
  */
 
 // Log an event. If the current log level is too low, then no action
@@ -85,18 +88,8 @@ log.to(Redis, User)
 .isDebug()
 .isTrace()
 
-
-/**
- * ### Additional Methods
- *
- * LogMachine adds a few tricks to the basic repertoire of logging
- * capabilities. These and the other methods form a fluent chain,
- * decorating the final logging statemtent with additional information.
- */
-
 // Sets the exception for the event.
 .because(Throwable cause)
-
 
 // Sets the location for the log event, which could be a method name,
 // class name, or some other logical identifier. The event location
@@ -215,6 +208,8 @@ log.to(User, Postgres, Create)
 // `TopicBroker` singleton class.
 TopicBroker.subscribe(component, TopicOne, TopicTwo);
 
+// The broker can also be used to set the threshold level
+// for one or more `Topic`'s.
 
 /**
  * ## Implementations
