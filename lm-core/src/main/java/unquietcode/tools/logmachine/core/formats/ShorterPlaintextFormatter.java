@@ -16,10 +16,10 @@ public class ShorterPlaintextFormatter implements Formatter {
 		StringBuilder sb = new StringBuilder();
 
 		// thread
-		sb.append("[").append(event.getThreadName()).append("] ");
+		sb.append("[").append(event.getThreadName()).append("]");
 
 		// log level
-		sb.append(event.getLevel());
+		sb.append(" ").append(event.getLevel());
 
 		// print source
 		if (event.getLocation() != null) {

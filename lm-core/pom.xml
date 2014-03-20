@@ -8,7 +8,6 @@
 		<version>0.1</version>
 	</parent>
 
-	<groupId>unquietcode.tools.logmachine</groupId>
 	<artifactId>lm-core</artifactId>
 	<packaging>jar</packaging>
 
