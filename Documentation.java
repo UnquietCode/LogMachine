@@ -210,6 +210,13 @@ TopicBroker.subscribe(component, TopicOne, TopicTwo);
 
 // The broker can also be used to set the threshold level
 // for one or more `Topic`'s.
+TopicBroker.setLevel(Level.INFO, TopicOne, TopicTwo);
+
+// You can also skip traditional logging by creating a
+// `TopicLogMachine`, which simply forwards to the
+// components subscribed to each topic.
+TopicLogMachine dbLog = new TopicLogMachine(Topic);
+
 
 /**
  * ## Implementations
