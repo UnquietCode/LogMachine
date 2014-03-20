@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/UnquietCode/LogMachine.png?branch=master)](https://travis-ci.org/UnquietCode/LogMachine)
 
 Semantic logging in Java. Not a framework!
-Wraps around existing tools like SLF4J, Logback, Log4J, JDK1.4, and more.
+Wraps around existing tools like SLF4J, Log4j, and more.
 
 ### [Documentation](http://unquietcode.github.io/LogMachine)
 Check out the documentation for more information.
@@ -107,13 +107,16 @@ Using Log Machine, it looks something like this:
 Using the above example, I might want to see what kinds of errors have been occurring for a partcular user. I can open up Kibana and search for all log events where the `email` field was 'samantha82@geocities.com' with topics `Database`, and `Create`. Sure enough, I can see there was an issue.
 
 In a production application with millions of log records, keeping log data structured makes it easier to write more specific queries that can cut
-through the noise.
+through the noise. The data generated can also be used for analytics purposes: once indexed, you can perform all sorts of useful queries. Analytics and logging tend to occupy the same space, doing the same thing but for different masters (diagnostics versus metrics). By providing finer targeting of events, with richer metadata, logging becomes a more useful tool for capturing application metrics.
 
-The data generated can be used for analytics purposes as well. Once indexed, you can perform all sorts of queries.
 
 ### License
-Flapi is free and open software provided without a license. Licenses are depressing.
+LogMachine is free and open software provided without a license. Licenses byte.
 
+  
+&nbsp; 
+&nbsp;   
+  
 ## Thanks!
 
 Peace, love, and code.
