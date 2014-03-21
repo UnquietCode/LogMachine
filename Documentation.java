@@ -215,7 +215,7 @@ TopicBroker.setLevel(Level.INFO, TopicOne, TopicTwo);
 // You can also skip traditional logging by creating a
 // `TopicLogMachine`, which simply forwards to the
 // components subscribed to each topic.
-TopicLogMachine dbLog = new TopicLogMachine(Topic);
+TopicLogMachine dbLog = new TopicLogMachine(Postgres);
 
 
 /**
