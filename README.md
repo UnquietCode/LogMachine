@@ -75,31 +75,27 @@ Using something like SLF4J, this is what most logging statements
 look like today:
 
 ```java
-{
-	Logger log = LoggerFactory.getLogger(TestBasicSLF4J.class);
+Logger log = LoggerFactory.getLogger(TestBasicSLF4J.class);
 
-	try {
-		createUser(signupEmail);
-	} catch (Exception e) {
-		log.error("error while creating user in Postgres", e);
-	}
+try {
+	createUser(signupEmail);
+} catch (Exception e) {
+	log.error("error while creating user in Postgres", e);
 }
 ```
 
 Using Log Machine, it looks something like this:
 
 ```java
-{
-	LogMachine log = new SLF4JLogMachine(TestBasicSLF4J.class);
+LogMachine log = new SLF4JLogMachine(TestBasicSLF4J.class);
 
-	try {
-		createUser(signupEmail);
-	} catch (Exception e) {
-		log.with("email", signupEmail)
-      	   .because(e)
-		   .to(Postgres)
-		   .error("error while creating user");
-	}
+try {
+	createUser(signupEmail);
+} catch (Exception e) {
+	log.with("email", signupEmail)
+         .because(e)
+	   .to(Postgres)
+	   .error("error while creating user");
 }
 ```
 
