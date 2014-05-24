@@ -93,7 +93,7 @@ try {
 	createUser(signupEmail);
 } catch (Exception e) {
 	log.with("email", signupEmail)
-         .because(e)
+           .because(e)
 	   .to(Postgres)
 	   .error("error while creating user");
 }
