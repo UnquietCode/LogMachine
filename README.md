@@ -78,9 +78,9 @@ look like today:
 Logger log = LoggerFactory.getLogger(TestBasicSLF4J.class);
 
 try {
-	createUser(signupEmail);
+    createUser(signupEmail);
 } catch (Exception e) {
-	log.error("error while creating user in Postgres", e);
+    log.error("error while creating user in Postgres", e);
 }
 ```
 
@@ -90,12 +90,12 @@ Using Log Machine, it looks something like this:
 LogMachine log = new SLF4JLogMachine(TestBasicSLF4J.class);
 
 try {
-	createUser(signupEmail);
+    createUser(signupEmail);
 } catch (Exception e) {
-	log.with("email", signupEmail)
-           .because(e)
-	   .to(Postgres)
-	   .error("error while creating user");
+    log.with("email", signupEmail)
+       .because(e)
+       .to(Postgres)
+       .error("error while creating user");
 }
 ```
 
