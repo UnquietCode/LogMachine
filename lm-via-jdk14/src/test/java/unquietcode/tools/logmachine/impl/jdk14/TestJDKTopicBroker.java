@@ -45,18 +45,18 @@ public class TestJDKTopicBroker {
 		// subscribe an appender to a topic
 		SimpleAppender topicAppender = new SimpleAppender();
 		TopicBroker.subscribe(topicAppender, X.TWO);
-
+		final String thread = Thread.currentThread().getName();
 
 		lm.from(null).info("should always print");
-		stream.assertEquals("[main] INFO\nshould always print\n", "expected exact message");
+		stream.assertEquals("["+thread+"] INFO\nshould always print\n", "expected exact message");
 		stream.clear();
 
 		lm.from(null).to(X.ONE, X.TWO).info("should print once");
-		stream.assertEquals("[main] INFO [ONE | TWO]\nshould print once\n", "expected exact message");
+		stream.assertEquals("["+thread+"] INFO [ONE | TWO]\nshould print once\n", "expected exact message");
 		stream.clear();
 
 		lm.from(null).to(X.TWO).info("should also print once");
-		stream.assertEquals("[main] INFO [TWO]\nshould also print once\n", "expected exact message");
+		stream.assertEquals("["+thread+"] INFO [TWO]\nshould also print once\n", "expected exact message");
 		stream.clear();
 
 		log.info("should print with fallback once");
